@@ -34,46 +34,64 @@
         align="center"
         fixed="left"
         label="中文名"
-        width="150">
+        width="190">
       </el-table-column>
-      <el-table-column label="课程&认证">
+      <el-table-column label="课程&认证" align="center">
         <el-table-column
           prop="name"
           label="外部考试与"
-          width="120">
+          align="center"
+          width="190">
         </el-table-column>
         <el-table-column
           prop="province"
           label="省份"
+          align="center"
           width="120">
         </el-table-column>
         <el-table-column
           prop="city"
           label="市区"
+          align="center"
           width="120">
         </el-table-column>
         <el-table-column
           prop="address"
           label="地址"
+          align="center"
           width="300">
         </el-table-column>
         <el-table-column
           prop="zip"
           label="邮编"
-          width="120">
+          align="center"
+          width="150">
         </el-table-column>
       </el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
-        width="100">
+        align="center"
+        width="130">
         <template slot-scope="scope">
           <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
           <el-button type="text" size="small">编辑</el-button>
+          <el-button type="text" size="small">分享</el-button>
         </template>
       </el-table-column>
     </el-table>
-    {{schoolData}}111
+    <!-- 分页 -->
+    <div class="block">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage1"
+        :page-size="100"
+        layout="total, prev, pager, next"
+        :total="schoolPageSize">
+      </el-pagination>
+    </div>
+    <!-- {{schoolData}}111 -->
   </div>
 </template>
 
@@ -82,7 +100,9 @@ export default {
   data() {
     return {
       input:"",
-      schoolData:"1111111",
+      schoolData:null,
+      currentPage1: 5,
+      schoolPageSize:0,
       form: {
         name: '',
         region: '',
@@ -93,37 +113,6 @@ export default {
         resource: '',
         desc: ''
       },
-      tableData: [
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }
-      ]
     }
   },
   methods: {
@@ -135,8 +124,9 @@ export default {
       }).then(function (res) {
         console.log("11111")
         console.log(that.schoolData);
-        that.schoolData=res.data.data.list
-          // console.log(res.data.data.list);
+        that.schoolData=res.data.data.list;
+        that.schoolPageSize = res.data.data.list.length;
+          console.log(res.data.data.list.length);
           console.log(5412654156456);
       }).catch(function name(params) {
 
@@ -160,6 +150,12 @@ export default {
       //       type: 'error'
       //     });
       //   });
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     }
   },
   created() {
@@ -199,5 +195,8 @@ export default {
     .headerBtnLeft{
     margin-left: 30px;
     }
+  }
+  .block{
+    margin-top: 30px;
   }
 </style>
