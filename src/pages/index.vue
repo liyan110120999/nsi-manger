@@ -8,7 +8,7 @@
             <!-- <img style="background:#999;" src="./../assets/images/logo.png" height="40" width="40" alt=""> -->
             <span>新学说官网</span>
           </div>
-          <span class="nsiMenuBtn" @click="isCollapse">☰</span>   
+          <span class="nsiMenuBtn" @click="isCollapse">☰</span>
         </el-col>
         <el-col :span="12" class="headerRight">
           <span @click="goWebsite">官网首页</span>
@@ -71,6 +71,7 @@
                 <el-menu-item index="/website/visAct">活动管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
+
             <el-submenu style="text-align:left;" index="/mall">
               <template slot="title">
                 <i class="el-icon-printer"></i>
@@ -84,22 +85,36 @@
                 <el-menu-item index="/mall/invoice">发票管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
+
             <el-submenu style="text-align:left;" index="/distribution">
               <template slot="title">
                <i class="el-icon-sold-out"></i>
                 <span>支付管理</span>
               </template>
               <el-menu-item-group>
-              
                 <el-menu-item index="/distribution/index">分销管理</el-menu-item>
                 <el-menu-item index="/distribution/bill">财务管理</el-menu-item>
                 <el-menu-item index="/distribution/caiwu">财务对账</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            
+
+
+            <el-submenu style="text-align:left;" index="/siku">
+              <template slot="title">
+               <i class="el-icon-sold-out"></i>
+                <span>新四库全书</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/siku/school">学校库</el-menu-item>
+                <el-menu-item index="/siku/bill">机构库</el-menu-item>
+                <el-menu-item index="/siku/caiwu">人才库</el-menu-item>
+                <el-menu-item index="/siku/caiwu">项目库</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+
           </el-menu>
         </div>
-        
+
       </el-aside>
       <!-- 路由页面 -->
       <el-main>
@@ -148,9 +163,9 @@ export default {
         }else{
           that.leftSide.asideWidth='100%'
         }
-        
+
       }
-      
+
     }
   },
   created(){

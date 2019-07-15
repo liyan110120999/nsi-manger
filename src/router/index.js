@@ -21,88 +21,85 @@ import mallAdvert from '@/pages/mall/goodsIndex.vue'
 import invoice from '@/pages/mall/invoice.vue'
 import caiwu from '@/pages/distribution/caiwu.vue'
 import billBanner from '@/pages/mall/banner.vue'
+import sikuschool from '@/pages/siku/school.vue'
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'websiteIndex',
       component: index,
-      children: [ 
-      	  {
-	　　　　path: '/', 
-	 　　　 component: home 
-	　　  },
-		  {
-	　　　　path: '/home', 
-	 　　　 component: home 
-	　　  },
-	　　　{
-	　　　　path: '/website', 
-	 　　　 component: websiteIndex,
-	　　  },
-		  {
-	　　　　path: '/website/index', 
-	 　　　 component: websiteIndex 
-	　　  },
-		  {
-	　　　　path: '/website/createnews', 
-	 　　　 component: createNews 
-	　　  },
-		  {
-	　　　　path: '/website/activity', 
-	 　　　 component: activity 
-	　　  },
-		  {
-	　　　　path: '/website/banner', 
-	 　　　 component: banner 
+      children: [{
+	　　　　  path: '/',
+	 　　　   component: home
 	　　  },{
-	　　　　path: '/website/eventActivity', 
-	 　　　 component: eventActivity 
+	　　　　  path: '/home',
+	 　　　   component: home
 	　　  },{
-	　　　　path: '/website/advert', 
-	 　　　 component: advert 
+	　　　　 path: '/website',
+	 　　　  component: websiteIndex,
 	　　  },{
-	　　　　path: '/website/member', 
-	 　　　 component: member 
+	　　　　 path: '/website/index',
+	 　　　  component: websiteIndex
 	　　  },{
-	　　　　path: '/website/datum', 
-	 　　　 component: datum 
+	　　　　 path: '/website/createnews',
+	 　　　  component: createNews
 	　　  },{
-	　　　　path: '/distribution/bill', 
+	　　　　 path: '/website/activity',
+	 　　　  component: activity
+	　　  },{
+	　　　　path: '/website/banner',
+	 　　　 component: banner
+	　　  },{
+	　　　　path: '/website/eventActivity',
+	 　　　 component: eventActivity
+	　　  },{
+	　　　　path: '/website/advert',
+	 　　　 component: advert
+	　　  },{
+	　　　　path: '/website/member',
+	 　　　 component: member
+	　　  },{
+	　　　　path: '/website/datum',
+	 　　　 component: datum
+	　　  },{
+	　　　　path: '/distribution/bill',
 	 　　　 component: distributionBill,
 	　　  },{
-	　　　　path: '/distribution/index', 
+	　　　　path: '/distribution/index',
 	 　　　 component: distributionIndex,
 	　　  },{
-			path: '/website/visAct', 
-	 　　　 component: visAct,
-		  },{
-			path: '/mall/goods', 
+			    path: '/website/visAct',
+	 　　　  component: visAct,
+		    },{
+			    path: '/mall/goods',
 	 　　　 component: goods,
-		  },{
-			path: '/mall/creategoods/:id', 
-	 　　　 component: createGoods,
-		  },{
-			path: '/mall/bill', 
-	 　　　 component: bill,
-		  },{
-			path: '/mall/advert', 
+		    },{
+			    path: '/mall/creategoods/:id',
+	 　　　  component: createGoods,
+		    },{
+			    path: '/mall/bill',
+	 　　　  component: bill,
+		    },{
+			    path: '/mall/advert',
 	 　　　 component: mallAdvert,
-		  },{
-			path: '/mall/invoice', 
+		    },{
+		    	path: '/mall/invoice',
 	 　　　 component: invoice,
-		  },{
-			path: '/mall/banner', 
+		    },{
+			    path: '/mall/banner',
 	 　　　 component: billBanner,
-		  },{
-			path: '/distribution/caiwu', 
+		    },{
+		   	  path: '/distribution/caiwu',
 	 　　　 component: caiwu,
-		  }
-	　]
-    },{
+		    }, {
+		      path: '/siku/school',
+		      component: sikuschool,
+		    }
+	　 ]
+    },
+    {
     	path: '/login',
 	    name: 'Login',
 	    component: Login,
