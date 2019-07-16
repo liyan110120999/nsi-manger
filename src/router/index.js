@@ -22,6 +22,7 @@ import invoice from '@/pages/mall/invoice.vue'
 import caiwu from '@/pages/distribution/caiwu.vue'
 import billBanner from '@/pages/mall/banner.vue'
 import sikuschool from '@/pages/siku/school.vue'
+import schoolAdd from '@/pages/siku/schoolAdd.vue'
 
 Vue.use(Router)
 
@@ -96,6 +97,9 @@ export default new Router({
 		    }, {
 		      path: '/siku/school',
 		      component: sikuschool,
+		    }, {
+		      path: '/siku/schooAdd',
+		      component: schoolAdd,
 		    }
 	　 ]
     },
