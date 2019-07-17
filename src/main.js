@@ -6,7 +6,7 @@ import App from './App'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 //引入图标
-import  './assets/icon/iconfont.css' 
+import  './assets/icon/iconfont.css'
 //引入复制文本插件
 import VueClipboard from 'vue-clipboard2'
 //引入vuex
@@ -23,8 +23,8 @@ var flagNum=Math.random()
 // if(flagNum>0.5){
 // 	Vue.prototype.baseUrl = 'http://192.168.0.159:8080/nsi-1.0'
 // }else{
-	//Vue.prototype.baseUrl = 'http://192.168.0.12:8080/nsi-1.0'
-	Vue.prototype.baseUrl = 'https://data.xinxueshuo.cn/nsi-1.0'
+  Vue.prototype.baseUrl = 'http://192.168.0.34:8080/nsi-1.0'
+	// Vue.prototype.baseUrl = 'https://data.xinxueshuo.cn/nsi-1.0'
 //}
 Vue.config.productionTip = false
 if(!localStorage["userName"]){

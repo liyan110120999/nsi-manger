@@ -15,7 +15,7 @@
           <el-button type="success" icon="el-icon-search">搜索</el-button>
       </div>
       <div class="headerBtnLeft">
-          <el-button type="primary" @click="schoolAddPage">添加商品</el-button>
+          <el-button type="primary" @click="schoolAddPage">添加学校</el-button>
       </div>
     </div>
     <!-- 表格 -->
@@ -180,11 +180,10 @@
         fixed="right"
         label="操作"
         align="center"
-        width="130">
+        width="100">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-          <el-button type="text" size="small">编辑</el-button>
-          <el-button type="text" size="small">分享</el-button>
+          <el-button @click="handleClick(scope.row)" type="text" size="small" style="color:#67C23A">编辑</el-button>
+          <el-button type="text" size="small" style="color:red">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -211,7 +210,7 @@ export default {
       currentPage1: 5,
       schoolPageSize:0,
       pageNum:1,
-      pageSize:10,
+      pageSize:20,
       form: {
         name: '',
         region: '',
@@ -225,6 +224,7 @@ export default {
     }
   },
   methods: {
+    // 请求学校数据
     getSchoolData(){
       let url=this.baseUrl + "/new/school/list.do";
       let that = this;
@@ -237,17 +237,26 @@ export default {
         that.schoolData=res.data.data.list;
         that.schoolPageSize = res.data.data.total;
       }).catch(function name(params) {
-
+        console.log(1111)
+        that.$message({
+          message: '数据请求失败',
+          type: 'error'
+        });
       })
     },
+    // 跳转添加详情页面
     schoolAddPage(){
       this.$router.push({path:"/siku/schooAdd"})
     },
-    // console.log(`当前页: ${val}`);
+    // 当前页: ${val}`;
     handleCurrentChange(val) {
       this.pageNum = val;
       this.getSchoolData()
+    },
+    handleClick(row) {
+      console.log(row);
     }
+
   },
   created() {
     this.getSchoolData()
@@ -256,11 +265,8 @@ export default {
 }
 
 // http://data.xinxueshuo.cn/nsi-1.0/new/school/list.do
-
-
-        // let url=this.baseUrl + "/goods/goods_list.do"+"?type=新学说书籍&state="+that.billstatusValue+"&pageNum="+this.pageNum+"&pageSize="+this.pageSize+"&searchKey="+this.keyword
+       // let url=this.baseUrl + "/goods/goods_list.do"+"?type=新学说书籍&state="+that.billstatusValue+"&pageNum="+this.pageNum+"&pageSize="+this.pageSize+"&searchKey="+this.keyword
         // this.$axios.get(url)
-
         // .then(function(response){
         //   that.pageTotalnum=response.data.data.total
         //   that.websiteTableData=response.data.data.list

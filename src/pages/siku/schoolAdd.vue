@@ -255,9 +255,6 @@
         <el-form-item label="备注">
           <el-input v-model="form.remark" ></el-input>
         </el-form-item>
-        <el-form-item label="提交人">
-          <el-input v-model="form.submitter" ></el-input>
-        </el-form-item>
         <el-form-item label="学校logo">
           <el-input v-model="form.schoolLogo" ></el-input>
         </el-form-item>
@@ -315,13 +312,13 @@
         <el-form-item label="新学说分析">
           <el-input v-model="form.companyAnalysis" ></el-input>
         </el-form-item>
-        <el-form-item label="0：审核中；1：审核通过">
-          <el-input v-model="form.verifySign" ></el-input>
-        </el-form-item>
         <el-form-item label="数据年份">
           <el-input v-model="form.yearOfData" ></el-input>
         </el-form-item>
-        <el-form-item class="addBtn">
+        <el-form-item label="提交人">
+          <el-input v-model="form.submitter" ></el-input>
+        </el-form-item>
+        <el-form-item class="addBtn" label-width="-500px">
           <el-button type="primary" @click="onSubmit">立即创建</el-button>
           <el-button>取消</el-button>
         </el-form-item>
@@ -339,6 +336,7 @@
 export default {
   data() {
     return {
+      fileList: [],
       form: {
         schoolName: '',
         schoolEnglishName:"",
@@ -397,14 +395,47 @@ export default {
     }
   },
   methods:{
+
     onSubmit() {
-      console.log(this.form.yearOfData,this.form.verifySign);
-    },
-    // 取消按钮
+      console.log(this.form.yearOfData)
+      var that = this;
+      let addNews=new URLSearchParams();
+      let url=this.baseUrl + "/new/school/insert.do";
+      addNews.append('schoolName',that.form.schoolEnglishName);
+      addNews.append('schoolEnglishName',that.form.schoolEnglishName);
+      addNews.append('schoolProperties',that.form.schoolProperties);
+      that.$axios.post(url,addNews).then(function(res){    
+          console.log(res)
+          that.$message({
+            message: '数据插入成功',
+            type: 'success'
+          });
+       })
+    },
+    // 取消页面按钮
     addCancel(){
       this.$router.push({path:"/siku/school"})
+      console.log(this.aaa)
     },
 
+
+
+    //上传图片
+         //删除文件回调
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+          //点击文件回调
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+        //删除显示弹出框
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
+    }
   }
 }
 </script>
@@ -429,11 +460,13 @@ export default {
   .addBasic{
     .addBaH{
       background: #ccc;
-      height: 30px;
-      width: 100px;
-      line-height: 30px;
+      height: 60px;
+      // width: 200px;
+      border-left: 5px solid #133e6d;
+      line-height: 60px;
       text-align: center;
       margin-top: 30px;
+      font-size: 45px;
     }
 
   }
@@ -452,6 +485,10 @@ export default {
 
   }
   .addBtn{
-
+    margin-left: -200;
   }
+  .el-form-item__content{
+    margin-left: -200px;
+  }
+
 </style>
