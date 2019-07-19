@@ -202,6 +202,9 @@
 </template>
 
 <script>
+import axios from "axios";
+import QS from 'qs';
+import { getSchoolLibrary } from "@/api/api";
 export default {
   data() {
     return {
@@ -226,19 +229,17 @@ export default {
   methods: {
     // 请求学校数据
     getSchoolData(){
-      let url=this.baseUrl + "/new/school/list.do";
       let that = this;
-      this.$axios.get(url,{
-        params:{
-          pageNum : that.pageNum,
-          pageSize : that.pageSize
-        }
-      }).then(function (res) {
-        that.schoolData=res.data.data.list;
-        that.schoolPageSize = res.data.data.total;
-      }).catch(function name(params) {
-        console.log(1111)
-        that.$message({
+      getSchoolLibrary({
+        pageNum : that.pageNum,
+        pageSize : that.pageSize
+      }).then(res=>{
+        console.log(res.data.list)
+        that.schoolData=res.data.list;
+        this.schoolPageSize = res.data.total;
+      }).catch(error=>{
+        console.log("错误")
+        this.$message({
           message: '数据请求失败',
           type: 'error'
         });
@@ -261,27 +262,13 @@ export default {
   created() {
     this.getSchoolData()
 
+
+    // getSchoolLibrary({}).then(res=>{
+    //   console.log(res);
+
+    // })
   }
 }
-
-// http://data.xinxueshuo.cn/nsi-1.0/new/school/list.do
-       // let url=this.baseUrl + "/goods/goods_list.do"+"?type=新学说书籍&state="+that.billstatusValue+"&pageNum="+this.pageNum+"&pageSize="+this.pageSize+"&searchKey="+this.keyword
-        // this.$axios.get(url)
-        // .then(function(response){
-        //   that.pageTotalnum=response.data.data.total
-        //   that.websiteTableData=response.data.data.list
-        //   for (let index = 0; index <  that.websiteTableData.length; index++) {
-        //     that.websiteTableData[index].goodsCreattime=that.dateToDo(that.websiteTableData[index].goodsCreattime)
-        //   }
-        //   let websiteTableDataLength=that.websiteTableData.length
-        //   that.websiteTableDataloading=false
-        // }).catch(function (response){
-        //   that.websiteTableDataloading=false
-        //   that.$message({
-        //     message: '数据请求失败',
-        //     type: 'error'
-        //   });
-        // });
 
 </script>
 
