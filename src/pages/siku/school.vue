@@ -12,7 +12,7 @@
       </el-form>
       <div class="headerBtnRight">
           <el-input v-model="input" placeholder="请输入内容"></el-input>
-          <el-button type="success" icon="el-icon-search">搜索</el-button>
+          <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
       </div>
       <div class="headerBtnLeft">
           <el-button type="primary" @click="schoolAddPage">添加学校</el-button>
@@ -182,7 +182,7 @@
         align="center"
         width="100">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small" style="color:#67C23A">编辑</el-button>
+          <el-button @click="schoolDetail(scope.row.id)" type="text" size="small" style="color:#67C23A">编辑</el-button>
           <el-button type="text" size="small" style="color:red">删除</el-button>
         </template>
       </el-table-column>
@@ -232,9 +232,10 @@ export default {
       let that = this;
       getSchoolLibrary({
         pageNum : that.pageNum,
-        pageSize : that.pageSize
+        pageSize : that.pageSize,
+        searchKey : that.input
       }).then(res=>{
-        console.log(res.data.list)
+        // console.log(res.data.list)
         that.schoolData=res.data.list;
         this.schoolPageSize = res.data.total;
       }).catch(error=>{
@@ -245,17 +246,25 @@ export default {
         });
       })
     },
-    // 跳转添加详情页面
+    // 添加学校 跳转详情页面
     schoolAddPage(){
-      this.$router.push({path:"/siku/schooAdd"})
+      this.$router.push({path:"/siku/schooAdd",query:{id:"add"}})
     },
     // 当前页: ${val}`;
     handleCurrentChange(val) {
       this.pageNum = val;
       this.getSchoolData()
     },
-    handleClick(row) {
-      console.log(row);
+    //编辑按钮
+    schoolDetail(row) {
+      // this.$router.push({path:"/siku/schooAdd/"+row})
+      // console.log(row)
+      this.$router.push({path:"/siku/schooAdd",query:{id:row}})
+    },
+    //搜索
+    schoolSearch(){
+      this.getSchoolData()
+      console.log(this.input)
     }
 
   },

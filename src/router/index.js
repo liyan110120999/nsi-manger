@@ -99,7 +99,8 @@ export default new Router({
 		      component: sikuschool,
 		    }, {
 		      path: '/siku/schooAdd',
-		      component: schoolAdd,
+			  component: schoolAdd,
+			//   name:"schoolAdd"
 		    }
 	　 ]
     },

@@ -174,13 +174,14 @@
 <script>
 // import qs from 'qs';
 import {getSchoolAdd} from '@/api/api';
+import {getDetails} from "@/api/api";
 import axios from "axios";
 export default {
   data() {
     return {
       fileList: [],
       form: {
-        schoolName: '',
+        schoolName:"",
         schoolEnglishName:"",
         schoolProperties:"",
         province:"",
@@ -237,25 +238,45 @@ export default {
     }
   },
   methods:{
-      //插入学校接口
-      onSubmit() {
-        // var sendData = this.form
-        // var sendData=qs.stringify(this.form);
-        getSchoolAdd(
-          this.form
-        ).then(res =>{
-          console.log(res);
-          this.$message({
-            message: '数据插入成功',
-            type: 'success'
-          });
+    getData(){
+      console.log(typeof this.$route.query.id)
+      console.log((typeof this.$route.query.id) == "number")
+      if(typeof this.$route.query.id == "number"){
+
+        console.log(22222)
+        console.log(this.$route)
+        getDetails({
+          schoolId : this.$route.query.id
+        }).then(res=>{
+          this.form = res.data
+          console.log(res.data)
         }).catch(error=>{
-          this.$message({
-            message: '数据插入失败',
-            type: 'error'
-          });
+  
         })
-      },
+      }else{
+      }
+
+
+    },
+    //插入学校接口
+    onSubmit() {
+      // var sendData = this.form
+      // var sendData=qs.stringify(this.form);
+      getSchoolAdd(
+        this.form
+      ).then(res =>{
+        console.log(res);
+        this.$message({
+          message: '数据插入成功',
+          type: 'success'
+        });
+      }).catch(error=>{
+        this.$message({
+          message: '数据插入失败',
+          type: 'error'
+        });
+      })
+    },
 //     onSubmit() {
 //       var that = this;
 //       let url=this.baseUrl + "/new/school/insert.do";
@@ -277,7 +298,10 @@ export default {
       this.$router.push({path:"/siku/school"})
       console.log(this.aaa)
     },
-  }
+  },
+  created() {
+    this.getData()
+  },
 }
 </script>
 
