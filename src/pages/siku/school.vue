@@ -4,9 +4,9 @@
     <div class="headerBtn" style="">
       <el-form ref="form" :model="form" label-width="70px">
         <el-form-item label="活动区域">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+          <el-select v-model="form.region" placeholder="请选择学校类型">
+            <el-option label="民办" value="shanghai"></el-option>
+            <el-option label="公办" value="beijing"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -23,7 +23,7 @@
       :data="schoolData"
       border
       style="width: 100%"
-      height="500">
+      height="450">
       <el-table-column
         align="center"
         fixed="left"
@@ -183,7 +183,7 @@
         width="100">
         <template slot-scope="scope">
           <el-button @click="schoolDetail(scope.row.id)" type="text" size="small" style="color:#67C23A">编辑</el-button>
-          <el-button type="text" size="small" style="color:red">删除</el-button>
+          <el-button @click="SchoolDelete(scope.row.id)" type="text" size="small" style="color:red">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -205,6 +205,7 @@
 import axios from "axios";
 import QS from 'qs';
 import { getSchoolLibrary } from "@/api/api";
+import {getSchoolDelete} from '@/api/api';
 export default {
   data() {
     return {
@@ -235,11 +236,9 @@ export default {
         pageSize : that.pageSize,
         searchKey : that.input
       }).then(res=>{
-        // console.log(res.data.list)
         that.schoolData=res.data.list;
         this.schoolPageSize = res.data.total;
       }).catch(error=>{
-        console.log("错误")
         this.$message({
           message: '数据请求失败',
           type: 'error'
@@ -248,7 +247,7 @@ export default {
     },
     // 添加学校 跳转详情页面
     schoolAddPage(){
-      this.$router.push({path:"/siku/schooAdd",query:{id:"add"}})
+      this.$router.push({path:"/siku/schooAdd",query:{type:"add"}})
     },
     // 当前页: ${val}`;
     handleCurrentChange(val) {
@@ -257,25 +256,29 @@ export default {
     },
     //编辑按钮
     schoolDetail(row) {
-      // this.$router.push({path:"/siku/schooAdd/"+row})
-      // console.log(row)
       this.$router.push({path:"/siku/schooAdd",query:{id:row}})
     },
     //搜索
     schoolSearch(){
       this.getSchoolData()
-      console.log(this.input)
+    },
+    //删除
+    SchoolDelete(row){
+      getSchoolDelete({
+        schoolId:row
+      }).then(res =>{
+        console.log(res)
+        this.$message({
+          message: '数据删除成功',
+          type: 'success'
+        });
+        this.getSchoolData()
+      })
     }
 
   },
   created() {
     this.getSchoolData()
-
-
-    // getSchoolLibrary({}).then(res=>{
-    //   console.log(res);
-
-    // })
   }
 }
 

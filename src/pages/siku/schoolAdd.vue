@@ -4,11 +4,11 @@
     <div class="addTips">注意：带※标记的为必填项</div>
     <div class="addBasic">
       <div class="addBaH">课程信息</div>
-      <el-form ref="form" :model="form" class="createNews" label-width="160px">
-        <el-form-item label="学校名字">
-          <el-input v-model="form.schoolName" ></el-input>
+      <el-form ref="form" :model="form" class="createNews" :rules="rules" label-width="160px">
+        <el-form-item label="学校名字" prop="schoolName">
+          <el-input v-model="form.schoolName"></el-input>
         </el-form-item>
-        <el-form-item label="学校英文名字">
+        <el-form-item label="学校英文名字" prop="schoolEnglishName">
           <el-input v-model="form.schoolEnglishName" ></el-input>
         </el-form-item>
         <el-form-item label="学校性质">
@@ -162,7 +162,7 @@
           <el-input v-model="form.submitter" ></el-input>
         </el-form-item>
         <el-form-item class="addBtn">
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -175,11 +175,29 @@
 // import qs from 'qs';
 import {getSchoolAdd} from '@/api/api';
 import {getDetails} from "@/api/api";
+import {getSchoolUpdate} from "@/api/api";
+
+
 import axios from "axios";
 export default {
   data() {
+    //学校英文名字验证
+    var schoolEnglishName = (rele,value,callback) =>{
+      let parent = /^[A-Za-z]/;
+      if(value == ""){
+        callback(new Error("请输入学校英文名字"));
+      }else{
+        if(parent.test(value)){
+          callback()
+          }else{
+          callback(new Error("不能出现中文"));
+        }
+
+      }
+    }
     return {
       fileList: [],
+      //表单属性
       form: {
         schoolName:"",
         schoolEnglishName:"",
@@ -234,65 +252,86 @@ export default {
         companyAnalysis:"",
         verifySign:"",
         yearOfData:""
+      },
+      //表单验证
+      rules:{
+        schoolName:[
+          {required:true,message:"学校名字不能为空",trigger:'blur'}
+        ],
+        schoolEnglishName:[
+          {required:true,validator: schoolEnglishName,trigger: 'blur' }
+        ]
       }
     }
+
   },
   methods:{
     getData(){
-      console.log(typeof this.$route.query.id)
-      console.log((typeof this.$route.query.id) == "number")
-      if(typeof this.$route.query.id == "number"){
-
-        console.log(22222)
-        console.log(this.$route)
+      //判断是否有id字段
+      if(this.$route.query.hasOwnProperty('id')){
+        console.log("chufa")
         getDetails({
           schoolId : this.$route.query.id
         }).then(res=>{
+          delete res.data.createTime
+          delete res.data.schoolCharacteristicsVo
+          delete res.data.studentEnrollmentVo
           this.form = res.data
           console.log(res.data)
         }).catch(error=>{
-  
+
         })
       }else{
+
       }
 
+    },
+    //插入  编辑   学校接口
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          //判断是否有id字段
+          if(this.$route.query.hasOwnProperty('id')){
+            this.form.id = this.$route.query.id;
+            console.log(1111)
+            getSchoolUpdate(
+              this.form
+            ).then(res => {
+              console.log(res)
+              this.$message({
+                message: '数据编辑成功',
+                type: 'success'
+              });
+            }).catch(error => {
+              console.log(error)
+              this.$message({
+                message: '数据编辑失败',
+                type: 'error'
+              });
+            })
+          }else{
+            getSchoolAdd(
+              this.form
+            ).then(res =>{
+              console.log(res);
+              this.$message({
+                message: '数据插入成功',
+                type: 'success'
+              });
+            }).catch(error=>{
+              this.$message({
+                message: '数据插入失败',
+                type: 'error'
+              });
+            })
+          }
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
 
     },
-    //插入学校接口
-    onSubmit() {
-      // var sendData = this.form
-      // var sendData=qs.stringify(this.form);
-      getSchoolAdd(
-        this.form
-      ).then(res =>{
-        console.log(res);
-        this.$message({
-          message: '数据插入成功',
-          type: 'success'
-        });
-      }).catch(error=>{
-        this.$message({
-          message: '数据插入失败',
-          type: 'error'
-        });
-      })
-    },
-//     onSubmit() {
-//       var that = this;
-//       let url=this.baseUrl + "/new/school/insert.do";
-//       var sendData=qs.stringify(that.form)
-//       that.$axios.post(url,sendData,{
-//           headers: {
-//             'Content-Type': 'application/x-www-form-urlencoded'
-//           }
-//       }).then(function(res){    
-//           console.log(res)
-//           that.$message({
-//             message: '数据插入成功',
-//             type: 'success'
-//           });
-//        })
-//     },
     // 取消页面按钮
     addCancel(){
       this.$router.push({path:"/siku/school"})
@@ -300,8 +339,13 @@ export default {
     },
   },
   created() {
+    // console.log(this.$route.query.id)
     this.getData()
   },
+  beforeUpdate(){
+    // console.log("gengxinqian")
+    // this.getData()
+  }
 }
 </script>
 
@@ -326,7 +370,6 @@ export default {
     .addBaH{
       background: #ccc;
       height: 60px;
-      // width: 200px;
       border-left: 5px solid #133e6d;
       line-height: 60px;
       text-align: center;
