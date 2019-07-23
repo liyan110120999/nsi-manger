@@ -1,6 +1,7 @@
 <template>
   <div class="school">
     <!-- 头部导航 -->
+    <div @click="aa">111</div>
     <div class="headerBtn" style="">
       <el-form ref="form" :model="form" label-width="70px">
         <el-form-item label="活动区域">
@@ -206,6 +207,7 @@ import axios from "axios";
 import QS from 'qs';
 import { getSchoolLibrary } from "@/api/api";
 import {getSchoolDelete} from '@/api/api';
+import utils from "@/api/utils.js";
 export default {
   data() {
     return {
@@ -274,7 +276,10 @@ export default {
         });
         this.getSchoolData()
       })
-    }
+    },
+    aa:utils.debounce(function(){
+      console.log("111")
+    })
 
   },
   created() {
