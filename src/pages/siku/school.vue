@@ -1,7 +1,6 @@
 <template>
   <div class="school">
     <!-- 头部导航 -->
-    <div @click="aa">111</div>
     <div class="headerBtn" style="">
       <el-form ref="form" :model="form" label-width="70px">
         <el-form-item label="活动区域">
@@ -78,12 +77,14 @@
         <el-table-column
           prop="course"
           label="国际课程"
+          :show-overflow-tooltip="true"
           align="center"
           width="120">
         </el-table-column>
         <el-table-column
           prop="authentication"
           label="认证"
+          :show-overflow-tooltip="true"
           align="center"
           width="80">
         </el-table-column>
@@ -198,6 +199,7 @@
         :total="schoolPageSize">
       </el-pagination>
     </div>
+
     <!-- {{schoolData}}111 -->
   </div>
 </template>
@@ -217,6 +219,7 @@ export default {
       schoolPageSize:0,
       pageNum:1,
       pageSize:20,
+      centerDialogVisible: false,//弹出框
       form: {
         name: '',
         region: '',
@@ -265,22 +268,30 @@ export default {
       this.getSchoolData()
     },
     //删除
-    SchoolDelete(row){
-      getSchoolDelete({
-        schoolId:row
-      }).then(res =>{
-        console.log(res)
+    SchoolDelete:utils.debounce(function(row){
+      this.$confirm('此操作将永久删除该学校信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        getSchoolDelete({
+          schoolId:row
+        }).then(res =>{
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+          this.getSchoolData()
+        })
+      }).catch(() => {
         this.$message({
-          message: '数据删除成功',
-          type: 'success'
+          type: 'info',
+          message: '已取消删除'
         });
-        this.getSchoolData()
-      })
-    },
-    aa:utils.debounce(function(){
-      console.log("111")
-    })
+      });
 
+
+     }),
   },
   created() {
     this.getSchoolData()

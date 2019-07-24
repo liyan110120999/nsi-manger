@@ -63,7 +63,7 @@
       align="center"
       width="120">
     </el-table-column>
-    
+
     <!-- <el-table-column
       prop="goodsDescribe"
       align="center"
@@ -117,7 +117,7 @@
       align="center"
       width="120">
     </el-table-column>
-    
+
     <el-table-column
       prop="goodsSales"
       label="销量"
@@ -142,7 +142,7 @@
       align="center"
       width="130">
       <template slot-scope="scope">
-        
+
         <el-button @click.prevent="edit(scope.row.id)" type="text" size="small">编辑</el-button>
         <el-button @click.prevent="deleteWebsiteTableData(scope.row.id,websiteTableData)" type="text" size="small" style="color:#f56c6c">删除</el-button>
         <el-button @click.prevent="goodsShare(scope.row.id)" type="text" size="small" style="color:#67C23A">分享</el-button>
@@ -242,7 +242,7 @@
         </div>
         <div class="viewBox">
           <div :style="{ width: shareObj.img1SrcSizeX+ 'px' }" class="myCanvasBox"><canvas id="myCanvas" :width="shareObj.img1SrcSizeX" :height="shareObj.img1SrcSizeY"></canvas></div>
-          
+
           <div class="buttonBox">
             <el-button type="primary" @click="composeImg">合成图片</el-button>
             <el-button type="primary" @click="canvasToImg">下载图片</el-button>
@@ -250,7 +250,7 @@
             <el-button type="primary" >确认修改</el-button>
             <el-button @click="puchaDrag=false">取消</el-button>
           </div>
-          
+
         </div>
       </div>
     </el-dialog>
@@ -266,7 +266,7 @@
     :total="pageTotalnum">
   </el-pagination>
 </div>
-  
+
 </template>
 
 <script>
@@ -344,7 +344,7 @@
         //绘制完图片,在绘制文字
         nihao().then(function(data){
           that.context.textAlign = 'center';
-         
+
           that.context.font=that.shareObj.bookNameFontSize+"px Arial";
           that.context.fillStyle = that.shareObj.bookNameColor;
           that.context.fillText(that.shareObj.bookName, that.shareObj.bookNamePositionX,that.shareObj.bookNamePositionY);
@@ -361,7 +361,7 @@
           var img1 =new Image();
           img1.setAttribute("crossOrigin",'Anonymous')
           img1.src =  imgSrc
-           
+
           img1.onload = function(){
             that.context.drawImage(img1,x,y,a,b)
             resolve()
@@ -394,7 +394,7 @@
       },
       //文件上传成功
       uploadSucess1(response, file, fileList){
-        
+
         this.$message({
           message: '图片上传成功',
           type: 'success'
@@ -483,7 +483,7 @@
         this.getWebsiteTable()
       },
       //一页数据量改变
-      handleSizeChange(num){ 
+      handleSizeChange(num){
         this.pageSize=num
         this.getWebsiteTable()
       },
@@ -517,7 +517,7 @@
           that.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       },
       //创建新资讯
@@ -531,7 +531,7 @@
       //初始化表格数据
       this.getWebsiteTable()
       this.windowHeight=window.innerHeight-220
-      
+
     }
   }
 </script>

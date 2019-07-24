@@ -14,6 +14,20 @@
         <el-form-item label="学校性质">
           <el-input v-model="form.schoolProperties" ></el-input>
         </el-form-item>
+
+
+
+        <el-form-item label="活动区域">
+          <!-- <el-input v-model="form.province" ></el-input> -->
+          <el-select v-model="form.region" placeholder="请选择活动区域">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+
+
+
+
         <el-form-item label="省">
           <el-input v-model="form.province" ></el-input>
         </el-form-item>
@@ -176,7 +190,7 @@
 import {getSchoolAdd} from '@/api/api';
 import {getDetails} from "@/api/api";
 import {getSchoolUpdate} from "@/api/api";
-
+import utils from '@/api/utils.js'
 
 import axios from "axios";
 export default {
@@ -286,9 +300,10 @@ export default {
       }
 
     },
-    //插入  编辑   学校接口
-    submitForm(formName) {
+    //立即创建按钮   插入  编辑   学校接口
+    submitForm:utils.debounce(function(formName) {
       this.$refs[formName].validate((valid) => {
+        console.log(valid)
         if (valid) {
           //判断是否有id字段
           if(this.$route.query.hasOwnProperty('id')){
@@ -302,6 +317,7 @@ export default {
                 message: '数据编辑成功',
                 type: 'success'
               });
+              this.$router.push({path:"/siku/school"})
             }).catch(error => {
               console.log(error)
               this.$message({
@@ -318,6 +334,7 @@ export default {
                 message: '数据插入成功',
                 type: 'success'
               });
+              this.$router.push({path:"/siku/school"})
             }).catch(error=>{
               this.$message({
                 message: '数据插入失败',
@@ -331,7 +348,7 @@ export default {
         }
       });
 
-    },
+    }),
     // 取消页面按钮
     addCancel(){
       this.$router.push({path:"/siku/school"})
@@ -392,6 +409,10 @@ export default {
     }
 
   }
-
+  .el-select {
+    display: block;
+    position: relative;
+    max-width: 400px;
+  }
 
 </style>
