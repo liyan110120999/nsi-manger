@@ -24,14 +24,21 @@
             <el-option label="区域二" value="beijing"></el-option>
           </el-select>
         </el-form-item>
-
-
-        <!-- <select @change="cityChan">
-          <option v-for="(v,i) in provice" :key="i">{{v.name}}{{i}}</option>
-        </select>
-        <select @change="cityChansi">
-          <option v-for="(v,i) in provice[curshe].city" :key="i">{{v.name}}</option>
-        </select> -->
+      <div id="seleOp">
+        <p>
+          <span>省</span>
+          <select @change="cityChan">
+            <option v-for="(v,i) in provice" :key="i">{{v.name}}</option>
+          </select>
+        </p>
+        <p>
+          <span>市</span>
+          <select>
+            <option v-for="(v,i) in provice[curshe].city" :key="i">{{v.name}}</option>
+          </select>
+          <i></i>
+        </p>
+      </div>
 
 
         <el-form-item label="省">
@@ -183,16 +190,9 @@
         </el-form-item>
 
 
-      <div class="block">
-        <span class="demonstration">默认 click 触发子菜单</span>
-        <!-- options  provice -->
-        <el-cascader
-          :options="provice"
-          v-model="selectedOptions"
-          @change="handleChange">
-        </el-cascader>
-      </div>
-
+        <select>
+          <option>111</option>
+        </select>
 
         <el-form-item class="addBtn">
           <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
@@ -232,6 +232,7 @@ export default {
     return {
       provice:provice,
       fileList: [],
+      curshe:0,
       //表单属性
       form: {
         schoolName:"",
@@ -297,47 +298,16 @@ export default {
           {required:true,validator: schoolEnglishName,trigger: 'blur' }
         ]
       },
-      //下拉框
-      options: [{
-        value: 'zhinan',
-        label: '指南',
-        children: [{
-          value: 'shejiyuanze',
-          label: '设计原则',
-          children: [{
-            value: 'yizhi',
-            label: '一致'
-          }, {
-            value: 'fankui',
-            label: '反馈'
-          }, {
-            value: 'xiaolv',
-            label: '效率'
-          }, {
-            value: 'kekong',
-            label: '可控'
-          }]
-        }, {
-          value: 'daohang',
-          label: '导航',
-          children: [{
-            value: 'cexiangdaohang',
-            label: '侧向导航'
-          }, {
-            value: 'dingbudaohang',
-            label: '顶部导航'
-          }]
-        }]
-       }],
-      selectedOptions: [],
-      selectedOptions2: []
+      
     }
 
   },
   methods:{
     //下拉框
-    handleChange(value) {
-      console.log(value);
+    cityChan:function(evt){
+      this.curshe=evt.target.selectedIndex;
+      console.log(evt)
+      console.log(evt.target.selectedIndex)
     },
     getData(){
       //判断是否有id字段
@@ -415,7 +385,7 @@ export default {
     },
   },
   created() {
-    // console.log(this.$route.query.id)
+    console.log(this.provice)
     this.getData()
   },
   beforeUpdate(){
@@ -473,5 +443,79 @@ export default {
     position: relative;
     max-width: 400px;
   }
-
+  #seleOp p{
+    text-align: left;
+    position: relative;
+  }
+  #seleOp p:last-of-type{
+    margin-top: 30px;
+  }
+  #seleOp span{
+    display: inline-block;
+    width: 160px;
+    text-align: right;
+    font-size: 14px;
+    color: #606266;
+    line-height: 40px;
+    padding: 0 12px 0 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  #seleOp select{
+    width: 399px;
+    height: 40px;
+    outline: 0;
+    border: 1px solid #dcdfe6;
+    appearance: none;
+    display: inline-block;
+    background: #fff;
+    transition:border-color .2s cubic-bezier(.645,.045,.355,1);
+    padding: 0 30px 0 10px;
+    margin-left: -4px;
+    color: #606266;
+    //     -webkit-appearance: none;
+    // background-color: #fff;
+    // background-image: none;
+    // border-radius: 4px;
+    // border: 1px solid #dcdfe6;
+    // -webkit-box-sizing: border-box;
+    // box-sizing: border-box;
+    // color: #606266;
+    // display: inline-block;
+    // font-size: inherit;
+    // height: 40px;
+    // line-height: 40px;
+    // outline: 0;
+    // padding: 0 15px;
+    // -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    // transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+  }
+  #seleOp select:focus {
+    border-color: #409EFF;
+  }
+  #seleOp p i{
+    color: #c0c4cc;
+    font-size: 14px;
+    -webkit-transition: -webkit-transform .3s;
+    transition: -webkit-transform .3s;
+    transition: transform .3s;
+    transition: transform .3s, -webkit-transform .3s;
+    transition: transform .3s,-webkit-transform .3s;
+    -webkit-transform: rotateZ(180deg);
+    transform: rotateZ(180deg);
+    cursor: pointer;
+  }
+  #seleOp p i::before{
+    content: "\E605";
+    position: relative;
+    top: 0;
+    right: 30px;
+  }
+  #seleOp p i::after{
+    content: '';
+    height: 100%;
+    width: 0;
+    display: inline-block;
+    vertical-align: middle;
+  }
 </style>
