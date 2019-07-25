@@ -68,7 +68,9 @@
       >
       <template slot-scope="scope">
             <el-button type="text" @click="getorderNoData(scope.row.goodsId)" size="small" style="color:#f56c6c" v-if="scope.row.productType=='购物车'">{{scope.row.productType}}</el-button>
-            <div v-if="scope.row.productType!='购物车'">{{scope.row.product.goodsName}}</div>
+            <!-- <div v-if="scope.row.productType!='购物车'">{{scope.row.product.goodsName}}</div> -->
+            <div v-if="scope.row.productType=='书店'||scope.row.productType=='课程'">{{scope.row.product.goodsName}}</div>
+            <div v-if="scope.row.productType=='活动'">{{scope.row.goodsId}}</div>
       </template>
     </el-table-column>
     <el-table-column
@@ -236,14 +238,14 @@
           label="价格"
           align="center"
           width="120">
-        </el-table-column> 
+        </el-table-column>
       </el-table>
     <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="buyCar=false">确认</el-button>
     </div>
   </el-dialog>
 </div>
-  
+
 </template>
 
 <script>
@@ -386,7 +388,7 @@
                 that.websiteTableData[index].shippingCode=''
               }
             }
-            
+
             console.log(that.websiteTableData)
             let websiteTableDataLength=that.websiteTableData.length
             that.websiteTableDataloading=false
@@ -415,7 +417,7 @@
         this.getWebsiteTable()
       },
       //一页数据量改变
-      handleSizeChange(num){ 
+      handleSizeChange(num){
         this.pageSize=num
         this.getWebsiteTable()
       },
@@ -438,7 +440,7 @@
         }else{
           this.fahuoOrbianji=true
         }
-        
+
       },
       //获取购物车订单信息
       getorderNoData(orderNo){
@@ -482,7 +484,7 @@
           that.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       },
       updateNowCardDatas(){
@@ -547,5 +549,5 @@
   .el-table .secondrow {
     background: #99CCCC;
   }
-  
+
 </style>

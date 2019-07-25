@@ -26,6 +26,12 @@
         </el-form-item>
 
 
+        <!-- <select @change="cityChan">
+          <option v-for="(v,i) in provice" :key="i">{{v.name}}{{i}}</option>
+        </select>
+        <select @change="cityChansi">
+          <option v-for="(v,i) in provice[curshe].city" :key="i">{{v.name}}</option>
+        </select> -->
 
 
         <el-form-item label="省">
@@ -175,6 +181,19 @@
         <el-form-item label="提交人">
           <el-input v-model="form.submitter" ></el-input>
         </el-form-item>
+
+
+      <div class="block">
+        <span class="demonstration">默认 click 触发子菜单</span>
+        <!-- options  provice -->
+        <el-cascader
+          :options="provice"
+          v-model="selectedOptions"
+          @change="handleChange">
+        </el-cascader>
+      </div>
+
+
         <el-form-item class="addBtn">
           <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
           <el-button>取消</el-button>
@@ -191,6 +210,7 @@ import {getSchoolAdd} from '@/api/api';
 import {getDetails} from "@/api/api";
 import {getSchoolUpdate} from "@/api/api";
 import utils from '@/api/utils.js'
+import {provice} from '../../api/city.js'
 
 import axios from "axios";
 export default {
@@ -210,6 +230,7 @@ export default {
       }
     }
     return {
+      provice:provice,
       fileList: [],
       //表单属性
       form: {
@@ -275,11 +296,49 @@ export default {
         schoolEnglishName:[
           {required:true,validator: schoolEnglishName,trigger: 'blur' }
         ]
-      }
+      },
+      //下拉框
+      options: [{
+        value: 'zhinan',
+        label: '指南',
+        children: [{
+          value: 'shejiyuanze',
+          label: '设计原则',
+          children: [{
+            value: 'yizhi',
+            label: '一致'
+          }, {
+            value: 'fankui',
+            label: '反馈'
+          }, {
+            value: 'xiaolv',
+            label: '效率'
+          }, {
+            value: 'kekong',
+            label: '可控'
+          }]
+        }, {
+          value: 'daohang',
+          label: '导航',
+          children: [{
+            value: 'cexiangdaohang',
+            label: '侧向导航'
+          }, {
+            value: 'dingbudaohang',
+            label: '顶部导航'
+          }]
+        }]
+       }],
+      selectedOptions: [],
+      selectedOptions2: []
     }
 
   },
   methods:{
+    //下拉框
+    handleChange(value) {
+      console.log(value);
+    },
     getData(){
       //判断是否有id字段
       if(this.$route.query.hasOwnProperty('id')){

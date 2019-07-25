@@ -23,6 +23,8 @@ import caiwu from '@/pages/distribution/caiwu.vue'
 import billBanner from '@/pages/mall/banner.vue'
 import sikuschool from '@/pages/siku/school.vue'
 import schoolAdd from '@/pages/siku/schoolAdd.vue'
+import lianxi from '@/pages/siku/lianxi.vue'
+import lianxitwo from '@/pages/siku/lianxitwo.vue'
 
 Vue.use(Router)
 
@@ -101,6 +103,14 @@ export default new Router({
 		      path: '/siku/schooAdd',
 			  component: schoolAdd,
 			//   name:"schoolAdd"
+		    }, {
+		      path: '/siku/lianxi',
+		      component: lianxi,
+		      //   name:"lianxi"
+		    }, {
+		      path: '/siku/lianxitwo',
+		      component: lianxitwo,
+		      //   name:"lianxitwo"
 		    }
 	　 ]
     },
