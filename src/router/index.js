@@ -25,6 +25,7 @@ import sikuschool from '@/pages/siku/school.vue'
 import schoolAdd from '@/pages/siku/schoolAdd.vue'
 import lianxi from '@/pages/siku/lianxi.vue'
 import lianxitwo from '@/pages/siku/lianxitwo.vue'
+import visList from '@/pages/vis/visList.vue'
 
 Vue.use(Router)
 
@@ -111,6 +112,10 @@ export default new Router({
 		      path: '/siku/lianxitwo',
 		      component: lianxitwo,
 		      //   name:"lianxitwo"
+		    }, {
+		      path: '/vis/visList',
+		      component: visList,
+		      //   name:"visList"
 		    }
 	　 ]
     },

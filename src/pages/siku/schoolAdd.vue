@@ -30,6 +30,7 @@
           <select @change="cityChan">
             <option v-for="(v,i) in provice" :key="i">{{v.name}}</option>
           </select>
+          <i></i>
         </p>
         <p>
           <span>市</span>
@@ -473,28 +474,13 @@ export default {
     padding: 0 30px 0 10px;
     margin-left: -4px;
     color: #606266;
-    //     -webkit-appearance: none;
-    // background-color: #fff;
-    // background-image: none;
-    // border-radius: 4px;
-    // border: 1px solid #dcdfe6;
-    // -webkit-box-sizing: border-box;
-    // box-sizing: border-box;
-    // color: #606266;
-    // display: inline-block;
-    // font-size: inherit;
-    // height: 40px;
-    // line-height: 40px;
-    // outline: 0;
-    // padding: 0 15px;
-    // -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-    // transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    border-radius: 3px;
   }
   #seleOp select:focus {
     border-color: #409EFF;
   }
   #seleOp p i{
-    color: #c0c4cc;
+    color: rgba(0, 0, 0, 0.0);
     font-size: 14px;
     -webkit-transition: -webkit-transform .3s;
     transition: -webkit-transform .3s;
@@ -504,18 +490,46 @@ export default {
     -webkit-transform: rotateZ(180deg);
     transform: rotateZ(180deg);
     cursor: pointer;
+    // font-family: element-icons!important;
+    font-style: normal;
   }
+  // #seleOp select:focus i{
+  //   border-color: #409EFF;
+  // }
   #seleOp p i:before{
     content: "\E605";
+    display: inline-block;
+    /* background: #000; */
+    width: 0px;
+    height: 0px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    /* border-bottom: 8px solid #000; */
+    border-top: 9px solid#c0c4cc;
     position: relative;
-    top: 0;
-    right: 30px;
+    right: 32px;
+    top: 10px;
   }
   #seleOp p i:after{
     content: '';
-    height: 100%;
-    width: 0;
     display: inline-block;
-    vertical-align: middle;
+    /* background: #000; */
+    width: 0px;
+    height: 0px;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    /* border-bottom: 8px solid #000; */
+    border-top: 8px solid #fff;
+    position: relative;
+    right: 49px;
+    top: -6px
   }
+  // #seleOp i{
+  //   display: block;
+  //   width: 5px;
+  //   height: 5px;
+  //   background: red;
+  //   position: absolute;
+  //   right: 5px;
+  // }
 </style>

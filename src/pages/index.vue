@@ -101,7 +101,7 @@
 
             <el-submenu style="text-align:left;" index="/siku">
               <template slot="title">
-               <i class="el-icon-sold-out"></i>
+               <i class="el-icon-info"></i>
                 <span>新四库全书</span>
               </template>
               <el-menu-item-group>
@@ -111,6 +111,20 @@
                 <el-menu-item index="/siku/caiwu">项目库</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
+
+            <el-submenu style="text-align:left;" index="/vis">
+              <template slot="title">
+               <i class="el-icon-document"></i>
+                <span>活动管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/vis/visList">报名列表</el-menu-item>
+                <el-menu-item index="/siku/bill">机构库</el-menu-item>
+                <el-menu-item index="/siku/caiwu">人才库</el-menu-item>
+                <el-menu-item index="/siku/caiwu">项目库</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+
 
           </el-menu>
         </div>
