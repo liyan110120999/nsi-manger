@@ -298,7 +298,7 @@ export default {
           {required:true,validator: schoolEnglishName,trigger: 'blur' }
         ]
       },
-      
+
     }
 
   },
@@ -505,13 +505,13 @@ export default {
     transform: rotateZ(180deg);
     cursor: pointer;
   }
-  #seleOp p i::before{
+  #seleOp p i:before{
     content: "\E605";
     position: relative;
     top: 0;
     right: 30px;
   }
-  #seleOp p i::after{
+  #seleOp p i:after{
     content: '';
     height: 100%;
     width: 0;
