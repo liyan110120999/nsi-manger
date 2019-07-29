@@ -17,25 +17,29 @@
 
 
 
-        <el-form-item label="活动区域">
+        <el-form-item label="学校性质">
           <!-- <el-input v-model="form.province" ></el-input> -->
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+          <el-select v-model="form.region" placeholder="请选择学校性质">
+            <el-option label="公办" value="shanghai"></el-option>
+            <el-option label="民办" value="beijing"></el-option>
           </el-select>
         </el-form-item>
+
+
       <div id="seleOp">
         <p>
           <span>省</span>
-          <select @change="cityChan">
-            <option v-for="(v,i) in provice" :key="i">{{v.name}}</option>
+          <select @change="cityChan" id="cityProvice">
+            <option v-if="citySelect">{{form.province}}</option>
+            <option v-for="(v,i) in provice" :key="i" value="v.name">{{v.name}}</option>
           </select>
           <i></i>
         </p>
         <p>
           <span>市</span>
-          <select>
-            <option v-for="(v,i) in provice[curshe].city" :key="i">{{v.name}}</option>
+          <select @change="cityTown" id="cityTown">
+            <option v-if="citySelect">{{form.town}}</option>
+            <option v-for="(v,i) in provice[curshe].city" :key="i" >{{v.name}}</option>
           </select>
           <i></i>
         </p>
@@ -190,11 +194,6 @@
           <el-input v-model="form.submitter" ></el-input>
         </el-form-item>
 
-
-        <select>
-          <option>111</option>
-        </select>
-
         <el-form-item class="addBtn">
           <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
           <el-button>取消</el-button>
@@ -234,6 +233,7 @@ export default {
       provice:provice,
       fileList: [],
       curshe:0,
+      citySelect:false,
       //表单属性
       form: {
         schoolName:"",
@@ -288,7 +288,7 @@ export default {
         teachingForm:"",
         companyAnalysis:"",
         verifySign:"",
-        yearOfData:""
+        yearOfData:"",
       },
       //表单验证
       rules:{
@@ -307,24 +307,31 @@ export default {
     //下拉框
     cityChan:function(evt){
       this.curshe=evt.target.selectedIndex;
-      console.log(evt)
-      console.log(evt.target.selectedIndex)
+      let myCityProvice = document.getElementById("cityProvice");
+      let indexOne = myCityProvice.selectedIndex;
+      this.form.province = myCityProvice[indexOne].text;
+      this.citySelect = false;
+    },
+    cityTown:function(){
+      let mycityTown = document.getElementById("cityTown");
+      let indexTwo = mycityTown.selectedIndex;
+      this.form.town = mycityTown[indexTwo].text;
     },
     getData(){
       //判断是否有id字段
       if(this.$route.query.hasOwnProperty('id')){
-        console.log("chufa")
         getDetails({
           schoolId : this.$route.query.id
         }).then(res=>{
           delete res.data.createTime
           delete res.data.schoolCharacteristicsVo
           delete res.data.studentEnrollmentVo
-          this.form = res.data
+          this.form = res.data;
           console.log(res.data)
         }).catch(error=>{
 
         })
+        this.citySelect = true;
       }else{
 
       }
@@ -381,17 +388,23 @@ export default {
     }),
     // 取消页面按钮
     addCancel(){
-      this.$router.push({path:"/siku/school"})
-      console.log(this.aaa)
+      // this.$router.push({path:"/siku/school"})
+
+
+
+      // console.log(mycityTown[indexTwo].text)
+
+      console.log(this.form)
     },
   },
   created() {
-    console.log(this.provice)
-    this.getData()
-  },
-  beforeUpdate(){
-    // console.log("gengxinqian")
-    // this.getData()
+    this.getData();
+    // if(this.form.province == ""){
+    //   this.citySelect = false;
+    // }else{
+    //    this.citySelect = true;
+    // }
+    console.log()
   }
 }
 </script>

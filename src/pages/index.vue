@@ -119,9 +119,6 @@
               </template>
               <el-menu-item-group>
                 <el-menu-item index="/vis/visList">报名列表</el-menu-item>
-                <el-menu-item index="/siku/bill">机构库</el-menu-item>
-                <el-menu-item index="/siku/caiwu">人才库</el-menu-item>
-                <el-menu-item index="/siku/caiwu">项目库</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 

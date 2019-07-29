@@ -3,10 +3,10 @@
     <!-- 头部导航 -->
     <div class="headerBtn" style="">
       <el-form ref="form" :model="form" label-width="70px">
-        <el-form-item label="活动区域">
-          <el-select v-model="form.region" placeholder="请选择学校类型">
-            <el-option label="民办" value="shanghai"></el-option>
-            <el-option label="公办" value="beijing"></el-option>
+        <el-form-item label="活动类型">
+          <el-select v-model="form.region" placeholder="请选择活动类型">
+            <el-option label="FIR" value="shanghai"></el-option>
+            <el-option label="2018 VIS" value="beijing"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
