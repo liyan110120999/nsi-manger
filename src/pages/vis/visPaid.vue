@@ -115,8 +115,7 @@
 <script>
 import axios from "axios";
 import QS from 'qs';
-import {getvislist} from "@/api/api";
-import {getSchoolDelete} from '@/api/api';
+import {getvislist,getvisorder} from "@/api/api";
 import utils from "@/api/utils.js";
 export default {
   data() {
@@ -146,7 +145,7 @@ export default {
     // 请求学校数据
     getvis(){
       let that = this;
-      getvislist({
+      getvisorder({
         type:this.type
       }).then(res=>{
         console.log(res.data)

@@ -15,13 +15,11 @@
           <el-input v-model="form.schoolProperties" ></el-input>
         </el-form-item>
 
-
-
         <el-form-item label="学校性质">
           <!-- <el-input v-model="form.province" ></el-input> -->
-          <el-select v-model="form.region" placeholder="请选择学校性质">
-            <el-option label="公办" value="shanghai"></el-option>
-            <el-option label="民办" value="beijing"></el-option>
+          <el-select v-model="form.region" placeholder="请选择学校属性" value-key="form.schoolProperties">
+            <el-option label="公办" value="公办"></el-option>
+            <el-option label="民办" value="民办"></el-option>
           </el-select>
         </el-form-item>
 
@@ -29,7 +27,7 @@
       <div id="seleOp">
         <p>
           <span>省</span>
-          <select @change="cityChan" id="cityProvice">
+          <select CityProvice id="cityProvice">
             <option v-if="citySelect">{{form.province}}</option>
             <option v-for="(v,i) in provice" :key="i" value="v.name">{{v.name}}</option>
           </select>
@@ -211,7 +209,7 @@ import {getDetails} from "@/api/api";
 import {getSchoolUpdate} from "@/api/api";
 import utils from '@/api/utils.js'
 import {provice} from '../../api/city.js'
-
+import bus from "@/api/bus";
 import axios from "axios";
 export default {
   data() {
@@ -234,13 +232,15 @@ export default {
       fileList: [],
       curshe:0,
       citySelect:false,
+      i:0,
+      isEdit:null,
       //表单属性
       form: {
         schoolName:"",
         schoolEnglishName:"",
         schoolProperties:"",
-        province:"",
-        town:"",
+        province:"",//省
+        town:"", //市
         address:"",
         foundingTime:"",
         operationState:"",
@@ -305,19 +305,51 @@ export default {
   },
   methods:{
     //下拉框
-    cityChan:function(evt){
-      this.curshe=evt.target.selectedIndex;
-      let myCityProvice = document.getElementById("cityProvice");
-      let indexOne = myCityProvice.selectedIndex;
-      this.form.province = myCityProvice[indexOne].text;
+    CityProvice:function(msg){
+      // this.isEdit = msg;
+      // console.log(this.isEdit);
+
+      if(this.isEdit == 1){
+        console.log(1111111111)
+        if(this.i++ == 0){
+          let myCityProvice = document.getElementById("cityProvice");
+          let indexOne = myCityProvice.selectedIndex;
+          let indexOneCs = myCityProvice.selectedIndex-1;
+
+          this.curshe = indexOne-1;
+          this.form.province = myCityProvice[indexOne].text;
+          // this.form.town = this.provice;
+          console.log(this.form.province)
+          console.log(this.provice[indexOneCs].city[0].name)
+          // console.log(this.provice[indexOneCs].city)
+          // console.log(this.form.town)
+        }else{
+          let myCityProvice = document.getElementById("cityProvice");
+          let indexOne = myCityProvice.selectedIndex ;
+          this.curshe = indexOne;
+          this.form.province = myCityProvice[indexOne].text;
+          this.form.town = this.provice[indexOne].city[0].name;
+        }
+      }else{
+        let myCityProvice = document.getElementById("cityProvice");
+        let indexOne = myCityProvice.selectedIndex ;
+        this.curshe = indexOne;
+        this.form.province = myCityProvice[indexOne].text;
+        this.form.town = this.provice[indexOne].city[0].name;
+    }
+      // console.log(evt)
+      // console.log(myCityProvice.removeChild(myCityProvice.options[0]));
+
       this.citySelect = false;
     },
     cityTown:function(){
       let mycityTown = document.getElementById("cityTown");
       let indexTwo = mycityTown.selectedIndex;
       this.form.town = mycityTown[indexTwo].text;
+      console.log(this.form.town)
     },
-    getData(){
+    getData(msg){
+      console.log(msg)
       //判断是否有id字段
       if(this.$route.query.hasOwnProperty('id')){
         getDetails({
@@ -327,7 +359,6 @@ export default {
           delete res.data.schoolCharacteristicsVo
           delete res.data.studentEnrollmentVo
           this.form = res.data;
-          console.log(res.data)
         }).catch(error=>{
 
         })
@@ -389,22 +420,29 @@ export default {
     // 取消页面按钮
     addCancel(){
       // this.$router.push({path:"/siku/school"})
-
-
-
       // console.log(mycityTown[indexTwo].text)
-
-      console.log(this.form)
+      console.log(this.isEdit);
+      console.log(this.form.province);
+      console.log(this.form.twon);
     },
+  },
+  computed: {
+    // bus.$off("isEdit")
+    // bus.$on("isEdit",msg=>{
+
+
+    // })
+
   },
   created() {
     this.getData();
+
     // if(this.form.province == ""){
     //   this.citySelect = false;
     // }else{
     //    this.citySelect = true;
     // }
-    console.log()
+
   }
 }
 </script>

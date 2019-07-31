@@ -13,5 +13,7 @@ export const getDetails = p => get('/new/school/detail.do', p)
 export const getSchoolUpdate = p => post('/manager/new/school/update.do', p)
 //学校库 删除
 export const getSchoolDelete = p => get('/manager/new/school/delete.do', p)
-//活动管理 活动列表
+//活动管理 活动列表 活动类型
 export const getvislist = p => post('/activity/vis_list.do', p)
+//活动管理 vis 已交费
+export const getvisorder = p => post('/activity/vis_orderList.do', p)

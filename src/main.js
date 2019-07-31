@@ -13,6 +13,8 @@ import VueClipboard from 'vue-clipboard2'
 import './assets/icons/index.js'
 import Vuex from 'vuex'
 import store from './vuex/store'
+//bus
+Vue.prototype.bus = new Vue();
 //路由
 import router from './router'
 //axios
@@ -29,8 +31,6 @@ var flagNum=Math.random()
 
 //新的请求接口 岩哥 本地测试环境
   // axios.defaults.baseURL = 'http://192.168.0.34:8080/nsi-1.0'
-//旧的请求接口 岩哥 本地测试环境
-// Vue.prototype.baseUrl = 'http://192.168.0.34:8080/nsi-1.0'
 // 振哥 本地测试环境
 // axios.defaults.baseURL = 'http://192.168.0.32:8080/nsi-1.0'
 //旧的请求接口  生产环境
