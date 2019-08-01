@@ -12,12 +12,16 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     websiteNewsId:'',
-    isEd:1,
+    isEd:0,
   },
   mutations:{
     changeWebsiteNewsId( state, msg ){
       state.websiteNewsId = msg;
     },
+    changeis(state,n){
+      state.isEd=n
+      // console.log(state.isEd++)
+    }
   }
 })
 

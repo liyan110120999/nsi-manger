@@ -17,7 +17,7 @@
 
         <el-form-item label="学校性质">
           <!-- <el-input v-model="form.province" ></el-input> -->
-          <el-select v-model="form.region" placeholder="请选择学校属性" value-key="form.schoolProperties">
+          <el-select v-model="form.schoolProperties" placeholder="请选择学校属性" :value-key="form.schoolProperties">
             <el-option label="公办" value="公办"></el-option>
             <el-option label="民办" value="民办"></el-option>
           </el-select>
@@ -27,7 +27,7 @@
       <div id="seleOp">
         <p>
           <span>省</span>
-          <select CityProvice id="cityProvice">
+          <select @change="CityProvice" id="cityProvice">
             <option v-if="citySelect">{{form.province}}</option>
             <option v-for="(v,i) in provice" :key="i" value="v.name">{{v.name}}</option>
           </select>
@@ -211,6 +211,7 @@ import utils from '@/api/utils.js'
 import {provice} from '../../api/city.js'
 import bus from "@/api/bus";
 import axios from "axios";
+import store from '../../vuex/store.js'
 export default {
   data() {
     //学校英文名字验证
@@ -233,7 +234,7 @@ export default {
       curshe:0,
       citySelect:false,
       i:0,
-      isEdit:null,
+      isEdit:1,
       //表单属性
       form: {
         schoolName:"",
@@ -305,41 +306,41 @@ export default {
   },
   methods:{
     //下拉框
-    CityProvice:function(msg){
+    CityProvice:function(){
       // this.isEdit = msg;
-      // console.log(this.isEdit);
+      console.log(store.state.isEd);
 
-      if(this.isEdit == 1){
-        console.log(1111111111)
+      if(this.isEdit == store.state.isEd){
+        console.log("0000000")
         if(this.i++ == 0){
+          console.log(1111111111)
           let myCityProvice = document.getElementById("cityProvice");
           let indexOne = myCityProvice.selectedIndex;
           let indexOneCs = myCityProvice.selectedIndex-1;
 
           this.curshe = indexOne-1;
           this.form.province = myCityProvice[indexOne].text;
-          // this.form.town = this.provice;
-          console.log(this.form.province)
-          console.log(this.provice[indexOneCs].city[0].name)
-          // console.log(this.provice[indexOneCs].city)
-          // console.log(this.form.town)
+          this.form.town = this.provice[this.curshe].city[0].name;
+          console.log(this.form.town)
         }else{
+          console.log(222222222)
           let myCityProvice = document.getElementById("cityProvice");
           let indexOne = myCityProvice.selectedIndex ;
           this.curshe = indexOne;
           this.form.province = myCityProvice[indexOne].text;
           this.form.town = this.provice[indexOne].city[0].name;
         }
+        store.commit("changeis",0)
       }else{
+         console.log(3333333)
         let myCityProvice = document.getElementById("cityProvice");
         let indexOne = myCityProvice.selectedIndex ;
+        console.log(myCityProvice)
+        console.log(indexOne)
         this.curshe = indexOne;
         this.form.province = myCityProvice[indexOne].text;
         this.form.town = this.provice[indexOne].city[0].name;
-    }
-      // console.log(evt)
-      // console.log(myCityProvice.removeChild(myCityProvice.options[0]));
-
+      }
       this.citySelect = false;
     },
     cityTown:function(){
@@ -348,8 +349,7 @@ export default {
       this.form.town = mycityTown[indexTwo].text;
       console.log(this.form.town)
     },
-    getData(msg){
-      console.log(msg)
+    getData(){
       //判断是否有id字段
       if(this.$route.query.hasOwnProperty('id')){
         getDetails({
@@ -419,11 +419,14 @@ export default {
     }),
     // 取消页面按钮
     addCancel(){
+      // console.log(store.state.isEd)
       // this.$router.push({path:"/siku/school"})
       // console.log(mycityTown[indexTwo].text)
-      console.log(this.isEdit);
-      console.log(this.form.province);
-      console.log(this.form.twon);
+      // this.isEdit = store.state.isEd;
+
+      // console.log(this.isEdit);
+      // // console.log(this.form.province);
+      console.log(this.form);
     },
   },
   computed: {

@@ -121,7 +121,7 @@ export default new Router({
 		      path: '/vis/visPaid',
 		      component: visPaid,
 		      //   name:"visPaid"
-		    }
+        }
 	　 ]
     },
     {

@@ -105,8 +105,8 @@
                 <span>新四库全书</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/siku/school">学校库</el-menu-item>
-                <el-menu-item index="/siku/bill">机构库</el-menu-item>
+                <el-menu-item index="/siku/school" @click="SikuSchool">学校库</el-menu-item>
+                <el-menu-item index="/siku/lianxi">机构库</el-menu-item>
                 <el-menu-item index="/siku/caiwu">人才库</el-menu-item>
                 <el-menu-item index="/siku/caiwu">项目库</el-menu-item>
               </el-menu-item-group>
@@ -137,6 +137,7 @@
 </template>
 
 <script>
+import store from '@/vuex/store.js'
 export default {
   name: 'index',
   data () {
@@ -150,6 +151,9 @@ export default {
     }
   },
   methods:{
+    SikuSchool:function(){
+      store.commit("changeis",0)
+    },
     goWebsite(){
       window.open('https://www.xinxueshuo.cn','_blank')
     },

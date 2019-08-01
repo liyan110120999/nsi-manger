@@ -211,6 +211,7 @@ import { getSchoolLibrary } from "@/api/api";
 import {getSchoolDelete} from '@/api/api';
 import utils from "@/api/utils.js";
 import bus from "@/api/bus";
+import store from '../../vuex/store.js';
 export default {
   data() {
     return {
@@ -262,9 +263,11 @@ export default {
     },
     //编辑按钮
     schoolDetail(row) {
-      this.$nextTick(function () {
-         bus.$emit("isEdit",1)
-      }),
+      store.commit("changeis",1)
+
+      // this.$nextTick(function () {
+      //    bus.$emit("isEdit",1)
+      // }),
       this.$router.push({path:"/siku/schooAdd",query:{id:row}})
     },
     //搜索
