@@ -6,7 +6,7 @@
         <el-form-item label="活动类型" >
           <el-select v-model="form.region" placeholder="请选择活动类型" @change="changeVisType">
             <el-option label="FIT" value="FIT"></el-option>
-            <el-option label="2019vis" value="2019vis"></el-option>
+            <el-option label="vis2019" value="vis2019"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -15,7 +15,7 @@
           <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
       </div>
       <div class="headerBtnLeft">
-          <el-button type="primary" @click="schoolAddPage">添加学校</el-button>
+          <el-button type="primary" @click="schoolAddPage">添加活动</el-button>
       </div>
     </div>
     <!-- 表格 -->
@@ -84,17 +84,6 @@
         label="邮箱"
         :show-overflow-tooltip="true"
         width="190">
-      </el-table-column>
-
-      <el-table-column
-        fixed="right"
-        label="操作"
-        align="center"
-        width="100">
-        <template slot-scope="scope">
-          <el-button @click="schoolDetail(scope.row.id)" type="text" size="small" style="color:#67C23A">编辑</el-button>
-          <el-button @click="SchoolDelete(scope.row.id)" type="text" size="small" style="color:red">删除</el-button>
-        </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -173,39 +162,13 @@ export default {
       this.pageNum = val;
       this.getvis()
     },
-    //编辑按钮
-    schoolDetail(row) {
-      this.$router.push({path:"/siku/schooAdd",query:{id:row}})
-    },
     //搜索
     schoolSearch(){
       this.getvis()
     },
-    //删除
-    SchoolDelete:utils.debounce(function(row){
-      this.$confirm('此操作将永久删除该学校信息, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        getSchoolDelete({
-          schoolId:row
-        }).then(res =>{
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-          this.getvis()
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
 
 
-     }),
+
   },
   created() {
     this.getvis()

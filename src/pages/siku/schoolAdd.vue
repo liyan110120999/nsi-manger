@@ -12,44 +12,30 @@
           <el-input v-model="form.schoolEnglishName" ></el-input>
         </el-form-item>
         <el-form-item label="学校性质">
-          <el-input v-model="form.schoolProperties" ></el-input>
-        </el-form-item>
-
-        <el-form-item label="学校性质">
           <!-- <el-input v-model="form.province" ></el-input> -->
           <el-select v-model="form.schoolProperties" placeholder="请选择学校属性" :value-key="form.schoolProperties">
             <el-option label="公办" value="公办"></el-option>
             <el-option label="民办" value="民办"></el-option>
           </el-select>
         </el-form-item>
-
-
-      <div id="seleOp">
-        <p>
-          <span>省</span>
-          <select @change="CityProvice" id="cityProvice">
-            <option v-if="citySelect">{{form.province}}</option>
-            <option v-for="(v,i) in provice" :key="i" value="v.name">{{v.name}}</option>
-          </select>
-          <i></i>
-        </p>
-        <p>
-          <span>市</span>
-          <select @change="cityTown" id="cityTown">
-            <option v-if="citySelect">{{form.town}}</option>
-            <option v-for="(v,i) in provice[curshe].city" :key="i" >{{v.name}}</option>
-          </select>
-          <i></i>
-        </p>
-      </div>
-
-
-        <el-form-item label="省">
-          <el-input v-model="form.province" ></el-input>
-        </el-form-item>
-        <el-form-item label="市">
-          <el-input v-model="form.town" ></el-input>
-        </el-form-item>
+        <div id="seleOp">
+          <p>
+            <span>省</span>
+            <select @change="CityProvice" id="cityProvice">
+              <option v-if="citySelect">{{form.province}}</option>
+              <option v-for="(v,i) in provice" :key="i" value="v.name">{{v.name}}</option>
+            </select>
+            <i></i>
+          </p>
+          <p>
+            <span>市</span>
+            <select @change="cityTown" id="cityTown">
+              <option v-if="citySelect">{{form.town}}</option>
+              <option v-for="(v,i) in provice[curshe].city" :key="i" >{{v.name}}</option>
+            </select>
+            <i></i>
+          </p>
+        </div>
         <el-form-item label="地址">
           <el-input v-model="form.address" ></el-input>
         </el-form-item>

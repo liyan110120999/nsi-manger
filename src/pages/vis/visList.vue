@@ -6,7 +6,7 @@
         <el-form-item label="活动类型" >
           <el-select v-model="form.region" placeholder="请选择活动类型" @change="changeVisType">
             <el-option label="FIT" value="FIT"></el-option>
-            <el-option label="2019vis" value="2019vis"></el-option>
+            <el-option label="vis2019" value="vis2019"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -130,7 +130,6 @@ export default {
       centerDialogVisible: false,//弹出框
       type:"",
       form: {
-        region:"",
         name: '',
         region: '',
         date1: '',
