@@ -23,7 +23,7 @@
       :data="schoolData"
       border
       style="width: 100%"
-      height="450">
+      height="550">
       <el-table-column
         align="center"
         fixed="left"

@@ -23,7 +23,7 @@
       :data="visData"
       border
       style="width: 100%"
-      height="450">
+      height="550">
       <el-table-column
         align="center"
         fixed="left"
@@ -137,7 +137,7 @@ export default {
       getvisorder({
         type:this.type
       }).then(res=>{
-        console.log(res.data)
+        this.schoolPageSize=res.data.length
         this.visData = res.data;
       }).catch(error=>{
         this.$message({

@@ -7,7 +7,14 @@
       stripe
       v-loading="distributionTableDataloading"
       class="distributionTable"
+      max-height="540"
       >
+      <el-table-column
+        prop='productType'
+        align="center"
+        label="类型"
+        >
+      </el-table-column>
       <el-table-column
         prop='orderNo'
         align="center"
@@ -27,7 +34,9 @@
         >
         <template slot-scope="scope">
             <el-button type="text" @click="getorderNoData(scope.row.product.id)" size="small" style="color:#f56c6c" v-if="scope.row.productType=='购物车'">{{scope.row.productType}}</el-button>
-            <div v-if="scope.row.productType!='购物车'">{{scope.row.product.goodsName}}</div>
+            <div v-if="scope.row.productType=='书店'">{{scope.row.product.goodsName}}</div>
+            <div v-if="scope.row.productType=='购物车'">{{scope.row.product.goodsName}}</div>
+            <div v-if="scope.row.productType=='活动'"></div>
         </template>
       </el-table-column>
       <el-table-column
@@ -67,8 +76,7 @@
         :data="buycarData"
         border
         stripe
-        v-loading="websiteTableDataloading"
-        :max-height="windowHeight"
+        :max-height="500"
         class="websiteTable">
         <el-table-column
           prop="goodsName"
@@ -87,7 +95,7 @@
           label="价格"
           align="center"
           width="120">
-        </el-table-column> 
+        </el-table-column>
       </el-table>
     <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="buyCar=false">确认</el-button>
@@ -109,6 +117,7 @@ export default {
       keyword:'',//搜索
       distributionTableDataloading:true,//表格数据展示
       buyCar:false,
+      buycarData:[]
     }
   },
   methods:{
@@ -120,6 +129,7 @@ export default {
         let addNews=new URLSearchParams();
         addNews.append('cartId',orderNo);
         that.$axios.post(url,addNews).then(function(response){
+          console.log(response)
           that.buycarData=response.data.data
           that.buyCar=true
         }).catch(function (response){
@@ -135,7 +145,7 @@ export default {
         this.getDistributionTableData()
       },
       //一页数据量改变
-      handleSizeChange(num){ 
+      handleSizeChange(num){
         this.pageSize=num
         this.getDistributionTableData()
       },
@@ -165,7 +175,7 @@ export default {
         // D = date.getDate() + ' ';
         // h = date.getHours() + ':';
         // m = date.getMinutes() + ':';
-        // s = date.getSeconds(); 
+        // s = date.getSeconds();
         //console.log(Y+M+D+h+m+s);
         //new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
         that.pageTotalnum=response.data.data.total
@@ -173,7 +183,7 @@ export default {
         for (var index = 0; index <  that.distributionTableData.length; index++) {
           that.distributionTableData[index].createTime=that.changeDate(that.distributionTableData[index].createTime)
         };
-        
+
         // that.distributionTableData.map(item=>{
         //   var date = new Date(item.index02);
         //   let Y = date.getFullYear() + '-';
@@ -185,9 +195,14 @@ export default {
         //   item.index02=Y+M+D+h+m+s
         //   return item
         // })
+        console.log(that.distributionTableData[2].buyerMessage)
+        for(var i=0;i<that.distributionTableData.length;i++){
+          if(that.distributionTableData[i].productType == "活动"){
+            that.distributionTableData[i].product = {}
+            that.distributionTableData[i].product.goodsName = that.distributionTableData[i].buyerMessage
+          }
+        }
 
-        
-        console.log(that.distributionTableData)
         let websiteTableDataLength=that.distributionTableData.length
         //let flagNum=0
         that.distributionTableDataloading=false
@@ -201,7 +216,7 @@ export default {
     },
   },
   created(){
-    
+
     this.getDistributionTableData()
   }
 }
