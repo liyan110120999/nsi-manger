@@ -11,8 +11,7 @@
         <el-form-item label="学校英文名字" prop="schoolEnglishName">
           <el-input v-model="form.schoolEnglishName" ></el-input>
         </el-form-item>
-        <el-form-item label="学校性质">
-          <!-- <el-input v-model="form.province" ></el-input> -->
+        <el-form-item label="学校性质" prop="schoolProperties">
           <el-select v-model="form.schoolProperties" placeholder="请选择学校属性" :value-key="form.schoolProperties">
             <el-option label="公办" value="公办"></el-option>
             <el-option label="民办" value="民办"></el-option>
@@ -284,6 +283,9 @@ export default {
         ],
         schoolEnglishName:[
           {required:true,validator: schoolEnglishName,trigger: 'blur' }
+        ],
+        schoolProperties:[
+          {required:true,message:"选项不能为空",trigger:'blur'}
         ]
       },
 
@@ -293,23 +295,15 @@ export default {
   methods:{
     //下拉框
     CityProvice:function(){
-      // this.isEdit = msg;
-      console.log(store.state.isEd);
-
       if(this.isEdit == store.state.isEd){
-        console.log("0000000")
         if(this.i++ == 0){
-          console.log(1111111111)
           let myCityProvice = document.getElementById("cityProvice");
           let indexOne = myCityProvice.selectedIndex;
           let indexOneCs = myCityProvice.selectedIndex-1;
-
           this.curshe = indexOne-1;
           this.form.province = myCityProvice[indexOne].text;
           this.form.town = this.provice[this.curshe].city[0].name;
-          console.log(this.form.town)
         }else{
-          console.log(222222222)
           let myCityProvice = document.getElementById("cityProvice");
           let indexOne = myCityProvice.selectedIndex ;
           this.curshe = indexOne;
@@ -333,7 +327,6 @@ export default {
       let mycityTown = document.getElementById("cityTown");
       let indexTwo = mycityTown.selectedIndex;
       this.form.town = mycityTown[indexTwo].text;
-      console.log(this.form.town)
     },
     getData(){
       //判断是否有id字段
