@@ -5,16 +5,18 @@
     <div class="addBasic">
       <div class="addBaH">课程信息</div>
       <el-form ref="form" :model="form" class="createNews" :rules="rules" label-width="160px">
+
         <el-form-item label="学校名字" prop="schoolName">
-          <el-input v-model="form.schoolName"></el-input>
+          <el-input v-model.trim="form.schoolName" @blur="CheckSchool"></el-input>
         </el-form-item>
         <el-form-item label="学校英文名字" prop="schoolEnglishName">
-          <el-input v-model="form.schoolEnglishName" ></el-input>
+          <el-input v-model.trim="form.schoolEnglishName" ></el-input>
         </el-form-item>
         <el-form-item label="学校性质" prop="schoolProperties">
           <el-select v-model="form.schoolProperties" placeholder="请选择学校属性" :value-key="form.schoolProperties">
-            <el-option label="公办" value="公办"></el-option>
-            <el-option label="民办" value="民办"></el-option>
+            <el-option label="运营中" value="运营中"></el-option>
+            <el-option label="停办" value="停办"></el-option>
+            <el-option label="凑建" value="凑建"></el-option>
           </el-select>
         </el-form-item>
         <div id="seleOp">
@@ -35,31 +37,49 @@
             <i></i>
           </p>
         </div>
-        <el-form-item label="地址">
+        <el-form-item label="地址" prop="address">
           <el-input v-model="form.address" ></el-input>
         </el-form-item>
-        <el-form-item label="成立时间">
-          <el-input v-model="form.foundingTime" ></el-input>
+        <el-form-item label="成立时间" prop="foundingTime">
+          <el-input v-model.number="form.foundingTime" ></el-input>
         </el-form-item>
-        <el-form-item label="运营状态">
+
+        <el-form-item label="运营状态" prop="operationState">
+          <el-select v-model="form.operationState" placeholder="请选择学校属性" :value-key="form.operationState">
+            <el-option label="公办" value="公办"></el-option>
+            <el-option label="民办" value="民办"></el-option>
+            <el-option label="外籍" value="外籍"></el-option>
+            <el-option label="其他" value="其他"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <!-- <el-form-item label="运营状态">
           <el-input v-model="form.operationState" ></el-input>
-        </el-form-item>
-        <el-form-item label="学制">
+        </el-form-item> -->
+
+        <el-form-item label="学制" prop="schoolSystem">
           <el-input v-model="form.schoolSystem" ></el-input>
+          <el-checkbox-group v-model="inputCheckbox">
+            <el-checkbox label="幼儿园" name="schoolSystem"></el-checkbox>
+            <el-checkbox label="小学" name="schoolSystem"></el-checkbox>
+            <el-checkbox label="初中" name="schoolSystem"></el-checkbox>
+            <el-checkbox label="高中" name="schoolSystem"></el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="幼儿园-学费">
-          <el-input v-model="form.oneTuition" ></el-input>
+
+        <el-form-item label="幼儿园-学费" prop="oneTuition">
+          <el-input v-model.number="form.oneTuition" ></el-input>
         </el-form-item>
-        <el-form-item label="小学-学费">
-          <el-input v-model="form.twoTuition" ></el-input>
+        <el-form-item label="小学-学费" prop="twoTuition">
+          <el-input v-model.number="form.twoTuition" ></el-input>
         </el-form-item>
-        <el-form-item label="初中-学费">
-          <el-input v-model="form.thirdTuition" ></el-input>
+        <el-form-item label="初中-学费" prop="thirdTuition">
+          <el-input v-model.number="form.thirdTuition" ></el-input>
         </el-form-item>
-        <el-form-item label="高中-学费">
-          <el-input v-model="form.fourTuition" ></el-input>
+        <el-form-item label="高中-学费" prop="fourTuition">
+          <el-input v-model.number="form.fourTuition" ></el-input>
         </el-form-item>
-        <el-form-item label="官网">
+        <el-form-item label="官网" prop="website">
           <el-input v-model="form.website" ></el-input>
         </el-form-item>
         <el-form-item label="电话">
@@ -104,14 +124,14 @@
         <el-form-item label="建筑面积">
           <el-input v-model="form.builtArea" ></el-input>
         </el-form-item>
-        <el-form-item label="硬件设施">
-          <el-input v-model="form.hardware" ></el-input>
+        <el-form-item label="硬件设施" >
+          <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.hardware"></el-input>
         </el-form-item>
-        <el-form-item label="投资信息">
-          <el-input v-model="form.investment" ></el-input>
+        <el-form-item label="投资信息" >
+          <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.investment"></el-input>
         </el-form-item>
-        <el-form-item label="备注">
-          <el-input v-model="form.remark" ></el-input>
+        <el-form-item label="备注" >
+          <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.remark"></el-input>
         </el-form-item>
         <el-form-item label="学校logo">
           <el-input v-model="form.schoolLogo" ></el-input>
@@ -183,15 +203,24 @@
         </el-form-item>
       </el-form>
     </div>
-
+    //提示框
+    <el-dialog
+      title="提示"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center>
+      <span>学校名已存在</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 // import qs from 'qs';
-import {getSchoolAdd} from '@/api/api';
-import {getDetails} from "@/api/api";
-import {getSchoolUpdate} from "@/api/api";
+import {getSchoolAdd,getDetails,getSchoolUpdate,getSchoolCheck} from '@/api/api';
 import utils from '@/api/utils.js'
 import {provice} from '../../api/city.js'
 import bus from "@/api/bus";
@@ -201,16 +230,38 @@ export default {
   data() {
     //学校英文名字验证
     var schoolEnglishName = (rele,value,callback) =>{
-      let parent = /^[A-Za-z]/;
+      let parent = /^[^\(\,]+[a-zA-Z]+$/;
       if(value == ""){
         callback(new Error("请输入学校英文名字"));
       }else{
         if(parent.test(value)){
           callback()
-          }else{
-          callback(new Error("不能出现中文"));
+        }else{
+          callback(new Error("格式不正确,不能出现中文,左边不能出现空格"));
         }
 
+      }
+    };
+    //验证成立时间  数字的长度
+    var foundingTime = (rele,value,callback) =>{
+      if(value.lenth == "4"){
+        callback()
+      }else{
+        callback(new Error("格式不正确,请输入四位数字  例：2019"));
+      }
+    };
+    //验证网址头
+    var website = (rele,value,callback) =>{
+      console.log(rele)
+      let parent = /^[https|http]:/;
+      if(value == ""){
+        callback(new Error("请输入网址"));
+      }else{
+        console.log(value)
+        console.log(value.indexOf(http))
+        // if(parent.test(value)){
+        //   callback(new Error("禁止出现 http或https"));
+        // }
       }
     }
     return {
@@ -220,79 +271,135 @@ export default {
       citySelect:false,
       i:0,
       isEdit:1,
+      inputCheckbox:[],
+      centerDialogVisible: false,//提示框
       //表单属性
       form: {
-        schoolName:"",
-        schoolEnglishName:"",
-        schoolProperties:"",
+        schoolName:"",  //学校名字
+        schoolEnglishName:"", //学校英文名
+        schoolProperties:"",  //学校性质
         province:"",//省
         town:"", //市
-        address:"",
-        foundingTime:"",
-        operationState:"",
-        schoolSystem:"",
-        oneTuition:"",
-        twoTuition:"",
-        thirdTuition:"",
-        fourTuition:"",
-        website:"",
-        telephone:"",
-        interCourseFoundedTime:"",
-        course:"",
-        authentication:"",
-        students:"",
-        studentCapacity:"",
-        graduatedStuNum:"",
-        stuDominantNationality:"",
-        staffNum:"",
-        teacherNum:"",
-        foreignTeacherNum:"",
-        teacherStuRatio:"",
-        coveredArea:"",
-        builtArea:"",
-        hardware:"",
-        investment:"",
-        remark:"",
-        submitter:"",
-        schoolLogo:"",
-        schoolShowOne:"",
-        schoolShowTwo:"",
-        schoolShowThird:"",
-        schoolShowFour:"",
-        schoolShowFive:"",
-        schoolDesc:"",
-        accommodation:"",
-        studentEnrollment:"",
-        studeAbroadCountries:"",
-        prospects:"",
-        filingFee:"",
-        schoolManagement:"",
-        schoolCharacteristics:"",
-        courseSystem:"",
-        nationalityOfStudents:"",
-        classSize:"",
-        teachingForm:"",
-        companyAnalysis:"",
-        verifySign:"",
-        yearOfData:"",
+        address:"", //地址
+        foundingTime:"",  //成立时间
+        operationState:"", //运营状态
+        schoolSystem:"", //学制
+        oneTuition:"", //幼儿园学费
+        twoTuition:"",  //小学学费
+        thirdTuition:"",  //初中学费
+        fourTuition:"", //高中学费
+        website:"",  //官网
+        telephone:"",  //电话
+        interCourseFoundedTime:"", //国际学校成立时间
+        course:"",  //课程
+        authentication:"",  //认证
+        students:"",  //学生总人数
+        studentCapacity:"", //学生容量
+        graduatedStuNum:"", //毕业班人数
+        stuDominantNationality:"", //学生主要国籍
+        staffNum:"", //员工数量
+        teacherNum:"", //教师数量
+        foreignTeacherNum:"", //外籍教师数量
+        teacherStuRatio:"", //师生比
+        coveredArea:"", //占地面积
+        builtArea:"", //建筑面积
+        hardware:"",  //硬件设施
+        investment:"", //投资信息
+        remark:"",  //备注
+        submitter:localStorage["userName"], //提交人
+        schoolLogo:"", //学校logo
+        schoolShowOne:"",  //大图1
+        schoolShowTwo:"",  //大图2
+        schoolShowThird:"",  //大图3
+        schoolShowFour:"",  //大图4
+        schoolShowFive:"",  //大图5
+        schoolDesc:"",  //学校剪辑
+        accommodation:"",  //住宿情况
+        studentEnrollment:"", //招生情况
+        studeAbroadCountries:"",  //留学生留学国家
+        prospects:"", //招生对象
+        filingFee:"",  //申请费
+        schoolManagement:"",  //办学理念
+        schoolCharacteristics:"",  //办学特色
+        courseSystem:"",  //课程体系
+        nationalityOfStudents:"",  //学生国籍数
+        classSize:"",  //班级规模
+        teachingForm:"",  //授课形式
+        companyAnalysis:"",  //新学说分析
+        verifySign:"",  //0：审核中 1：审核通过
+        yearOfData:2019, //数据年份
       },
       //表单验证
       rules:{
-        schoolName:[
-          {required:true,message:"学校名字不能为空",trigger:'blur'}
+        schoolName:[ //学校名字
+          {required:true,message:"学校名字不能为空",trigger:'blur'},
         ],
-        schoolEnglishName:[
+        schoolEnglishName:[ //学校英文名字
           {required:true,validator: schoolEnglishName,trigger: 'blur' }
         ],
-        schoolProperties:[
+        schoolProperties:[ //学校性质
           {required:true,message:"选项不能为空",trigger:'blur'}
-        ]
+        ],
+        address:[ //地址
+          {required:true,message:"地址不能为空",trigger:'blur'}
+        ],
+        foundingTime:[ //成立时间
+          {required:true,message:"成立时间不能为空",trigger:'blur'},
+          {type: "number", message: '时间必须为数字值'},
+          {validator: foundingTime,trigger: 'blur' }
+        ],
+        operationState:[//运营状态
+          {required:true,message:"选项不能为空",trigger:'blur'}
+        ],
+        schoolSystem:[//学制
+          {required:true,message:"选项不能为空",trigger:'blur'}
+        ],
+        oneTuition:[ //幼儿园学费
+          {required:true,message:"学费不能为空",trigger:'blur'},
+          {type: "number", message: '学费必须为数字值 例：25000'},
+        ],
+        twoTuition:[ //小学学费
+          {required:true,message:"学费不能为空",trigger:'blur'},
+          {type: "number", message: '学费必须为数字值 例：25000'},
+        ],
+        thirdTuition:[ //初中学费
+          {required:true,message:"学费不能为空",trigger:'blur'},
+          {type: "number", message: '学费必须为数字值 例：25000'},
+        ],
+        fourTuition:[ //高中学费
+          {required:true,message:"学费不能为空",trigger:'blur'},
+          {type: "number", message: '学费必须为数字值 例：25000'},
+        ],
+        website:[ //官网
+          {required:true,validator: website,trigger: 'blur' }
+        ],
+        telephone:[ //电话
+          {}
+        ],
       },
 
     }
 
   },
   methods:{
+    //判断学校是否重复
+    CheckSchool(){
+      if(this.$route.query.hasOwnProperty('id')){
+
+      }else{
+        getSchoolCheck({
+          schoolName:this.form.schoolName
+        }).then(res=>{
+          console.log(res.msg == "学校名字已存在")
+          if(res.msg == "学校名字已存在"){
+            this.centerDialogVisible = true
+          }
+        }).catch(error=>{
+          console.log(error)
+        })
+      }
+
+    },
     //下拉框
     CityProvice:function(){
       if(this.isEdit == store.state.isEd){
@@ -338,6 +445,9 @@ export default {
           delete res.data.schoolCharacteristicsVo
           delete res.data.studentEnrollmentVo
           this.form = res.data;
+          let str = res.data.schoolSystem;
+          console.log(str.split(";"))
+          this.inputCheckbox=str.split(";")
         }).catch(error=>{
 
         })
@@ -352,7 +462,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         console.log(valid)
         if (valid) {
-          //判断是否有id字段
+          //判断是否有id字段  如果有id  编辑进入
           if(this.$route.query.hasOwnProperty('id')){
             this.form.id = this.$route.query.id;
             console.log(1111)
@@ -373,6 +483,11 @@ export default {
               });
             })
           }else{
+            //学制中英文转换
+            let str1 = this.form.schoolSystem;
+            let str2 = str1.split("；").join(";")
+            this.form.schoolSystem = str2;
+            //添加接口
             getSchoolAdd(
               this.form
             ).then(res =>{
@@ -398,34 +513,30 @@ export default {
     }),
     // 取消页面按钮
     addCancel(){
-      // console.log(store.state.isEd)
+      console.log(localStorage["userName"]) //登录人邮箱
       // this.$router.push({path:"/siku/school"})
       // console.log(mycityTown[indexTwo].text)
       // this.isEdit = store.state.isEd;
 
       // console.log(this.isEdit);
-      // // console.log(this.form.province);
+      console.log(this.form.schoolEnglishName);
+
       console.log(this.form);
     },
-  },
-  computed: {
-    // bus.$off("isEdit")
-    // bus.$on("isEdit",msg=>{
-
-
-    // })
-
   },
   created() {
     this.getData();
 
-    // if(this.form.province == ""){
-    //   this.citySelect = false;
-    // }else{
-    //    this.citySelect = true;
-    // }
-
-  }
+  },
+  watch: {
+    "inputCheckbox":function(val){
+        let str1 = val.toString();
+        let str2 = str1.split(",").join(";")
+        this.form.schoolSystem = str2;
+        // this.form.schoolSystem = this.inputCheckboxInp;
+        // console.log(str2)
+    }
+  },
 }
 </script>
 
@@ -557,12 +668,7 @@ export default {
     right: 49px;
     top: -6px
   }
-  // #seleOp i{
-  //   display: block;
-  //   width: 5px;
-  //   height: 5px;
-  //   background: red;
-  //   position: absolute;
-  //   right: 5px;
-  // }
+  .el-checkbox {
+    float: left;
+  }
 </style>

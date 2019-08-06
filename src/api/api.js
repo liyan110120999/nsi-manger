@@ -11,6 +11,8 @@ export const getSchoolAdd = p => post('/new/school/insert.do', p)
 export const getDetails = p => get('/new/school/detail.do', p)
 //学校库  编辑
 export const getSchoolUpdate = p => post('/manager/new/school/update.do', p)
+//添加学校列表  学校名去重
+export const getSchoolCheck = p => get('/school/check_valid.do', p)
 //学校库 删除
 export const getSchoolDelete = p => get('/manager/new/school/delete.do', p)
 //活动管理 活动列表 活动类型
