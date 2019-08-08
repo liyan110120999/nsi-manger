@@ -85,6 +85,13 @@
         :show-overflow-tooltip="true"
         width="190">
       </el-table-column>
+      <el-table-column
+        prop="phone"
+        align="center"
+        label="电话"
+        :show-overflow-tooltip="true"
+        width="190">
+      </el-table-column>
     </el-table>
     <!-- 分页 -->
     <div class="block">
