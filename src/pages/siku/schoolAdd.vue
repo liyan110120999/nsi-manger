@@ -6,8 +6,9 @@
       <div class="addBaH">课程信息</div>
       <el-form ref="form" :model="form" class="createNews" :rules="rules" label-width="160px">
 
-        <el-form-item label="学校名字" prop="schoolName">
+        <el-form-item label="学校名字" prop="schoolName" id="addFlex">
           <el-input v-model.trim="form.schoolName" @blur="CheckSchool"></el-input>
+          <i>学校名字不能为空</i>
         </el-form-item>
         <el-form-item label="学校英文名字" prop="schoolEnglishName">
           <el-input v-model.trim="form.schoolEnglishName" ></el-input>
@@ -57,11 +58,12 @@
           </p>
         </div>
     <p>
-        <el-form-item label="地址" prop="address">
+        <el-form-item label="地址" prop="address" id="addFlex">
           <el-input v-model="form.address" ></el-input>
         </el-form-item>
-        <el-form-item label="成立时间" prop="foundingTime">
+        <el-form-item label="成立时间" prop="foundingTime" id="addFlex">
           <el-input v-model.number="form.foundingTime" ></el-input>
+          <i>请输入四位数字</i>
         </el-form-item>
         <el-form-item label="运营状态" prop="operationState">
           <el-select v-model="form.operationState" placeholder="请选择学校属性" :value-key="form.operationState">
@@ -71,8 +73,11 @@
             <el-option label="其他" value="其他"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="学制" prop="schoolSystem">
-          <el-input v-model="form.schoolSystem" :disabled="true"></el-input>
+        <el-form-item label="学制" prop="schoolSystem" >
+          <div id="addFlexTwo">
+            <el-input v-model="form.schoolSystem" :disabled="true"></el-input>
+            <i>请分号分割 例：幼儿园;小学;初中;</i>
+          </div>
           <el-checkbox-group v-model="inputCheckbox">
             <el-checkbox label="幼儿园;" name="schoolSystem">幼儿园</el-checkbox>
             <el-checkbox label="小学;" name="schoolSystem">小学</el-checkbox>
@@ -80,17 +85,21 @@
             <el-checkbox label="高中;" name="schoolSystem">高中</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="幼儿园-学费" prop="oneTuition">
+        <el-form-item label="幼儿园-学费" prop="oneTuition" id="addFlex">
           <el-input v-model.number="form.oneTuition" ></el-input>
+          <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="小学-学费" prop="twoTuition">
+        <el-form-item label="小学-学费" prop="twoTuition" id="addFlex">
           <el-input v-model="form.twoTuition" ></el-input>
+          <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="初中-学费" prop="thirdTuition">
+        <el-form-item label="初中-学费" prop="thirdTuition" id="addFlex">
           <el-input v-model.number="form.thirdTuition" ></el-input>
+          <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="高中-学费" prop="fourTuition">
+        <el-form-item label="高中-学费" prop="fourTuition" id="addFlex">
           <el-input v-model.number="form.fourTuition" ></el-input>
+          <i>需要为整数</i>
         </el-form-item>
         <el-form-item label="官网" prop="website">
           <el-input v-model="form.website" ></el-input>
@@ -98,11 +107,15 @@
         <el-form-item label="电话" prop="telephone">
           <el-input v-model="form.telephone" ></el-input>
         </el-form-item>
-        <el-form-item label="国际课程成立时间" prop="interCourseFoundedTime">
+        <el-form-item label="国际课程成立时间" prop="interCourseFoundedTime" id="addFlex">
           <el-input v-model.number="form.interCourseFoundedTime" ></el-input>
+          <i>需要为四位整数 例：2019</i>
         </el-form-item>
         <el-form-item label="国际课程" prop="course">
-          <el-input v-model="form.course"></el-input>
+          <div id="addFlexTwo">
+            <el-input v-model="form.course"></el-input>
+            <i>请分号分割 例:IPC;OMYC;PGA;</i>
+          </div>
           <el-checkbox-group v-model="inputCheckboxCourse">
             <el-checkbox label="IPC;" name="course">IPC</el-checkbox>
             <el-checkbox label="OMYC;" name="course">OMYC</el-checkbox>
@@ -130,7 +143,10 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="认证&组织" prop="authentication">
-          <el-input v-model="form.authentication"></el-input>
+          <div id="addFlexTwo">
+            <el-input v-model="form.authentication"></el-input>
+            <i>请分号分割 例:CIE;Edexcel;OxfordAQA;</i>
+          </div>
           <el-checkbox-group v-model="inputCheckboxauthentication">
             <el-checkbox label="CIE;" name="authentication">CIE</el-checkbox>
             <el-checkbox label="Edexcel;" name="authentication">Edexcel</el-checkbox>
@@ -154,35 +170,44 @@
             <el-checkbox label="THE DUKE OF EDINBURGH’S INTERNATIONAL AWARD;" name="authentication">THE DUKE OF EDINBURGH’S INTERNATIONAL AWARD</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="学生总人数" prop="students">
+        <el-form-item label="学生总人数" prop="students" id="addFlex">
           <el-input v-model.number="form.students" ></el-input>
+          <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="学生容量" prop="studentCapacity">
+        <el-form-item label="学生容量" prop="studentCapacity" id="addFlex">
           <el-input v-model.number="form.studentCapacity" ></el-input>
+          <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="毕业班人数" prop="graduatedStuNum">
+        <el-form-item label="毕业班人数" prop="graduatedStuNum" id="addFlex">
           <el-input v-model.number="form.graduatedStuNum" ></el-input>
+          <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="学生主要国籍" prop="stuDominantNationality">
+        <el-form-item label="学生主要国籍" prop="stuDominantNationality" id="addFlex">
           <el-input v-model="form.stuDominantNationality" ></el-input>
+          <i>请分号分割 例：中国;美国;英国</i>
         </el-form-item>
-        <el-form-item label="员工数量" prop="staffNum">
+        <el-form-item label="员工数量" prop="staffNum" id="addFlex">
           <el-input v-model.number="form.staffNum" ></el-input>
+          <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="教师数量" prop="teacherNum">
+        <el-form-item label="教师数量" prop="teacherNum" id="addFlex">
           <el-input v-model.number="form.teacherNum" ></el-input>
+          <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="外籍教师数量" prop="foreignTeacherNum">
+        <el-form-item label="外籍教师数量" prop="foreignTeacherNum" id="addFlex">
           <el-input v-model.number="form.foreignTeacherNum" ></el-input>
+          <i>需要为整数</i>
         </el-form-item>
         <el-form-item label="师生比" prop="teacherStuRatio">
           <el-input v-model="form.teacherStuRatio" ></el-input>
         </el-form-item>
-        <el-form-item label="占地面积(亩)" prop="coveredArea">
+        <el-form-item label="占地面积(亩)" prop="coveredArea" id="addFlex">
           <el-input v-model.number="form.coveredArea" ></el-input>
+          <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="建筑面积(平方米)" prop="builtArea">
+        <el-form-item label="建筑面积(平方米)" prop="builtArea" id="addFlex">
           <el-input v-model.number="form.builtArea" ></el-input>
+          <i>需要为整数</i>
         </el-form-item>
         <el-form-item label="硬件设施"  prop="hardware">
           <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.hardware"></el-input>
@@ -212,16 +237,20 @@
           <el-input v-model="form.schoolShowFive" ></el-input>
         </el-form-item>
         <el-form-item label="学校简介" prop="schoolDesc">
-          <el-input v-model="form.schoolDesc" ></el-input>
+          <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.schoolDesc"></el-input>
+          <!-- <el-input v-model="form.schoolDesc" ></el-input> -->
         </el-form-item>
         <el-form-item label="住宿情况" prop="accommodation">
-          <el-input v-model="form.accommodation" ></el-input>
+          <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.accommodation"></el-input>
+          <!-- <el-input v-model="form.accommodation" ></el-input> -->
         </el-form-item>
         <el-form-item label="招生信息" prop="studentEnrollment">
-          <el-input v-model="form.studentEnrollment" ></el-input>
+          <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.studentEnrollment"></el-input>
+          <!-- <el-input v-model="form.studentEnrollment" ></el-input> -->
         </el-form-item>
-        <el-form-item label="留学生留学国家" prop="studeAbroadCountries">
+        <el-form-item label="留学生留学国家" prop="studeAbroadCountries" id="addFlex">
           <el-input v-model="form.studeAbroadCountries" ></el-input>
+          <i>请分号分割 例：中国;美国;英国</i>
         </el-form-item>
         <el-form-item label="招生对象" prop="prospects">
           <el-input v-model="form.prospects" ></el-input>
@@ -230,10 +259,12 @@
           <el-input v-model="form.filingFee" ></el-input>
         </el-form-item>
         <el-form-item label="办学理念" prop="schoolManagement">
-          <el-input v-model="form.schoolManagement" ></el-input>
+          <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.schoolManagement"></el-input>
+          <!-- <el-input v-model="form.schoolManagement" ></el-input> -->
         </el-form-item>
         <el-form-item label="办学特色" prop="schoolCharacteristics">
-          <el-input v-model="form.schoolCharacteristics" ></el-input>
+          <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.schoolCharacteristics"></el-input>
+          <!-- <el-input v-model="form.schoolCharacteristics" ></el-input> -->
         </el-form-item>
         <el-form-item label="课程体系" prop="courseSystem">
           <el-input v-model="form.courseSystem" ></el-input>
@@ -248,7 +279,8 @@
           <el-input v-model="form.teachingForm" ></el-input>
         </el-form-item>
         <el-form-item label="新学说分析" prop="companyAnalysis">
-          <el-input v-model="form.companyAnalysis" ></el-input>
+          <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.companyAnalysis"></el-input>
+          <!-- <el-input v-model="form.companyAnalysis" ></el-input> -->
         </el-form-item>
         <el-form-item label="数据年份">
           <el-input v-model="form.yearOfData" ></el-input>
@@ -292,7 +324,7 @@ export default {
     var schoolEnglishName = (rele,value,callback) =>{
       let parent = /^[^\(\,]+[a-zA-Z]+$/;
       if(value == ""){
-        callback(new Error("请输入学校英文名字"));
+        callback();
       }else{
         if(parent.test(value)){
           callback()
@@ -302,20 +334,29 @@ export default {
 
       }
     };
-    //验证成立时间  数字的长度
+    //验证成立时间
     var foundingTime = (rele,value,callback) =>{
-      let num = value;
-      num = num.toString();
-      if(num.length == "4"){
+      if(value == ""){
         callback()
       }else{
-        callback(new Error("格式不正确,请输入四位数字  例：2019"));
+        if(!/^\d+$/.test(value)){
+          callback(new Error("格式不正确,请输入四位数字  例：2019"));
+        }else{
+          let num = value;
+          num = num.toString();
+          if(num.length == "4"){
+            callback()
+          }else{
+              callback(new Error("格式不正确,请输入四位数字  例：2019"));
+          }
+
+        }
       }
     };
     //验证网址头
     var website = (rele,value,callback) =>{
       if(value == ""){
-        callback(new Error("请输入网址"));
+        callback();
       }else{
         if(value.indexOf("http") == 0 || value.indexOf("https") == 0){
           callback(new Error("禁止出现 http://或https:// 开头 例:baidu.com"));
@@ -324,7 +365,7 @@ export default {
         }
       }
     };
-    //小学学费
+    //学费  容量
     var twoTuition = (rele,value,callback) =>{
       if(value == ""){
           callback()
@@ -411,98 +452,77 @@ export default {
         schoolName:[ //学校名字
           {required:true,message:"学校名字不能为空",trigger:'blur'},
         ],
-        // schoolEnglishName:[ //学校英文名字
-        //   {required:true,validator: schoolEnglishName,trigger: 'blur' }
-        // ],
-        // schoolProperties:[ //学校性质
-        //   {required:true,message:"选项不能为空",trigger:'blur'}
-        // ],
-        // address:[ //地址
-        //   {required:true,message:"地址不能为空",trigger:'blur'}
-        // ],
-        // foundingTime:[ //成立时间
-        //   {required:true,message:"成立时间不能为空",trigger:'blur'},
-        //   {type: "number", message: '时间必须为数字值'},
-        //   {validator: foundingTime,trigger: 'blur' }
-        // ],
-        // operationState:[//运营状态
-        //   {required:true,message:"选项不能为空",trigger:'blur'}
-        // ],
-        // schoolSystem:[//学制
-        //   {required:true,message:"选项不能为空",trigger:'blur'}
-        // ],
-        // oneTuition:[ //幼儿园学费
-        //   {required:true,message:"学费不能为空",trigger:'blur'},
-        //   {type: "number", message: '学费必须为数字值 例：25000'},
-        // ],
+        schoolEnglishName:[ //学校英文名字
+          {required:true,validator: schoolEnglishName,trigger: 'blur' }
+        ],
+        schoolProperties:[ //学校性质
+        ],
+        address:[ //地址
+          {required:true,message:"地址不能为空",trigger:'blur'}
+        ],
+        foundingTime:[ //成立时间
+          {validator: foundingTime,trigger: 'blur' }
+        ],
+        operationState:[//运营状态
+          {required:true,message:"选项不能为空",trigger:'blur'}
+        ],
+        schoolSystem:[//学制
+          {required:true,message:"选项不能为空",trigger:'blur'}
+        ],
+        oneTuition:[ //幼儿园学费
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
         twoTuition:[ //小学学费
           {required:true,validator: twoTuition,trigger: 'blur' }
-          // {required:true,message:"学费不能为空",trigger:'blur'},
-          // {type: "number", message: '学费必须为数字值 例：25000'},
         ],
-        // thirdTuition:[ //初中学费
-        //   {required:true,message:"学费不能为空",trigger:'blur'},
-        //   {type: "number", message: '学费必须为数字值 例：25000'},
-        // ],
-        // fourTuition:[ //高中学费
-        //   {required:true,message:"学费不能为空",trigger:'blur'},
-        //   {type: "number", message: '学费必须为数字值 例：25000'},
-        // ],
-        // website:[ //官网
-        //   {required:true,validator: website,trigger: 'blur' }
-        // ],
-        // telephone:[ //电话
-        //   {required:true,message:"电话不能为空",trigger:'blur'},
-        // ],
-        // interCourseFoundedTime:[ //国际学校成立时间
-        //   {required:true,message:"成立时间不能为空",trigger:'blur'},
-        //   {type: "number", message: '时间必须为数字值'},
-        //   {validator: foundingTime,trigger: 'blur' }
-        // ],
-        // course:[//国际课程
-        //   {required:true,message:"选项不能为空",trigger:'blur'}
-        // ],
-        //  authentication:[ //认证组织
-        //   {required:true,message:"选项不能为空",trigger:'blur'}
-        // ],
-        // students:[ //学生总人数
-        //   {required:true,message:"人数不能为空",trigger:'blur'},
-        //   {type: "number", message: '学生必须为数字值 例：25000'},
-        // ],
-        // studentCapacity:[//学生容量
-        //   {required:true,message:"学生容量不能为空",trigger:'blur'},
-        //   {type: "number", message: '学生容量必须为数字值 例：25000'},
-        // ],
-        // graduatedStuNum:[//毕业班人数
-        //   {required:true,message:"毕业班人数不能为空",trigger:'blur'},
-        //   {type: "number", message: '毕业班人数必须为数字值 例：25000'},
-        // ],
-        // stuDominantNationality:[//学生主要国籍
-        //   {required:true,message:"国籍不能为空 请分号分割 例：中国;美国;英国;",trigger:'blur'},
-        // ],
-        // staffNum:[//员工数量
-        //   // {required:true,message:"员工不能为空",trigger:'blur'},
-        //   {type: "number", message: '员工数量必须为数字值 例：25000'},
-        // ],
-        // teacherNum:[//教师数量
-        //   {required:true,message:"教师人数不能为空",trigger:'blur'},
-        //   {type: "number", message: '教师人数必须为数字值 例：2500'},
-        // ],
-        // foreignTeacherNum:[//外籍教师数量
-        //   {required:true,message:"外籍教师数量不能为空",trigger:'blur'},
-        //   {type: "number", message: '外籍教师数量必须为数字值 例：200'},
-        // ],
-        // teacherStuRatio:[//师生比
-        //   // {validator: teacherStuRatio,trigger:'blur'},
-        // ],
-        // coveredArea:[//占地面积
-        //   {required:true,message:"占地面积不能为空",trigger:'blur'},
-        //   {type: "number", message: '占地面积必须为数字值（亩） 例：200'},
-        // ],
-        // builtArea:[//建筑面积
-        //   {required:true,message:"建筑面积不能为空",trigger:'blur'},
-        //   {type: "number", message: '建筑面积必须为数字值（平方米） 例：200'},
-        // ],
+        thirdTuition:[ //初中学费
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        fourTuition:[ //高中学费
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        website:[ //官网
+          {required:true,validator: website,trigger: 'blur' }
+        ],
+        telephone:[ //电话
+        ],
+        interCourseFoundedTime:[ //国际学校成立时间
+          {validator: foundingTime,trigger: 'blur' }
+        ],
+        course:[//国际课程
+          {required:true,message:"选项不能为空",trigger:'blur'}
+        ],
+         authentication:[ //认证组织
+          {required:true,message:"选项不能为空",trigger:'blur'}
+        ],
+        students:[ //学生总人数
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        studentCapacity:[//学生容量
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        graduatedStuNum:[//毕业班人数
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        stuDominantNationality:[//学生主要国籍
+        ],
+        staffNum:[//员工数量
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        teacherNum:[//教师数量
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        foreignTeacherNum:[//外籍教师数量
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        teacherStuRatio:[//师生比
+        ],
+        coveredArea:[//占地面积
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        builtArea:[//建筑面积
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
         hardware:[ //硬件设施
           // {required:true,message:"硬件不能为空",trigger:'blur'},
         ],
@@ -905,6 +925,20 @@ export default {
     width: 178px;
     height: 178px;
     display: block;
+  }
+  /deep/#addFlexTwo{
+    display: flex;
+    i{
+      margin-left: 10px;
+      color: #999;
+    }
+  }
+  /deep/#addFlex .el-form-item__content {
+    display: flex;
+    i{
+      margin-left: 10px;
+      color: #999;
+    }
   }
   // 地区提示框
   #citySpan{
