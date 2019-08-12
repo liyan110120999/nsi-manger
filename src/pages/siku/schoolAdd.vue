@@ -4,9 +4,9 @@
     <div class="addTips">注意：带※标记的为必填项</div>
     <div class="addBasic">
       <div class="addBaH">课程信息</div>
-      <el-form ref="form" :model="form" class="createNews"  label-width="160px">
+      <el-form ref="form" :model="form" class="createNews" :rules="rules" label-width="160px">
 
-        <el-form-item label="学校名字" prop="schoolName" id="addFlex">
+        <el-form-item label="学校名字" prop="schoolName" class="addFlex">
           <el-input v-model.trim="form.schoolName" @blur="CheckSchool"></el-input>
           <i>学校名字不能为空</i>
         </el-form-item>
@@ -58,11 +58,11 @@
             <!-- <span v-if="citySpan == true" id="citySpan">地区不能为空</span> -->
           </p>
         </div>
-    <p>
-        <el-form-item label="地址" prop="address" id="addFlex">
+ 
+        <el-form-item label="地址" prop="address" class="addFlex">
           <el-input v-model="form.address" ></el-input>
         </el-form-item>
-        <el-form-item label="成立时间" prop="foundingTime" id="addFlex">
+        <el-form-item label="成立时间" prop="foundingTime" class="addFlex">
           <el-input v-model.number="form.foundingTime" ></el-input>
           <i>请输入四位数字</i>
         </el-form-item>
@@ -75,7 +75,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="学制" prop="schoolSystem" >
-          <div id="addFlexTwo">
+          <div class="addFlexTwo">
             <el-input v-model="form.schoolSystem" :disabled="true"></el-input>
             <i>请分号分割 例：幼儿园;小学;初中;</i>
           </div>
@@ -86,19 +86,19 @@
             <el-checkbox label="高中;" name="schoolSystem">高中</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="幼儿园-学费" prop="oneTuition" id="addFlex">
+        <el-form-item label="幼儿园-学费" prop="oneTuition" class="addFlex">
           <el-input v-model.number="form.oneTuition" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="小学-学费" prop="twoTuition" id="addFlex">
+        <el-form-item label="小学-学费" prop="twoTuition" class="addFlex">
           <el-input v-model="form.twoTuition" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="初中-学费" prop="thirdTuition" id="addFlex">
+        <el-form-item label="初中-学费" prop="thirdTuition" class="addFlex">
           <el-input v-model.number="form.thirdTuition" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="高中-学费" prop="fourTuition" id="addFlex">
+        <el-form-item label="高中-学费" prop="fourTuition" class="addFlex">
           <el-input v-model.number="form.fourTuition" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
@@ -108,12 +108,12 @@
         <el-form-item label="电话" prop="telephone">
           <el-input v-model="form.telephone" ></el-input>
         </el-form-item>
-        <el-form-item label="国际课程成立时间" prop="interCourseFoundedTime" id="addFlex">
+        <el-form-item label="国际课程成立时间" prop="interCourseFoundedTime" class="addFlex">
           <el-input v-model.number="form.interCourseFoundedTime" ></el-input>
           <i>需要为四位整数 例：2019</i>
         </el-form-item>
         <el-form-item label="国际课程" prop="course">
-          <div id="addFlexTwo">
+          <div class="addFlexTwo">
             <el-input v-model="form.course"></el-input>
             <i>请分号分割 例:IPC;OMYC;PGA;</i>
           </div>
@@ -144,7 +144,7 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="认证&组织" prop="authentication">
-          <div id="addFlexTwo">
+          <div class="addFlexTwo">
             <el-input v-model="form.authentication"></el-input>
             <i>请分号分割 例:CIE;Edexcel;OxfordAQA;</i>
           </div>
@@ -171,42 +171,42 @@
             <el-checkbox label="THE DUKE OF EDINBURGH’S INTERNATIONAL AWARD;" name="authentication">THE DUKE OF EDINBURGH’S INTERNATIONAL AWARD</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="学生总人数" prop="students" id="addFlex">
+        <el-form-item label="学生总人数" prop="students" class="addFlex">
           <el-input v-model.number="form.students" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="学生容量" prop="studentCapacity" id="addFlex">
+        <el-form-item label="学生容量" prop="studentCapacity" class="addFlex">
           <el-input v-model.number="form.studentCapacity" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="毕业班人数" prop="graduatedStuNum" id="addFlex">
+        <el-form-item label="毕业班人数" prop="graduatedStuNum" class="addFlex">
           <el-input v-model.number="form.graduatedStuNum" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="学生主要国籍" prop="stuDominantNationality" id="addFlex">
+        <el-form-item label="学生主要国籍" prop="stuDominantNationality" class="addFlex">
           <el-input v-model="form.stuDominantNationality" ></el-input>
           <i>请分号分割 例：中国;美国;英国</i>
         </el-form-item>
-        <el-form-item label="员工数量" prop="staffNum" id="addFlex">
+        <el-form-item label="员工数量" prop="staffNum" class="addFlex">
           <el-input v-model.number="form.staffNum" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="教师数量" prop="teacherNum" id="addFlex">
+        <el-form-item label="教师数量" prop="teacherNum" class="addFlex">
           <el-input v-model.number="form.teacherNum" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="外籍教师数量" prop="foreignTeacherNum" id="addFlex">
+        <el-form-item label="外籍教师数量" prop="foreignTeacherNum" class="addFlex">
           <el-input v-model.number="form.foreignTeacherNum" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
         <el-form-item label="师生比" prop="teacherStuRatio">
           <el-input v-model="form.teacherStuRatio" ></el-input>
         </el-form-item>
-        <el-form-item label="占地面积(亩)" prop="coveredArea" id="addFlex">
+        <el-form-item label="占地面积(亩)" prop="coveredArea" class="addFlex">
           <el-input v-model.number="form.coveredArea" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="建筑面积(平方米)" prop="builtArea" id="addFlex">
+        <el-form-item label="建筑面积(平方米)" prop="builtArea" class="addFlex">
           <el-input v-model.number="form.builtArea" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
@@ -226,104 +226,111 @@
 
 
 
-
-        <el-form-item label="大图1" prop="schoolShowOne">
-          <el-input v-model="form.schoolShowOne" ></el-input>
-          <el-upload
-            class="upload-demo"
-            :action="tutscOne"
-            :on-success="handleAvatarSuccessOne"
-            :before-upload="beforeAvatarUpload"
-            :limit="1"
-            :on-exceed="handleExceed"
-            >
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-
+        <div>
+          <div class="logoImgThree">
+            <el-form-item label="大图1" prop="schoolShowOne" class="logoBtn"></el-form-item>
+            <el-input v-model="form.schoolShowOne" class="el_inputOne"></el-input>
+            <el-upload
+                class="upload-demo deme_upload"
+                :action="tutscOne"
+                :on-success="handleAvatarSuccessOne"
+                :before-upload="beforeAvatarUpload"
+                :limit="1"
+                :on-exceed="handleExceed"
+                >
+                  <el-button size="small" type="primary" class="btnUpata">点击上传</el-button>
+                  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                </el-upload>
+          </div>
           <img v-if="logoShowOne" :src="form.schoolShowOne" @click="LogoMaxOne(form.schoolShowOne)" class="logoImg">
+        </div>
 
-        </el-form-item>
+        <div>
+          <div class="logoImgThree">
+            <el-form-item label="大图2" prop="schoolShowTwo" class="logoBtn"></el-form-item>
+            <el-input v-model="form.schoolShowTwo"  class="el_inputOne"></el-input>
+            <el-upload
+              class="upload-demo deme_upload"
+              :action="tutscOne"
+              :on-success="handleAvatarSuccessTwo"
+              :before-upload="beforeAvatarUpload"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :limit="1"
+              :on-exceed="handleExceed"
+              :file-list="fileList">
+              <el-button size="small" type="primary"  class="btnUpata">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+          </div>
+          
+            <img v-if="logoShowTwo" :src="form.schoolShowTwo" class="logoImg">
+        </div>
 
+        <div>
+          <div class="logoImgThree">
+            <el-form-item label="大图3" prop="schoolShowThird" class="logoBtn"></el-form-item>
+            <el-input v-model="form.schoolShowThird"  class="el_inputOne"></el-input>
+            <el-upload
+              class="upload-demo deme_upload"
+              :action="tutscOne"
+              :on-success="handleAvatarSuccessThird"
+              :before-upload="beforeAvatarUpload"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :limit="1"
+              :on-exceed="handleExceed"
+              :file-list="fileList">
+              <el-button size="small" type="primary"  class="btnUpata">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+          </div>
+            <img v-if="logoShowThird" :src="form.schoolShowTwo" class="logoImg">
+        </div>
 
-        <el-form-item label="大图二" prop="schoolShowTwo">
-          <el-input v-model="form.schoolShowTwo" ></el-input>
-          <el-upload
-            class="upload-demo"
-            :action="tutscOne"
-            :on-success="handleAvatarSuccessTwo"
-            :before-upload="beforeAvatarUpload"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :limit="1"
-            :on-exceed="handleExceed"
-            :file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-          <img v-if="logoShowTwo" :src="form.schoolShowTwo" class="logoImg">
-        </el-form-item>
-        <el-form-item label="大图3" prop="schoolShowThird">
-          <el-input v-model="form.schoolShowThird" ></el-input>
-          <el-upload
-            class="upload-demo"
-            :action="tutscOne"
-            :on-success="handleAvatarSuccessThird"
-            :before-upload="beforeAvatarUpload"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            multiple
-            :limit="1"
-            :on-exceed="handleExceed"
-            :file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-          <img v-if="logoShowThird" :src="form.schoolShowThird" class="logoImg">
-        </el-form-item>
-        <el-form-item label="大图4" prop="schoolShowFour">
-          <el-input v-model="form.schoolShowFour" ></el-input>
-          <el-upload
-            class="upload-demo"
-            :action="tutscOne"
-            :on-success="handleAvatarSuccessFour"
-            :before-upload="beforeAvatarUpload"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            multiple
-            :limit="1"
-            :on-exceed="handleExceed"
-            :file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-          <img v-if="logoShowFour" :src="form.schoolShowFour" class="logoImg">
-        </el-form-item>
-        <el-form-item label="大图5" prop="schoolShowFive">
-          <el-input v-model="form.schoolShowFive" ></el-input>
-          <el-upload
-            class="upload-demo"
-            :action="tutscOne"
-            :on-success="handleAvatarSuccessFive"
-            :before-upload="beforeAvatarUpload"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            multiple
-            :limit="1"
-            :on-exceed="handleExceed"
-            :file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-          <img v-if="logoShowFive" :src="form.schoolShowFive" class="logoImg">
-        </el-form-item>
+        <div>
+          <div class="logoImgThree">
+            <el-form-item label="大图4" prop="schoolShowFour" class="logoBtn"></el-form-item>
+            <el-input v-model="form.schoolShowFour"  class="el_inputOne"></el-input>
+            <el-upload
+              class="upload-demo deme_upload"
+              :action="tutscOne"
+              :on-success="handleAvatarSuccessFour"
+              :before-upload="beforeAvatarUpload"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :limit="1"
+              :on-exceed="handleExceed"
+              :file-list="fileList">
+              <el-button size="small" type="primary"  class="btnUpata">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+          </div>
+          
+            <img v-if="logoShowFour" :src="form.schoolShowTwo" class="logoImg">
+        </div>
 
-
-
-
+        <div>
+          <div class="logoImgThree">
+            <el-form-item label="大图5" prop="schoolShowFive" class="logoBtn"></el-form-item>
+            <el-input v-model="form.schoolShowFive"  class="el_inputOne"></el-input>
+            <el-upload
+              class="upload-demo deme_upload"
+              :action="tutscOne"
+              :on-success="handleAvatarSuccessFive"
+              :before-upload="beforeAvatarUpload"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :limit="1"
+              :on-exceed="handleExceed"
+              :file-list="fileList">
+              <el-button size="small" type="primary"  class="btnUpata">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+          </div>
+          
+            <img v-if="logoShowFour" :src="form.schoolShowFive" class="logoImg">
+        </div>
 
         <el-form-item label="学校简介" prop="schoolDesc">
           <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.schoolDesc"></el-input>
@@ -337,7 +344,7 @@
           <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.studentEnrollment"></el-input>
           <!-- <el-input v-model="form.studentEnrollment" ></el-input> -->
         </el-form-item>
-        <el-form-item label="留学生留学国家" prop="studeAbroadCountries" id="addFlex">
+        <el-form-item label="留学生留学国家" prop="studeAbroadCountries" class="addFlex">
           <el-input v-model="form.studeAbroadCountries" ></el-input>
           <i>请分号分割 例：中国;美国;英国</i>
         </el-form-item>
@@ -377,7 +384,7 @@
         <el-form-item label="提交人">
           <el-input v-model="form.submitter" ></el-input>
         </el-form-item>
-    </p>
+   
         <el-form-item class="addBtn">
           <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
           <el-button>取消</el-button>
@@ -412,65 +419,65 @@ import axios from "axios";
 import store from '../../vuex/store.js'
 export default {
   data() {
-    // //学校英文名字验证
-    // var schoolEnglishName = (rele,value,callback) =>{
-    //   let parent = /^[^\(\,]+[a-zA-Z]+$/;
-    //   if(value == ""){
-    //     callback();
-    //   }else{
-    //     if(parent.test(value)){
-    //       callback()
-    //     }else{
-    //       callback(new Error("格式不正确,不能出现中文或者特殊符号"));
-    //     }
+    //学校英文名字验证
+    var schoolEnglishName = (rele,value,callback) =>{
+      let parent = /^[^\(\,]+[a-zA-Z]+$/;
+      if(value == ""){
+        callback();
+      }else{
+        if(parent.test(value)){
+          callback()
+        }else{
+          callback(new Error("格式不正确,不能出现中文或者特殊符号"));
+        }
 
-    //   }
-    // };
-    // //验证成立时间
-    // var foundingTime = (rele,value,callback) =>{
-    //   if(value == ""){
-    //     callback()
-    //   }else{
-    //     if(!/^\d+$/.test(value)){
-    //       callback(new Error("格式不正确,请输入四位数字  例：2019"));
-    //     }else{
-    //       let num = value;
-    //       num = num.toString();
-    //       if(num.length == "4"){
-    //         callback()
-    //       }else{
-    //           callback(new Error("格式不正确,请输入四位数字  例：2019"));
-    //       }
+      }
+    };
+    //验证成立时间
+    var foundingTime = (rele,value,callback) =>{
+      if(value == "" || value == null){
+        callback()
+      }else{
+        if(!/^\d+$/.test(value)){
+          callback(new Error("格式不正确,请输入四位数字  例：2019"));
+        }else{
+          let num = value;
+          num = num.toString();
+          if(num.length == "4"){
+            callback()
+          }else{
+              callback(new Error("格式不正确,请输入四位数字  例：2019"));
+          }
 
-    //     }
-    //   }
-    // };
-    // //验证网址头
-    // var website = (rele,value,callback) =>{
-    //   if(value == ""){
-    //     callback();
-    //   }else{
-    //     if(value.indexOf("http") == 0 || value.indexOf("https") == 0){
-    //       callback(new Error("禁止出现 http://或https:// 开头 例:baidu.com"));
-    //     }else{
-    //       callback()
-    //     }
-    //   }
-    // };
-    // //学费  容量
-    // var twoTuition = (rele,value,callback) =>{
-    //   if(value == ""){
-    //       console.log("ronliang1111")
-    //       callback()
-    //   }else{
-    //     if(!/^\d+$/.test(value)){
-    //       console.log("不是整数");
-    //       callback(new Error("必须为数字值 例：25000"));
-    //     }else{
-    //       callback()
-    //     }
-    //   }
-    // };
+        }
+      }
+    };
+    //验证网址头
+    var website = (rele,value,callback) =>{
+      if(value == "" || value == null){
+        callback();
+      }else{
+        if(value.indexOf("http") == 0 || value.indexOf("https") == 0){
+          callback(new Error("禁止出现 http://或https:// 开头 例:baidu.com"));
+        }else{
+          callback()
+        }
+      }
+    };
+    //学费  容量
+    var twoTuition = (rele,value,callback) =>{
+      if(value == "" || value == null){
+          console.log("ronliang1111")
+          callback()
+      }else{
+        if(!/^\d+$/.test(value)){
+          console.log("不是整数");
+          callback(new Error("必须为数字值 例：25000"));
+        }else{
+          callback()
+        }
+      }
+    };
     return {
       tutsc:axios.defaults.baseURL+"/new/school/upload_logo.do?" + "schoolId=" + this.$route.query.id,
       tutscOne:axios.defaults.baseURL+"/new/school/upload_img.do?" + "schoolId=" + this.$route.query.id,
@@ -551,91 +558,91 @@ export default {
         yearOfData:2019, //数据年份
       },
       //表单验证
-      // rules:{
-      //   schoolName:[ //学校名字
-      //     {required:true,message:"学校名字不能为空",trigger:'blur'},
-      //   ],
-      //   schoolEnglishName:[ //学校英文名字
-      //     {required:true,validator: schoolEnglishName,trigger: 'blur' }
-      //   ],
-      //   schoolProperties:[ //学校性质
-      //   ],
-      //   address:[ //地址
-      //     {required:true,message:"地址不能为空",trigger:'blur'}
-      //   ],
-      //   foundingTime:[ //成立时间
-      //     {validator: foundingTime,trigger: 'blur' }
-      //   ],
-      //   operationState:[//运营状态
-      //     {required:true,message:"选项不能为空",trigger:'blur'}
-      //   ],
-      //   schoolSystem:[//学制
-      //     {required:true,message:"选项不能为空",trigger:'blur'}
-      //   ],
-      //   oneTuition:[ //幼儿园学费
-      //     {required:true,validator: twoTuition,trigger: 'blur' }
-      //   ],
-      //   twoTuition:[ //小学学费
-      //     {required:true,validator: twoTuition,trigger: 'blur' }
-      //   ],
-      //   thirdTuition:[ //初中学费
-      //     {required:true,validator: twoTuition,trigger: 'blur' }
-      //   ],
-      //   fourTuition:[ //高中学费
-      //     {required:true,validator: twoTuition,trigger: 'blur' }
-      //   ],
-      //   website:[ //官网
-      //     {required:true,validator: website,trigger: 'blur' }
-      //   ],
-      //   telephone:[ //电话
-      //   ],
-      //   interCourseFoundedTime:[ //国际学校成立时间
-      //     {validator: foundingTime,trigger: 'blur' }
-      //   ],
-      //   course:[//国际课程
-      //     {required:true,message:"选项不能为空",trigger:'blur'}
-      //   ],
-      //    authentication:[ //认证组织
-      //     {required:true,message:"选项不能为空",trigger:'blur'}
-      //   ],
-      //   students:[ //学生总人数
-      //     {required:true,validator: twoTuition,trigger: 'blur' }
-      //   ],
-      //   studentCapacity:[//学生容量
-      //     {required:true,validator: twoTuition,trigger: 'blur' }
-      //   ],
-      //   graduatedStuNum:[//毕业班人数
-      //     {required:true,validator: twoTuition,trigger: 'blur' }
-      //   ],
-      //   stuDominantNationality:[//学生主要国籍
-      //   ],
-      //   staffNum:[//员工数量
-      //     {required:true,validator: twoTuition,trigger: 'blur' }
-      //   ],
-      //   teacherNum:[//教师数量
-      //     {required:true,validator: twoTuition,trigger: 'blur' }
-      //   ],
-      //   foreignTeacherNum:[//外籍教师数量
-      //     {required:true,validator: twoTuition,trigger: 'blur' }
-      //   ],
-      //   teacherStuRatio:[//师生比
-      //   ],
-      //   coveredArea:[//占地面积
-      //     {required:true,validator: twoTuition,trigger: 'blur' }
-      //   ],
-      //   builtArea:[//建筑面积
-      //     {required:true,validator: twoTuition,trigger: 'blur' }
-      //   ],
-      //   hardware:[ //硬件设施
-      //     // {required:true,message:"硬件不能为空",trigger:'blur'},
-      //   ],
-      //   investment:[//投资信息
+      rules:{
+        schoolName:[ //学校名字
+          {required:true,message:"学校名字不能为空",trigger:'blur'},
+        ],
+        schoolEnglishName:[ //学校英文名字
+          {required:true,validator: schoolEnglishName,trigger: 'blur' }
+        ],
+        schoolProperties:[ //学校性质
+        ],
+        address:[ //地址
+          {required:true,message:"地址不能为空",trigger:'blur'}
+        ],
+        foundingTime:[ //成立时间
+          {validator: foundingTime,trigger: 'blur' }
+        ],
+        operationState:[//运营状态
+          // {required:true,message:"选项不能为空",trigger:'blur'}
+        ],
+        schoolSystem:[//学制
+          // {required:true,message:"选项不能为空",trigger:'blur'}
+        ],
+        oneTuition:[ //幼儿园学费
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        twoTuition:[ //小学学费
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        thirdTuition:[ //初中学费
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        fourTuition:[ //高中学费
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        website:[ //官网
+          {required:true,validator: website,trigger: 'blur' }
+        ],
+        telephone:[ //电话
+        ],
+        interCourseFoundedTime:[ //国际学校成立时间
+          {validator: foundingTime,trigger: 'blur' }
+        ],
+        course:[//国际课程
+          // {required:true,message:"选项不能为空",trigger:'blur'}
+        ],
+         authentication:[ //认证组织
+          // {required:true,message:"选项不能为空",trigger:'blur'}
+        ],
+        students:[ //学生总人数
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        studentCapacity:[//学生容量
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        graduatedStuNum:[//毕业班人数
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        stuDominantNationality:[//学生主要国籍
+        ],
+        staffNum:[//员工数量
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        teacherNum:[//教师数量
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        foreignTeacherNum:[//外籍教师数量
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        teacherStuRatio:[//师生比
+        ],
+        coveredArea:[//占地面积
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        builtArea:[//建筑面积
+          {required:true,validator: twoTuition,trigger: 'blur' }
+        ],
+        hardware:[ //硬件设施
+          // {required:true,message:"硬件不能为空",trigger:'blur'},
+        ],
+        investment:[//投资信息
 
-      //   ],
-      //   remark:[ //备注
+        ],
+        remark:[ //备注
 
-      //   ],
-      // },
+        ],
+      },
 
     }
 
@@ -1080,20 +1087,21 @@ export default {
     height: 178px;
     display: block;
   }
-  /deep/#addFlexTwo{
+  /deep/.addFlexTwo{
     display: flex;
     i{
       margin-left: 10px;
       color: #999;
     }
   }
-  /deep/#addFlex .el-form-item__content {
+  /deep/.addFlex .el-form-item__content {
     display: flex;
     i{
       margin-left: 10px;
       color: #999;
     }
   }
+ 
   // 地区提示框
   #citySpan{
     color: #f56c6c;
@@ -1111,5 +1119,17 @@ export default {
     // background: red;
     // top: 0px;
     // left: 0px;
+  }
+  .logoImgThree{
+    display: flex;
+    .el_inputOne{
+      margin-top: 30px;
+    }
+    .btnUpata{
+      margin-top: 33px;
+    }
+    .deme_upload{
+      margin-left: -60px;
+    }
   }
 </style>
