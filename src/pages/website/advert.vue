@@ -66,7 +66,7 @@
       <el-form :model="flagwebsiteTableData" label-width="140px" class="updateCardForm">
         <el-form-item label="名称">
           <el-input v-model="flagwebsiteTableData.adtext" type="text"></el-input>
-        </el-form-item> 
+        </el-form-item>
         <el-form-item label="封面图片地址">
           <el-input style="display:inline-block;float:left;" v-model="flagwebsiteTableData.imgurl"  type="text"></el-input>
           <el-upload
@@ -83,7 +83,7 @@
         </el-form-item>
         <el-form-item label="跳转链接">
           <el-input v-model="flagwebsiteTableData.clickurl" type="text"></el-input>
-        </el-form-item> 
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
           <el-button @click="puchaDrag=false">取 消</el-button>
@@ -91,7 +91,7 @@
       </div>
     </el-dialog>
 </div>
-  
+
 </template>
 
 <script>
@@ -209,7 +209,7 @@
           that.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       }
 

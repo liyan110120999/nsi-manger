@@ -19,3 +19,5 @@ export const getSchoolDelete = p => get('/manager/new/school/delete.do', p)
 export const getvislist = p => post('/activity/vis_list.do', p)
 //活动管理 vis 已交费
 export const getvisorder = p => post('/activity/vis_orderList.do', p)
+//村小库  图片logo上传
+export const getupolad = p => post('/new/school/upload_logo.do', p)

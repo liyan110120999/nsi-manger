@@ -4,7 +4,7 @@
     <div class="addTips">注意：带※标记的为必填项</div>
     <div class="addBasic">
       <div class="addBaH">课程信息</div>
-      <el-form ref="form" :model="form" class="createNews" :rules="rules" label-width="160px">
+      <el-form ref="form" :model="form" class="createNews"  label-width="160px">
 
         <el-form-item label="学校名字" prop="schoolName" id="addFlex">
           <el-input v-model.trim="form.schoolName" @blur="CheckSchool"></el-input>
@@ -23,14 +23,15 @@
 
 
 
-        <el-form-item>
+        <el-form-item label="上传学校logo">
+          <el-input v-model="form.schoolLogo"></el-input>
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            :action="tutsc"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <img v-if="form.schoolLogo" :src="form.schoolLogo" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -221,21 +222,109 @@
         <el-form-item label="学校logo" prop="schoolLogo">
           <el-input v-model="form.schoolLogo" ></el-input>
         </el-form-item>
+
+
+
+
+
         <el-form-item label="大图1" prop="schoolShowOne">
           <el-input v-model="form.schoolShowOne" ></el-input>
+          <el-upload
+            class="upload-demo"
+            :action="tutscOne"
+            :on-success="handleAvatarSuccessOne"
+            :before-upload="beforeAvatarUpload"
+            :limit="1"
+            :on-exceed="handleExceed"
+            >
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+
+          <img v-if="logoShowOne" :src="form.schoolShowOne" @click="LogoMaxOne(form.schoolShowOne)" class="logoImg">
+
         </el-form-item>
+
+
         <el-form-item label="大图二" prop="schoolShowTwo">
           <el-input v-model="form.schoolShowTwo" ></el-input>
+          <el-upload
+            class="upload-demo"
+            :action="tutscOne"
+            :on-success="handleAvatarSuccessTwo"
+            :before-upload="beforeAvatarUpload"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :limit="1"
+            :on-exceed="handleExceed"
+            :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+          <img v-if="logoShowTwo" :src="form.schoolShowTwo" class="logoImg">
         </el-form-item>
         <el-form-item label="大图3" prop="schoolShowThird">
           <el-input v-model="form.schoolShowThird" ></el-input>
+          <el-upload
+            class="upload-demo"
+            :action="tutscOne"
+            :on-success="handleAvatarSuccessThird"
+            :before-upload="beforeAvatarUpload"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            multiple
+            :limit="1"
+            :on-exceed="handleExceed"
+            :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+          <img v-if="logoShowThird" :src="form.schoolShowThird" class="logoImg">
         </el-form-item>
         <el-form-item label="大图4" prop="schoolShowFour">
           <el-input v-model="form.schoolShowFour" ></el-input>
+          <el-upload
+            class="upload-demo"
+            :action="tutscOne"
+            :on-success="handleAvatarSuccessFour"
+            :before-upload="beforeAvatarUpload"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            multiple
+            :limit="1"
+            :on-exceed="handleExceed"
+            :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+          <img v-if="logoShowFour" :src="form.schoolShowFour" class="logoImg">
         </el-form-item>
         <el-form-item label="大图5" prop="schoolShowFive">
           <el-input v-model="form.schoolShowFive" ></el-input>
+          <el-upload
+            class="upload-demo"
+            :action="tutscOne"
+            :on-success="handleAvatarSuccessFive"
+            :before-upload="beforeAvatarUpload"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            multiple
+            :limit="1"
+            :on-exceed="handleExceed"
+            :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+          <img v-if="logoShowFive" :src="form.schoolShowFive" class="logoImg">
         </el-form-item>
+
+
+
+
+
         <el-form-item label="学校简介" prop="schoolDesc">
           <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.schoolDesc"></el-input>
           <!-- <el-input v-model="form.schoolDesc" ></el-input> -->
@@ -307,12 +396,15 @@
         <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+    <div class="maxlogo">
+
+    </div>
   </div>
 </template>
 
 <script>
 // import qs from 'qs';
-import {getSchoolAdd,getDetails,getSchoolUpdate,getSchoolCheck} from '@/api/api';
+import {getSchoolAdd,getDetails,getSchoolUpdate,getSchoolCheck,getupolad} from '@/api/api';
 import utils from '@/api/utils.js'
 import {provice} from '../../api/city.js'
 import bus from "@/api/bus";
@@ -320,66 +412,78 @@ import axios from "axios";
 import store from '../../vuex/store.js'
 export default {
   data() {
-    //学校英文名字验证
-    var schoolEnglishName = (rele,value,callback) =>{
-      let parent = /^[^\(\,]+[a-zA-Z]+$/;
-      if(value == ""){
-        callback();
-      }else{
-        if(parent.test(value)){
-          callback()
-        }else{
-          callback(new Error("格式不正确,不能出现中文或者特殊符号"));
-        }
+    // //学校英文名字验证
+    // var schoolEnglishName = (rele,value,callback) =>{
+    //   let parent = /^[^\(\,]+[a-zA-Z]+$/;
+    //   if(value == ""){
+    //     callback();
+    //   }else{
+    //     if(parent.test(value)){
+    //       callback()
+    //     }else{
+    //       callback(new Error("格式不正确,不能出现中文或者特殊符号"));
+    //     }
 
-      }
-    };
-    //验证成立时间
-    var foundingTime = (rele,value,callback) =>{
-      if(value == ""){
-        callback()
-      }else{
-        if(!/^\d+$/.test(value)){
-          callback(new Error("格式不正确,请输入四位数字  例：2019"));
-        }else{
-          let num = value;
-          num = num.toString();
-          if(num.length == "4"){
-            callback()
-          }else{
-              callback(new Error("格式不正确,请输入四位数字  例：2019"));
-          }
+    //   }
+    // };
+    // //验证成立时间
+    // var foundingTime = (rele,value,callback) =>{
+    //   if(value == ""){
+    //     callback()
+    //   }else{
+    //     if(!/^\d+$/.test(value)){
+    //       callback(new Error("格式不正确,请输入四位数字  例：2019"));
+    //     }else{
+    //       let num = value;
+    //       num = num.toString();
+    //       if(num.length == "4"){
+    //         callback()
+    //       }else{
+    //           callback(new Error("格式不正确,请输入四位数字  例：2019"));
+    //       }
 
-        }
-      }
-    };
-    //验证网址头
-    var website = (rele,value,callback) =>{
-      if(value == ""){
-        callback();
-      }else{
-        if(value.indexOf("http") == 0 || value.indexOf("https") == 0){
-          callback(new Error("禁止出现 http://或https:// 开头 例:baidu.com"));
-        }else{
-          callback()
-        }
-      }
-    };
-    //学费  容量
-    var twoTuition = (rele,value,callback) =>{
-      if(value == ""){
-          callback()
-      }else{
-        if(!/^\d+$/.test(value)){
-          console.log("不是整数");
-          callback(new Error("必须为数字值 例：25000"));
-        }else{
-          callback()
-        }
-      }
-    };
+    //     }
+    //   }
+    // };
+    // //验证网址头
+    // var website = (rele,value,callback) =>{
+    //   if(value == ""){
+    //     callback();
+    //   }else{
+    //     if(value.indexOf("http") == 0 || value.indexOf("https") == 0){
+    //       callback(new Error("禁止出现 http://或https:// 开头 例:baidu.com"));
+    //     }else{
+    //       callback()
+    //     }
+    //   }
+    // };
+    // //学费  容量
+    // var twoTuition = (rele,value,callback) =>{
+    //   if(value == ""){
+    //       console.log("ronliang1111")
+    //       callback()
+    //   }else{
+    //     if(!/^\d+$/.test(value)){
+    //       console.log("不是整数");
+    //       callback(new Error("必须为数字值 例：25000"));
+    //     }else{
+    //       callback()
+    //     }
+    //   }
+    // };
     return {
+      tutsc:axios.defaults.baseURL+"/new/school/upload_logo.do?" + "schoolId=" + this.$route.query.id,
+      tutscOne:axios.defaults.baseURL+"/new/school/upload_img.do?" + "schoolId=" + this.$route.query.id,
+      fileList2: [],
+      logoShowOne:false,
+      logoShowTwo:false,
+      logoShowThird:false,
+      logoShowFour:false,
+      logoShowFive:false,
+      dialogVisible: false,
+      schoolLogo:"",
       provice:provice,
+      srcList:[],//大图预览
       fileList: [],
       curshe:0,
       citySelect:false,
@@ -390,7 +494,6 @@ export default {
       inputCheckboxCourse:[], //课程
       inputCheckboxauthentication:[], //认证组织
       centerDialogVisible: false,//提示框
-      imageUrl: "",
       //表单属性
       form: {
         schoolName:"",  //学校名字
@@ -448,91 +551,91 @@ export default {
         yearOfData:2019, //数据年份
       },
       //表单验证
-      rules:{
-        schoolName:[ //学校名字
-          {required:true,message:"学校名字不能为空",trigger:'blur'},
-        ],
-        schoolEnglishName:[ //学校英文名字
-          {required:true,validator: schoolEnglishName,trigger: 'blur' }
-        ],
-        schoolProperties:[ //学校性质
-        ],
-        address:[ //地址
-          {required:true,message:"地址不能为空",trigger:'blur'}
-        ],
-        foundingTime:[ //成立时间
-          {validator: foundingTime,trigger: 'blur' }
-        ],
-        operationState:[//运营状态
-          {required:true,message:"选项不能为空",trigger:'blur'}
-        ],
-        schoolSystem:[//学制
-          {required:true,message:"选项不能为空",trigger:'blur'}
-        ],
-        oneTuition:[ //幼儿园学费
-          {required:true,validator: twoTuition,trigger: 'blur' }
-        ],
-        twoTuition:[ //小学学费
-          {required:true,validator: twoTuition,trigger: 'blur' }
-        ],
-        thirdTuition:[ //初中学费
-          {required:true,validator: twoTuition,trigger: 'blur' }
-        ],
-        fourTuition:[ //高中学费
-          {required:true,validator: twoTuition,trigger: 'blur' }
-        ],
-        website:[ //官网
-          {required:true,validator: website,trigger: 'blur' }
-        ],
-        telephone:[ //电话
-        ],
-        interCourseFoundedTime:[ //国际学校成立时间
-          {validator: foundingTime,trigger: 'blur' }
-        ],
-        course:[//国际课程
-          {required:true,message:"选项不能为空",trigger:'blur'}
-        ],
-         authentication:[ //认证组织
-          {required:true,message:"选项不能为空",trigger:'blur'}
-        ],
-        students:[ //学生总人数
-          {required:true,validator: twoTuition,trigger: 'blur' }
-        ],
-        studentCapacity:[//学生容量
-          {required:true,validator: twoTuition,trigger: 'blur' }
-        ],
-        graduatedStuNum:[//毕业班人数
-          {required:true,validator: twoTuition,trigger: 'blur' }
-        ],
-        stuDominantNationality:[//学生主要国籍
-        ],
-        staffNum:[//员工数量
-          {required:true,validator: twoTuition,trigger: 'blur' }
-        ],
-        teacherNum:[//教师数量
-          {required:true,validator: twoTuition,trigger: 'blur' }
-        ],
-        foreignTeacherNum:[//外籍教师数量
-          {required:true,validator: twoTuition,trigger: 'blur' }
-        ],
-        teacherStuRatio:[//师生比
-        ],
-        coveredArea:[//占地面积
-          {required:true,validator: twoTuition,trigger: 'blur' }
-        ],
-        builtArea:[//建筑面积
-          {required:true,validator: twoTuition,trigger: 'blur' }
-        ],
-        hardware:[ //硬件设施
-          // {required:true,message:"硬件不能为空",trigger:'blur'},
-        ],
-        investment:[//投资信息
+      // rules:{
+      //   schoolName:[ //学校名字
+      //     {required:true,message:"学校名字不能为空",trigger:'blur'},
+      //   ],
+      //   schoolEnglishName:[ //学校英文名字
+      //     {required:true,validator: schoolEnglishName,trigger: 'blur' }
+      //   ],
+      //   schoolProperties:[ //学校性质
+      //   ],
+      //   address:[ //地址
+      //     {required:true,message:"地址不能为空",trigger:'blur'}
+      //   ],
+      //   foundingTime:[ //成立时间
+      //     {validator: foundingTime,trigger: 'blur' }
+      //   ],
+      //   operationState:[//运营状态
+      //     {required:true,message:"选项不能为空",trigger:'blur'}
+      //   ],
+      //   schoolSystem:[//学制
+      //     {required:true,message:"选项不能为空",trigger:'blur'}
+      //   ],
+      //   oneTuition:[ //幼儿园学费
+      //     {required:true,validator: twoTuition,trigger: 'blur' }
+      //   ],
+      //   twoTuition:[ //小学学费
+      //     {required:true,validator: twoTuition,trigger: 'blur' }
+      //   ],
+      //   thirdTuition:[ //初中学费
+      //     {required:true,validator: twoTuition,trigger: 'blur' }
+      //   ],
+      //   fourTuition:[ //高中学费
+      //     {required:true,validator: twoTuition,trigger: 'blur' }
+      //   ],
+      //   website:[ //官网
+      //     {required:true,validator: website,trigger: 'blur' }
+      //   ],
+      //   telephone:[ //电话
+      //   ],
+      //   interCourseFoundedTime:[ //国际学校成立时间
+      //     {validator: foundingTime,trigger: 'blur' }
+      //   ],
+      //   course:[//国际课程
+      //     {required:true,message:"选项不能为空",trigger:'blur'}
+      //   ],
+      //    authentication:[ //认证组织
+      //     {required:true,message:"选项不能为空",trigger:'blur'}
+      //   ],
+      //   students:[ //学生总人数
+      //     {required:true,validator: twoTuition,trigger: 'blur' }
+      //   ],
+      //   studentCapacity:[//学生容量
+      //     {required:true,validator: twoTuition,trigger: 'blur' }
+      //   ],
+      //   graduatedStuNum:[//毕业班人数
+      //     {required:true,validator: twoTuition,trigger: 'blur' }
+      //   ],
+      //   stuDominantNationality:[//学生主要国籍
+      //   ],
+      //   staffNum:[//员工数量
+      //     {required:true,validator: twoTuition,trigger: 'blur' }
+      //   ],
+      //   teacherNum:[//教师数量
+      //     {required:true,validator: twoTuition,trigger: 'blur' }
+      //   ],
+      //   foreignTeacherNum:[//外籍教师数量
+      //     {required:true,validator: twoTuition,trigger: 'blur' }
+      //   ],
+      //   teacherStuRatio:[//师生比
+      //   ],
+      //   coveredArea:[//占地面积
+      //     {required:true,validator: twoTuition,trigger: 'blur' }
+      //   ],
+      //   builtArea:[//建筑面积
+      //     {required:true,validator: twoTuition,trigger: 'blur' }
+      //   ],
+      //   hardware:[ //硬件设施
+      //     // {required:true,message:"硬件不能为空",trigger:'blur'},
+      //   ],
+      //   investment:[//投资信息
 
-        ],
-        remark:[ //备注
+      //   ],
+      //   remark:[ //备注
 
-        ],
-      },
+      //   ],
+      // },
 
     }
 
@@ -668,7 +771,8 @@ export default {
           //判断是否有id字段  如果有id  编辑进入
           if(this.$route.query.hasOwnProperty('id')){
             this.form.id = this.$route.query.id;
-            console.log(1111)
+            console.log(typeof this.form.schoolShowOne);
+
             getSchoolUpdate(
               this.form
             ).then(res => {
@@ -718,12 +822,41 @@ export default {
       // this.isEdit = store.state.isEd;
 
       // console.log(this.isEdit);
-      console.log( this.form.course)
+      console.log( this.form.schoolShowOne)
     },
     //上传logo、
     handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+      this.form.schoolLogo = res.data.url;
+
     },
+    //上传大图one
+    handleAvatarSuccessOne(res, file) {
+      this.form.schoolShowOne =  res.data.url;
+      // this.dialogVisible =  true;
+      this.logoShowOne =  true;
+
+    },
+    //上传大图Two
+    handleAvatarSuccessTwo(res, file) {
+      this.form.schoolShowTwo =  res.data.url;
+      this.logoShowTwo =  true;
+    },
+    //上传大图Third
+    handleAvatarSuccessThird(res, file) {
+      this.form.schoolShowThird =  res.data.url;
+      this.logoShowThird =  true;
+    },
+    //上传大图Four
+    handleAvatarSuccessFour(res, file) {
+      this.form.schoolShowFour =  res.data.url;
+      this.logoShowFour =  true;
+    },
+    //上传大图Five
+    handleAvatarSuccessFive(res, file) {
+      this.form.schoolShowFive =  res.data.url;
+      this.logoShowFive =  true;
+    },
+
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 2;
@@ -735,10 +868,31 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!');
       }
       return isJPG && isLt2M;
+    },
+    //上传学校大图
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+
+
+
+    //大图学校图片
+    LogoMaxOne:function(aa){
+      console.log(aa)
     }
 
   },
   created() {
+    console.log()
     this.getData();
 
   },
@@ -945,5 +1099,17 @@ export default {
     color: #f56c6c;
     margin-left: 100px;
     padding: 0px;
+  }
+  .logoImg{
+    width: 150px;
+    height: 150px;
+  }
+  .maxlogo{
+    // width: 100px;
+    // height: 100px;
+    // position: fixed;
+    // background: red;
+    // top: 0px;
+    // left: 0px;
   }
 </style>

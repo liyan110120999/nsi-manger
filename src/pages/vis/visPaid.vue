@@ -23,31 +23,25 @@
       :data="visData"
       border
       style="width: 100%"
-      height="550">
+      height="640">
       <el-table-column
         align="center"
         fixed="left"
         type="selection"
-        width="55">
+        width="50">
+      </el-table-column>
+      <el-table-column
+        fixed="left"
+        prop="name"
+        align="center"
+        label="姓名"
+        width="120">
       </el-table-column>
       <el-table-column
         prop="company"
         align="center"
         label="公司"
-        fixed="left"
         :show-overflow-tooltip="true"
-        width="190">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        align="center"
-        label="姓名"
-        width="190">
-      </el-table-column>
-      <el-table-column
-        prop="ispublic"
-        align="center"
-        label="是否公开"
         width="190">
       </el-table-column>
       <el-table-column
@@ -65,6 +59,26 @@
         width="190">
       </el-table-column>
       <el-table-column
+        prop="phone"
+        align="center"
+        label="电话"
+        :show-overflow-tooltip="true"
+        width="190">
+      </el-table-column>
+       <el-table-column
+        prop="mail"
+        align="center"
+        label="邮箱"
+        :show-overflow-tooltip="true"
+        width="190">
+      </el-table-column>
+      <el-table-column
+        prop="ispublic"
+        align="center"
+        label="是否公开"
+        width="190">
+      </el-table-column>
+      <el-table-column
         prop="option01"
         align="center"
         label="选项1"
@@ -78,20 +92,8 @@
         :show-overflow-tooltip="true"
         width="190">
       </el-table-column>
-      <el-table-column
-        prop="mail"
-        align="center"
-        label="邮箱"
-        :show-overflow-tooltip="true"
-        width="190">
-      </el-table-column>
-      <el-table-column
-        prop="phone"
-        align="center"
-        label="电话"
-        :show-overflow-tooltip="true"
-        width="190">
-      </el-table-column>
+
+
     </el-table>
     <!-- 分页 -->
     <div class="block">
