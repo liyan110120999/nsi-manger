@@ -12,6 +12,8 @@
 import PanelGroup from '../../components/websiteIndex/PanelGroup'
 import LineChart from '../../components/websiteIndex/LineChart'
 
+console.log('version :', "0813-2");
+
 export default {
   name: 'home',
   data () {
@@ -45,7 +47,7 @@ export default {
               that.lineChartData.courseCount.push(response.data.data[i].courseCount)
               that.lineChartData.totalPrice.push(response.data.data[i].totalPrice)
             };
-            
+
         }).catch(function (response){
           console.log(response)
           that.$message({

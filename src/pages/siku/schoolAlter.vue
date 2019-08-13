@@ -2,7 +2,7 @@
   <div class="schoolAdd">
     <!-- <div class="addTitle">添加学校信息<i class="el-icon-close" @click="addCancel"></i></div> -->
     <div class="addBasic">
-      <div class="addBaH">{{totu}}</div>
+      <div class="addBaH">修改学校信息</div>
       <div class="addTips">注意：带※标记的为必填项</div>
       <el-form ref="form" :model="form" class="createNews" :rules="rules" label-width="160px">
 
@@ -21,28 +21,25 @@
           </el-select>
         </el-form-item>
 
-
         <div class="schoolImg">
           <div class="logoImgThree">
             <el-form-item label="上传学校logo" prop="schoolLogo" class="logoBtn"></el-form-item>
-            <el-input v-model="form.schoolLogo" class="el_inputOne" disabled></el-input>
+            <el-input v-model="form.schoolLogo" class="el_inputOne"></el-input>
             <el-upload
                 class="upload-demo deme_upload"
-                :disabled = true
                 :action="tutscOne"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
                 :limit="1"
                 :on-exceed="handleExceed"
                 >
-                  <el-button size="small" type="primary" class="btnUpata" disabled>点击上传</el-button>
+                  <el-button size="small" type="primary" class="btnUpata" >点击上传</el-button>
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                 </el-upload>
           </div>
           <el-upload
             class="avatar-uploader"
             :action="tutsc"
-            :disabled = true
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
@@ -103,7 +100,7 @@
         </el-form-item>
         <el-form-item label="学制" prop="schoolSystem" >
           <div class="addFlexTwo">
-            <el-input v-model="form.schoolSystem" :disabled=true></el-input>
+            <el-input v-model="form.schoolSystem" :disabled="true"></el-input>
             <i>请分号分割 例：幼儿园;小学;初中;</i>
           </div>
           <el-checkbox-group v-model="inputCheckbox">
@@ -256,13 +253,12 @@
             <el-upload
                 class="upload-demo deme_upload"
                 :action="tutscOne"
-                :disabled = true
                 :on-success="handleAvatarSuccessOne"
                 :before-upload="beforeAvatarUpload"
                 :limit="1"
                 :on-exceed="handleExceed"
                 >
-                  <el-button size="small" type="primary" class="btnUpata"  disabled>点击上传</el-button>
+                  <el-button size="small" type="primary" class="btnUpata"  >点击上传</el-button>
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                 </el-upload>
           </div>
@@ -276,7 +272,6 @@
             <el-upload
               class="upload-demo deme_upload"
               :action="tutscOne"
-              :disabled = true
               :on-success="handleAvatarSuccessTwo"
               :before-upload="beforeAvatarUpload"
               :on-preview="handlePreview"
@@ -284,7 +279,7 @@
               :limit="1"
               :on-exceed="handleExceed"
               :file-list="fileList">
-              <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
+              <el-button size="small" type="primary"  class="btnUpata" >点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
           </div>
@@ -299,7 +294,6 @@
             <el-upload
               class="upload-demo deme_upload"
               :action="tutscOne"
-              :disabled = true
               :on-success="handleAvatarSuccessThird"
               :before-upload="beforeAvatarUpload"
               :on-preview="handlePreview"
@@ -307,7 +301,7 @@
               :limit="1"
               :on-exceed="handleExceed"
               :file-list="fileList">
-              <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
+              <el-button size="small" type="primary"  class="btnUpata" >点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
           </div>
@@ -321,7 +315,6 @@
             <el-upload
               class="upload-demo deme_upload"
               :action="tutscOne"
-              :disabled = true
               :on-success="handleAvatarSuccessFour"
               :before-upload="beforeAvatarUpload"
               :on-preview="handlePreview"
@@ -329,7 +322,7 @@
               :limit="1"
               :on-exceed="handleExceed"
               :file-list="fileList">
-              <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
+              <el-button size="small" type="primary"  class="btnUpata" >点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
           </div>
@@ -343,7 +336,6 @@
             <el-input v-model="form.schoolShowFive"  class="el_inputOne"></el-input>
             <el-upload
               class="upload-demo deme_upload"
-              :disabled = true
               :action="tutscOne"
               :on-success="handleAvatarSuccessFive"
               :before-upload="beforeAvatarUpload"
@@ -352,7 +344,7 @@
               :limit="1"
               :on-exceed="handleExceed"
               :file-list="fileList">
-              <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
+              <el-button size="small" type="primary"  class="btnUpata" >点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
           </div>

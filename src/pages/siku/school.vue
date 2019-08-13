@@ -268,7 +268,7 @@ export default {
       // this.$nextTick(function () {
       //    bus.$emit("isEdit",1)
       // }),
-      this.$router.push({path:"/siku/schooAdd",query:{id:row}})
+      this.$router.push({path:"/siku/schoolAlter",query:{id:row}})
     },
     //搜索
     schoolSearch(){
