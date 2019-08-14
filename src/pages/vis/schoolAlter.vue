@@ -7,13 +7,13 @@
       <el-form ref="form" :model="form" class="createNews" :rules="rules" label-width="160px">
 
         <el-form-item label="学校名字" prop="schoolName" class="addFlex">
-          <el-input v-model.trim="form.schoolName"></el-input>
+          <el-input v-model.trim="form.schoolName" @blur="CheckSchool"></el-input>
           <i>学校名字不能为空</i>
         </el-form-item>
         <el-form-item label="学校英文名字" prop="schoolEnglishName">
           <el-input v-model.trim="form.schoolEnglishName" ></el-input>
         </el-form-item>
-        <el-form-item label="运营状态" prop="schoolProperties">
+        <el-form-item label="学校性质" prop="schoolProperties">
           <el-select v-model="form.schoolProperties" placeholder="请选择学校属性" :value-key="form.schoolProperties">
             <el-option label="运营中" value="运营中"></el-option>
             <el-option label="停办" value="停办"></el-option>
@@ -48,6 +48,20 @@
           </el-upload>
         </div>
 
+        <!-- <el-form-item label="上传学校logo" >
+          <el-input v-model="form.schoolLogo"></el-input>
+          <el-upload
+            class="avatar-uploader"
+            :action="tutsc"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="form.schoolLogo" :src="form.schoolLogo" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item> -->
+
+
 
         <div id="seleOp">
           <p>
@@ -76,7 +90,7 @@
           <el-input v-model.number="form.foundingTime" ></el-input>
           <i>请输入四位数字</i>
         </el-form-item>
-        <el-form-item label="学习性质" prop="operationState">
+        <el-form-item label="运营状态" prop="operationState">
           <el-select v-model="form.operationState" placeholder="请选择学校属性" :value-key="form.operationState">
             <el-option label="公办" value="公办"></el-option>
             <el-option label="民办" value="民办"></el-option>
@@ -86,7 +100,7 @@
         </el-form-item>
         <el-form-item label="学制" prop="schoolSystem" >
           <div class="addFlexTwo">
-            <el-input v-model="form.schoolSystem" :disabled=true></el-input>
+            <el-input v-model="form.schoolSystem" :disabled="true"></el-input>
             <i>请分号分割 例：幼儿园;小学;初中;</i>
           </div>
           <el-checkbox-group v-model="inputCheckbox">
@@ -346,103 +360,6 @@
           <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.accommodation"></el-input>
           <!-- <el-input v-model="form.accommodation" ></el-input> -->
         </el-form-item>
-
-        <!-- 招生信息 -->
-        <div class="RecruitStudents">
-          <h2>招生信息</h2>
-          <h4>幼儿园</h4>
-          <div class="Kindergarten">
-            <el-form-item label="招生对象" prop="target">
-              <el-input v-model="school.Kindergarten.招生对象"></el-input>
-            </el-form-item>
-            <el-form-item label="授课形式" prop="froml">
-              <el-input v-model="school.Kindergarten.授课形式" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学要求" prop="require">
-              <el-input v-model="school.Kindergarten.入学要求" ></el-input>
-            </el-form-item>
-            <el-form-item label="班级规模" prop="scale">
-              <el-input v-model="school.Kindergarten.班级规模" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学考试" prop="exam">
-              <el-input v-model="school.Kindergarten.入学考试" ></el-input>
-            </el-form-item>
-            <el-form-item label="是否住宿" prop="stay">
-              <el-input v-model="school.Kindergarten.是否住宿" ></el-input>
-            </el-form-item>
-          </div>
-
-          <h4>小学</h4>
-          <div class="Kindergarten">
-            <el-form-item label="招生对象" prop="target">
-              <el-input v-model="school.primarySchool.招生对象"></el-input>
-            </el-form-item>
-            <el-form-item label="授课形式" prop="froml">
-              <el-input v-model="school.primarySchool.授课形式" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学要求" prop="require">
-              <el-input v-model="school.primarySchool.入学要求" ></el-input>
-            </el-form-item>
-            <el-form-item label="班级规模" prop="scale">
-              <el-input v-model="school.primarySchool.班级规模" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学考试" prop="exam">
-              <el-input v-model="school.primarySchool.入学考试" ></el-input>
-            </el-form-item>
-            <el-form-item label="是否住宿" prop="stay">
-              <el-input v-model="school.primarySchool.是否住宿" ></el-input>
-            </el-form-item>
-          </div>
-
-          <h4>初中</h4>
-          <div class="Kindergarten">
-            <el-form-item label="招生对象" prop="target">
-              <el-input v-model="school.JuniorHighSchool.招生对象"></el-input>
-            </el-form-item>
-            <el-form-item label="授课形式" prop="froml">
-              <el-input v-model="school.JuniorHighSchool.授课形式" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学要求" prop="require">
-              <el-input v-model="school.JuniorHighSchool.入学要求" ></el-input>
-            </el-form-item>
-            <el-form-item label="班级规模" prop="scale">
-              <el-input v-model="school.JuniorHighSchool.班级规模" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学考试" prop="exam">
-              <el-input v-model="school.JuniorHighSchool.入学考试" ></el-input>
-            </el-form-item>
-            <el-form-item label="是否住宿" prop="stay">
-              <el-input v-model="school.JuniorHighSchool.是否住宿" ></el-input>
-          </el-form-item>
-          </div>
-
-           <h4>高中</h4>
-           <div class="Kindergarten">
-            <el-form-item label="招生对象" prop="target">
-              <el-input v-model="school.heightSchool.招生对象"></el-input>
-            </el-form-item>
-            <el-form-item label="授课形式" prop="froml">
-              <el-input v-model="school.heightSchool.授课形式" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学要求" prop="require">
-              <el-input v-model="school.heightSchool.入学要求" ></el-input>
-            </el-form-item>
-            <el-form-item label="班级规模" prop="scale">
-              <el-input v-model="school.heightSchool.班级规模" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学考试" prop="exam">
-              <el-input v-model="school.heightSchool.入学考试" ></el-input>
-            </el-form-item>
-            <el-form-item label="是否住宿" prop="stay">
-              <el-input v-model="school.heightSchool.是否住宿" ></el-input>
-            </el-form-item>
-           </div>
-
-          <!-- <button @click="addscjson">1111</button> -->
-           <el-button @click="addscjson">默认按钮</el-button>
-        </div>
-
-
         <el-form-item label="招生信息" prop="studentEnrollment">
           <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.studentEnrollment"></el-input>
           <!-- <el-input v-model="form.studentEnrollment" ></el-input> -->
@@ -585,6 +502,7 @@ export default {
       tutsc:axios.defaults.baseURL+"/new/school/upload_logo.do?" + "schoolId=" + this.$route.query.id,
       tutscOne:axios.defaults.baseURL+"/new/school/upload_img.do?" + "schoolId=" + this.$route.query.id,
       fileList2: [],
+      totu:"",
       logoShowOne:false,
       logoShowTwo:false,
       logoShowThird:false,
@@ -605,13 +523,6 @@ export default {
       inputCheckboxCourse:[], //课程
       inputCheckboxauthentication:[], //认证组织
       centerDialogVisible: false,//提示框
-       //表单属性
-      "school":{
-        "Kindergarten":{"招生对象":"无要求","授课形式":"英语","入学要求":"测试+面试","班级规模":"18-22人","入学考试":"数学英语","是否住宿":"是"},
-        "primarySchool":{"招生对象":"无要求","授课形式":"英语","入学要求":"测试+面试","班级规模":"18-22人","入学考试":"数学英语","是否住宿":"是"},
-        "JuniorHighSchool":{"招生对象":"无要求","授课形式":"英语","入学要求":"测试+面试","班级规模":"18-22人","入学考试":"数学英语","是否住宿":"是"},
-        "heightSchool":{"招生对象":"无要求","授课形式":"英语","入学要求":"测试+面试","班级规模":"18-22人","入学考试":"数学英语","是否住宿":"是"},
-      },
       //表单属性
       form: {
         schoolName:"",  //学校名字
@@ -759,7 +670,26 @@ export default {
 
   },
   methods:{
+    //判断学校是否重复
+    CheckSchool(){
+      if(this.$route.query.hasOwnProperty('id')){
 
+      }else{
+        console.log(11111);
+
+        getSchoolCheck({
+          schoolName:this.form.schoolName
+        }).then(res=>{
+          console.log(res)
+          if(res.msg == "学校名字已存在"){
+            this.centerDialogVisible = true
+          }
+        }).catch(error=>{
+          console.log(error)
+        })
+      }
+
+    },
     //下拉框
     CityProvice:function(){
       if(this.isEdit == store.state.isEd){
@@ -796,7 +726,7 @@ export default {
     getData(){
       //判断是否有id字段
       if(this.$route.query.hasOwnProperty('id')){
-
+        this.totu = "修改学校信息";
         this.updataImg = false;
         getDetails({
           schoolId : this.$route.query.id
@@ -841,6 +771,8 @@ export default {
         })
         this.citySelect = true;
       }else{
+        this.totu = "添加学校信息";
+        this.updataImg = true;
       }
 
     },
@@ -868,7 +800,8 @@ export default {
       //立即创建按钮的执行操作
       this.$refs[formName].validate((valid) => {
         if (valid) {
-
+          //判断是否有id字段  如果有id  编辑进入
+          if(this.$route.query.hasOwnProperty('id')){
             this.form.id = this.$route.query.id;
             console.log(typeof this.form.schoolShowOne);
 
@@ -888,7 +821,24 @@ export default {
                 type: 'error'
               });
             })
-
+          }else{
+            //添加接口
+            getSchoolAdd(
+              this.form
+            ).then(res =>{
+              console.log(res);
+              this.$message({
+                message: '数据插入成功',
+                type: 'success'
+              });
+              this.$router.push({path:"/siku/school"})
+            }).catch(error=>{
+              this.$message({
+                message: '数据插入失败',
+                type: 'error'
+              });
+            })
+          }
         } else {
           console.log('error submit!!');
           return false;
@@ -896,12 +846,6 @@ export default {
       });
 
     }),
-    //json 生成
-    addscjson:function(){
-      console.log(this.school)
-      // this.mouse = this.mouse.push(this.school)
-      this.form.studentEnrollment=JSON.stringify(this.school)
-    },
     // 取消页面按钮
     addCancel(){
       console.log(localStorage["userName"]) //登录人邮箱
@@ -915,12 +859,14 @@ export default {
     //上传logo、
     handleAvatarSuccess(res, file) {
       this.form.schoolLogo = res.data.url;
+
     },
     //上传大图one
     handleAvatarSuccessOne(res, file) {
       this.form.schoolShowOne =  res.data.url;
       // this.dialogVisible =  true;
       this.logoShowOne =  true;
+
     },
     //上传大图Two
     handleAvatarSuccessTwo(res, file) {

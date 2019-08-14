@@ -2,7 +2,7 @@
   <div class="schoolAdd">
     <!-- <div class="addTitle">添加学校信息<i class="el-icon-close" @click="addCancel"></i></div> -->
     <div class="addBasic">
-      <div class="addBaH">{{totu}}</div>
+      <div class="addBaH">添加学校信息</div>
       <div class="addTips">注意：带※标记的为必填项</div>
       <el-form ref="form" :model="form" class="createNews" :rules="rules" label-width="160px">
 
@@ -13,7 +13,7 @@
         <el-form-item label="学校英文名字" prop="schoolEnglishName">
           <el-input v-model.trim="form.schoolEnglishName" ></el-input>
         </el-form-item>
-        <el-form-item label="学校性质" prop="schoolProperties">
+        <el-form-item label="运营状态" prop="schoolProperties">
           <el-select v-model="form.schoolProperties" placeholder="请选择学校属性" :value-key="form.schoolProperties">
             <el-option label="运营中" value="运营中"></el-option>
             <el-option label="停办" value="停办"></el-option>
@@ -27,42 +27,25 @@
             <el-form-item label="上传学校logo" prop="schoolLogo" class="logoBtn"></el-form-item>
             <el-input v-model="form.schoolLogo" class="el_inputOne" disabled></el-input>
             <el-upload
-                class="upload-demo deme_upload"
-                :disabled = true
-                :action="tutscOne"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
-                :limit="1"
-                :on-exceed="handleExceed"
-                >
-                  <el-button size="small" type="primary" class="btnUpata" disabled>点击上传</el-button>
-                  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-                </el-upload>
+              class="upload-demo deme_upload"
+              :disabled = true
+              :action="tutscOne"
+              :limit="1"
+              >
+              <el-button size="small" type="primary" class="btnUpata" disabled>点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
           </div>
           <el-upload
             class="avatar-uploader"
             :action="tutsc"
             :disabled = true
             :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
+            >
             <img v-if="form.schoolLogo" :src="form.schoolLogo" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
-
-        <!-- <el-form-item label="上传学校logo" >
-          <el-input v-model="form.schoolLogo"></el-input>
-          <el-upload
-            class="avatar-uploader"
-            :action="tutsc"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
-            <img v-if="form.schoolLogo" :src="form.schoolLogo" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item> -->
 
 
 
@@ -93,7 +76,7 @@
           <el-input v-model.number="form.foundingTime" ></el-input>
           <i>请输入四位数字</i>
         </el-form-item>
-        <el-form-item label="运营状态" prop="operationState">
+        <el-form-item label="学校性质" prop="operationState">
           <el-select v-model="form.operationState" placeholder="请选择学校属性" :value-key="form.operationState">
             <el-option label="公办" value="公办"></el-option>
             <el-option label="民办" value="民办"></el-option>
@@ -247,8 +230,6 @@
           <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.remark"></el-input>
         </el-form-item>
 
-
-
         <div>
           <div class="logoImgThree">
             <el-form-item label="大图1" prop="schoolShowOne" class="logoBtn"></el-form-item>
@@ -257,16 +238,12 @@
                 class="upload-demo deme_upload"
                 :action="tutscOne"
                 :disabled = true
-                :on-success="handleAvatarSuccessOne"
-                :before-upload="beforeAvatarUpload"
                 :limit="1"
-                :on-exceed="handleExceed"
                 >
                   <el-button size="small" type="primary" class="btnUpata"  disabled>点击上传</el-button>
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                 </el-upload>
           </div>
-          <img v-if="logoShowOne" :src="form.schoolShowOne" @click="LogoMaxOne(form.schoolShowOne)" class="logoImg">
         </div>
 
         <div>
@@ -277,19 +254,12 @@
               class="upload-demo deme_upload"
               :action="tutscOne"
               :disabled = true
-              :on-success="handleAvatarSuccessTwo"
-              :before-upload="beforeAvatarUpload"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
               :limit="1"
-              :on-exceed="handleExceed"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
           </div>
-
-            <img v-if="logoShowTwo" :src="form.schoolShowTwo" class="logoImg">
         </div>
 
         <div>
@@ -300,20 +270,13 @@
               class="upload-demo deme_upload"
               :action="tutscOne"
               :disabled = true
-              :on-success="handleAvatarSuccessThird"
-              :before-upload="beforeAvatarUpload"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
               :limit="1"
-              :on-exceed="handleExceed"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
           </div>
-            <img v-if="logoShowThird" :src="form.schoolShowThird" class="logoImg">
         </div>
-
         <div>
           <div class="logoImgThree">
             <el-form-item label="大图4" prop="schoolShowFour" class="logoBtn"></el-form-item>
@@ -322,19 +285,12 @@
               class="upload-demo deme_upload"
               :action="tutscOne"
               :disabled = true
-              :on-success="handleAvatarSuccessFour"
-              :before-upload="beforeAvatarUpload"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
               :limit="1"
-              :on-exceed="handleExceed"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
           </div>
-
-            <img v-if="logoShowFour" :src="form.schoolShowFour" class="logoImg">
         </div>
 
         <div>
@@ -345,19 +301,12 @@
               class="upload-demo deme_upload"
               :disabled = true
               :action="tutscOne"
-              :on-success="handleAvatarSuccessFive"
-              :before-upload="beforeAvatarUpload"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
               :limit="1"
-              :on-exceed="handleExceed"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
           </div>
-
-            <img v-if="logoShowFive" :src="form.schoolShowFive" class="logoImg">
         </div>
 
         <el-form-item label="学校简介" prop="schoolDesc">
@@ -368,6 +317,108 @@
           <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.accommodation"></el-input>
           <!-- <el-input v-model="form.accommodation" ></el-input> -->
         </el-form-item>
+
+
+        <!-- 招生信息 -->
+        <div class="RecruitStudents">
+          <h2>招生信息</h2>
+          <h4>幼儿园</h4>
+          <div class="Kindergarten">
+            <el-form-item label="招生对象" prop="target">
+              <el-input v-model="school.Kindergarten.招生对象"></el-input>
+            </el-form-item>
+            <el-form-item label="授课形式" prop="froml">
+              <el-input v-model="school.Kindergarten.授课形式" ></el-input>
+            </el-form-item>
+            <el-form-item label="入学要求" prop="require">
+              <el-input v-model="school.Kindergarten.入学要求" ></el-input>
+            </el-form-item>
+            <el-form-item label="班级规模" prop="scale">
+              <el-input v-model="school.Kindergarten.班级规模" ></el-input>
+            </el-form-item>
+            <el-form-item label="入学考试" prop="exam">
+              <el-input v-model="school.Kindergarten.入学考试" ></el-input>
+            </el-form-item>
+            <el-form-item label="是否住宿" prop="stay">
+              <el-input v-model="school.Kindergarten.是否住宿" ></el-input>
+            </el-form-item>
+
+
+          </div>
+
+          <h4>小学</h4>
+          <div class="Kindergarten">
+            <el-form-item label="招生对象" prop="target">
+              <el-input v-model="school.primarySchool.招生对象"></el-input>
+            </el-form-item>
+            <el-form-item label="授课形式" prop="froml">
+              <el-input v-model="school.primarySchool.授课形式" ></el-input>
+            </el-form-item>
+            <el-form-item label="入学要求" prop="require">
+              <el-input v-model="school.primarySchool.入学要求" ></el-input>
+            </el-form-item>
+            <el-form-item label="班级规模" prop="scale">
+              <el-input v-model="school.primarySchool.班级规模" ></el-input>
+            </el-form-item>
+            <el-form-item label="入学考试" prop="exam">
+              <el-input v-model="school.primarySchool.入学考试" ></el-input>
+            </el-form-item>
+            <el-form-item label="是否住宿" prop="stay">
+              <el-input v-model="school.primarySchool.是否住宿" ></el-input>
+            </el-form-item>
+          </div>
+
+          <h4>初中</h4>
+          <div class="Kindergarten">
+            <el-form-item label="招生对象" prop="target">
+              <el-input v-model="school.JuniorHighSchool.招生对象"></el-input>
+            </el-form-item>
+            <el-form-item label="授课形式" prop="froml">
+              <el-input v-model="school.JuniorHighSchool.授课形式" ></el-input>
+            </el-form-item>
+            <el-form-item label="入学要求" prop="require">
+              <el-input v-model="school.JuniorHighSchool.入学要求" ></el-input>
+            </el-form-item>
+            <el-form-item label="班级规模" prop="scale">
+              <el-input v-model="school.JuniorHighSchool.班级规模" ></el-input>
+            </el-form-item>
+            <el-form-item label="入学考试" prop="exam">
+              <el-input v-model="school.JuniorHighSchool.入学考试" ></el-input>
+            </el-form-item>
+            <el-form-item label="是否住宿" prop="stay">
+              <el-input v-model="school.JuniorHighSchool.是否住宿" ></el-input>
+          </el-form-item>
+          </div>
+
+           <h4>高中</h4>
+           <div class="Kindergarten">
+            <el-form-item label="招生对象" prop="target">
+              <el-input v-model="school.heightSchool.招生对象"></el-input>
+            </el-form-item>
+            <el-form-item label="授课形式" prop="froml">
+              <el-input v-model="school.heightSchool.授课形式" ></el-input>
+            </el-form-item>
+            <el-form-item label="入学要求" prop="require">
+              <el-input v-model="school.heightSchool.入学要求" ></el-input>
+            </el-form-item>
+            <el-form-item label="班级规模" prop="scale">
+              <el-input v-model="school.heightSchool.班级规模" ></el-input>
+            </el-form-item>
+            <el-form-item label="入学考试" prop="exam">
+              <el-input v-model="school.heightSchool.入学考试" ></el-input>
+            </el-form-item>
+            <el-form-item label="是否住宿" prop="stay">
+              <el-input v-model="school.heightSchool.是否住宿" ></el-input>
+            </el-form-item>
+           </div>
+
+          <!-- <button @click="addscjson">1111</button> -->
+           <el-button @click="addscjson">默认按钮</el-button>
+
+
+        </div>
+
+
         <el-form-item label="招生信息" prop="studentEnrollment">
           <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.studentEnrollment"></el-input>
           <!-- <el-input v-model="form.studentEnrollment" ></el-input> -->
@@ -509,29 +560,32 @@ export default {
     return {
       tutsc:axios.defaults.baseURL+"/new/school/upload_logo.do?" + "schoolId=" + this.$route.query.id,
       tutscOne:axios.defaults.baseURL+"/new/school/upload_img.do?" + "schoolId=" + this.$route.query.id,
-      fileList2: [],
-      totu:"",
-      logoShowOne:false,
-      logoShowTwo:false,
-      logoShowThird:false,
-      logoShowFour:false,
-      logoShowFive:false,
-      dialogVisible: false,
-      updataImg:true,
       schoolLogo:"",
-      provice:provice,
-      srcList:[],//大图预览
+      provice:provice, //城市
       fileList: [],
       curshe:0,
       citySelect:false,
       i:0,
       isEdit:1,
+      target:"无要求", //招生对象
+      froml:"英语", //授课形式
+      requirel:"测试+面试",//入学要求
+      scale:"15-23人",//班级规模
+      exam:"数学英语", //入学考试
+      stay:"否",//是否住宿
       citySpan:true, //地区提示文字
       inputCheckbox:[], //学制
       inputCheckboxCourse:[], //课程
       inputCheckboxauthentication:[], //认证组织
       centerDialogVisible: false,//提示框
       //表单属性
+      "school":{
+        "Kindergarten":{"招生对象":"无要求","授课形式":"英语","入学要求":"测试+面试","班级规模":"18-22人","入学考试":"数学英语","是否住宿":"是"},
+        "primarySchool":{"招生对象":"无要求","授课形式":"英语","入学要求":"测试+面试","班级规模":"18-22人","入学考试":"数学英语","是否住宿":"是"},
+        "JuniorHighSchool":{"招生对象":"无要求","授课形式":"英语","入学要求":"测试+面试","班级规模":"18-22人","入学考试":"数学英语","是否住宿":"是"},
+        "heightSchool":{"招生对象":"无要求","授课形式":"英语","入学要求":"测试+面试","班级规模":"18-22人","入学考试":"数学英语","是否住宿":"是"},
+      },
+       mouse:[],
       form: {
         schoolName:"",  //学校名字
         schoolEnglishName:"", //学校英文名
@@ -582,7 +636,7 @@ export default {
         courseSystem:"",  //课程体系
         nationalityOfStudents:"",  //学生国籍数
         classSize:"",  //班级规模
-        teachingForm:"",  //授课形式
+        fromForm:"",  //授课形式
         companyAnalysis:"",  //新学说分析
         verifySign:"",  //0：审核中 1：审核通过
         yearOfData:2019, //数据年份
@@ -689,9 +743,10 @@ export default {
           schoolName:this.form.schoolName
         }).then(res=>{
           console.log(res)
-          if(res.msg == "学校名字已存在"){
-            this.centerDialogVisible = true
-          }
+          res.code == 0 ? "" : this.centerDialogVisible = true;
+          // if(res.code != 0){
+          //   this.centerDialogVisible = true
+          // }
         }).catch(error=>{
           console.log(error)
         })
@@ -717,7 +772,6 @@ export default {
         }
         store.commit("changeis",0)
       }else{
-         console.log(3333333)
         let myCityProvice = document.getElementById("cityProvice");
         let indexOne = myCityProvice.selectedIndex ;
         this.curshe = indexOne;
@@ -731,59 +785,7 @@ export default {
       let indexTwo = mycityTown.selectedIndex;
       this.form.town = mycityTown[indexTwo].text;
     },
-    getData(){
-      //判断是否有id字段
-      if(this.$route.query.hasOwnProperty('id')){
-        this.totu = "修改学校信息";
-        this.updataImg = false;
-        getDetails({
-          schoolId : this.$route.query.id
-        }).then(res=>{
-          delete res.data.createTime
-          delete res.data.schoolCharacteristicsVo
-          delete res.data.studentEnrollmentVo
-          this.form = res.data;
-          //多选框编辑赋值
-          let str = res.data.schoolSystem;
-          let str2 = res.data.course;
-          let str3 = res.data.authentication;
-          //学制多选
-          let str4 = [];
-          str = str.split(";");
-          for(var i=0;i<str.length-1;i++){
-            str4 += str[i]+";,"
-          }
-          str4 = str4.split(",");
-          this.inputCheckbox=str4;
 
-          //国际课程多选
-          let str5 = [];
-          str2 = str2.split(";");
-          for(var i=0;i<str2.length-1;i++){
-            str5 += str2[i]+";,"
-          };
-          str5 = str5.split(",");
-          this.inputCheckboxCourse=str5;
-
-          //认证组织多选
-          let str6 = [];
-          str3 = str3.split(";");
-          for(var i=0;i<str3.length-1;i++){
-            str6 += str3[i]+";,"
-          };
-          str6 = str6.split(",");
-          this.inputCheckboxauthentication=str6;
-
-        }).catch(error=>{
-
-        })
-        this.citySelect = true;
-      }else{
-        this.totu = "添加学校信息";
-        this.updataImg = true;
-      }
-
-    },
     //立即创建按钮   插入  编辑   学校接口
     submitForm:utils.debounce(function(formName) {
       //学制 分隔符中英文转换
@@ -802,34 +804,11 @@ export default {
       //师生比 冒号中英文转换
       let str7 = this.form.teacherStuRatio;
       str7 = str7.replace(/：/g,":");
-      this.form.teacherStuRatio = str7
-
+      this.form.teacherStuRatio = str7;
 
       //立即创建按钮的执行操作
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          //判断是否有id字段  如果有id  编辑进入
-          if(this.$route.query.hasOwnProperty('id')){
-            this.form.id = this.$route.query.id;
-            console.log(typeof this.form.schoolShowOne);
-
-            getSchoolUpdate(
-              this.form
-            ).then(res => {
-              console.log(res)
-              this.$message({
-                message: '数据编辑成功',
-                type: 'success'
-              });
-              this.$router.push({path:"/siku/school"})
-            }).catch(error => {
-              console.log(error)
-              this.$message({
-                message: '数据编辑失败',
-                type: 'error'
-              });
-            })
-          }else{
             //添加接口
             getSchoolAdd(
               this.form
@@ -846,7 +825,6 @@ export default {
                 type: 'error'
               });
             })
-          }
         } else {
           console.log('error submit!!');
           return false;
@@ -864,77 +842,14 @@ export default {
       // console.log(this.isEdit);
       console.log( this.form.schoolShowOne)
     },
-    //上传logo、
-    handleAvatarSuccess(res, file) {
-      this.form.schoolLogo = res.data.url;
-
-    },
-    //上传大图one
-    handleAvatarSuccessOne(res, file) {
-      this.form.schoolShowOne =  res.data.url;
-      // this.dialogVisible =  true;
-      this.logoShowOne =  true;
-
-    },
-    //上传大图Two
-    handleAvatarSuccessTwo(res, file) {
-      this.form.schoolShowTwo =  res.data.url;
-      this.logoShowTwo =  true;
-    },
-    //上传大图Third
-    handleAvatarSuccessThird(res, file) {
-      this.form.schoolShowThird =  res.data.url;
-      this.logoShowThird =  true;
-    },
-    //上传大图Four
-    handleAvatarSuccessFour(res, file) {
-      this.form.schoolShowFour =  res.data.url;
-      this.logoShowFour =  true;
-    },
-    //上传大图Five
-    handleAvatarSuccessFive(res, file) {
-      this.form.schoolShowFive =  res.data.url;
-      this.logoShowFive =  true;
-    },
-
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return isJPG && isLt2M;
-    },
-    //上传学校大图
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview(file) {
-      console.log(file);
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${ file.name }？`);
-    },
-
-
-
-    //大图学校图片
-    LogoMaxOne:function(aa){
-      console.log(aa)
+    //json 生成
+    addscjson:function(){
+      console.log(this.school)
+      // this.mouse = this.mouse.push(this.school)
+      this.form.studentEnrollment=JSON.stringify(this.school)
     }
-
   },
   created() {
-    console.log(store.state.isEd)
-    this.getData();
-
   },
   watch: {
     //学制多选
@@ -1145,14 +1060,6 @@ export default {
     width: 150px;
     height: 150px;
   }
-  .maxlogo{
-    // width: 100px;
-    // height: 100px;
-    // position: fixed;
-    // background: red;
-    // top: 0px;
-    // left: 0px;
-  }
   .schoolImg{
     margin-bottom: 40px;
     .avatar-uploader{
@@ -1182,6 +1089,26 @@ export default {
     }
     .deme_upload{
       margin-left: -60px;
+    }
+  }
+
+
+  // 招生信息
+  .RecruitStudents{
+    border: 1px solid #cccccc;
+    h2{
+
+    }
+    h4{
+      margin-top: 0px;
+      margin-bottom: 20px;
+    }
+    .Kindergarten{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .el-form-item[data-v-7e47b10f] {
+      margin-top: 0px;
     }
   }
 </style>
