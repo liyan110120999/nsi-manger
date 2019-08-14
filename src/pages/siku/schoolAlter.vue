@@ -2,7 +2,7 @@
   <div class="schoolAdd">
     <!-- <div class="addTitle">添加学校信息<i class="el-icon-close" @click="addCancel"></i></div> -->
     <div class="addBasic">
-      <div class="addBaH">修改学校信息</div>
+      <div class="addBaH addTitle">修改学校信息 <i class="el-icon-close" @click="addCancel"></i></div>
       <div class="addTips">注意：带※标记的为必填项</div>
       <el-form ref="form" :model="form" class="createNews" :rules="rules" label-width="160px">
 
@@ -350,96 +350,106 @@
         <!-- 招生信息 -->
         <div class="RecruitStudents">
           <h2>招生信息</h2>
-          <h4>幼儿园</h4>
-          <div class="Kindergarten">
-            <el-form-item label="招生对象" prop="target">
-              <el-input v-model="school.Kindergarten.招生对象"></el-input>
-            </el-form-item>
-            <el-form-item label="授课形式" prop="froml">
-              <el-input v-model="school.Kindergarten.授课形式" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学要求" prop="require">
-              <el-input v-model="school.Kindergarten.入学要求" ></el-input>
-            </el-form-item>
-            <el-form-item label="班级规模" prop="scale">
-              <el-input v-model="school.Kindergarten.班级规模" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学考试" prop="exam">
-              <el-input v-model="school.Kindergarten.入学考试" ></el-input>
-            </el-form-item>
-            <el-form-item label="是否住宿" prop="stay">
-              <el-input v-model="school.Kindergarten.是否住宿" ></el-input>
-            </el-form-item>
+
+          <div v-if="Kindergarten">
+            <h4>幼儿园</h4>
+            <div class="Kindergarten">
+              <el-form-item label="招生对象" prop="target">
+                <el-input v-model="school.Kindergarten.target"></el-input>
+              </el-form-item>
+              <el-form-item label="授课形式" prop="froml">
+                <el-input v-model="school.Kindergarten.froml" ></el-input>
+              </el-form-item>
+              <el-form-item label="入学要求" prop="require">
+                <el-input v-model="school.Kindergarten.require" ></el-input>
+              </el-form-item>
+              <el-form-item label="班级规模" prop="scale">
+                <el-input v-model="school.Kindergarten.scale" ></el-input>
+              </el-form-item>
+              <el-form-item label="入学考试" prop="exam">
+                <el-input v-model="school.Kindergarten.exam" ></el-input>
+              </el-form-item>
+              <el-form-item label="是否住宿" prop="stay">
+                <el-input v-model="school.Kindergarten.stay" ></el-input>
+              </el-form-item>
+            </div>
           </div>
 
-          <h4>小学</h4>
-          <div class="Kindergarten">
-            <el-form-item label="招生对象" prop="target">
-              <el-input v-model="school.primarySchool.招生对象"></el-input>
-            </el-form-item>
-            <el-form-item label="授课形式" prop="froml">
-              <el-input v-model="school.primarySchool.授课形式" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学要求" prop="require">
-              <el-input v-model="school.primarySchool.入学要求" ></el-input>
-            </el-form-item>
-            <el-form-item label="班级规模" prop="scale">
-              <el-input v-model="school.primarySchool.班级规模" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学考试" prop="exam">
-              <el-input v-model="school.primarySchool.入学考试" ></el-input>
-            </el-form-item>
-            <el-form-item label="是否住宿" prop="stay">
-              <el-input v-model="school.primarySchool.是否住宿" ></el-input>
-            </el-form-item>
+          <div v-if="primarySchool">
+            <h4>小学</h4>
+            <div class="Kindergarten">
+              <el-form-item label="招生对象" prop="target">
+                <el-input v-model="school.primarySchool.target"></el-input>
+              </el-form-item>
+              <el-form-item label="授课形式" prop="froml">
+                <el-input v-model="school.primarySchool.froml" ></el-input>
+              </el-form-item>
+              <el-form-item label="入学要求" prop="require">
+                <el-input v-model="school.primarySchool.require" ></el-input>
+              </el-form-item>
+              <el-form-item label="班级规模" prop="scale">
+                <el-input v-model="school.primarySchool.scale" ></el-input>
+              </el-form-item>
+              <el-form-item label="入学考试" prop="exam">
+                <el-input v-model="school.primarySchool.exam" ></el-input>
+              </el-form-item>
+              <el-form-item label="是否住宿" prop="stay">
+                <el-input v-model="school.primarySchool.stay" ></el-input>
+              </el-form-item>
+            </div>
           </div>
 
-          <h4>初中</h4>
-          <div class="Kindergarten">
-            <el-form-item label="招生对象" prop="target">
-              <el-input v-model="school.JuniorHighSchool.招生对象"></el-input>
+          <div v-if="JuniorHighSchool">
+            <h4>初中</h4>
+            <div class="Kindergarten">
+              <el-form-item label="招生对象" prop="target">
+                <el-input v-model="school.JuniorHighSchool.target"></el-input>
+              </el-form-item>
+              <el-form-item label="授课形式" prop="froml">
+                <el-input v-model="school.JuniorHighSchool.froml" ></el-input>
+              </el-form-item>
+              <el-form-item label="入学要求" prop="require">
+                <el-input v-model="school.JuniorHighSchool.require" ></el-input>
+              </el-form-item>
+              <el-form-item label="班级规模" prop="scale">
+                <el-input v-model="school.JuniorHighSchool.scale" ></el-input>
+              </el-form-item>
+              <el-form-item label="入学考试" prop="exam">
+                <el-input v-model="school.JuniorHighSchool.exam" ></el-input>
+              </el-form-item>
+              <el-form-item label="是否住宿" prop="stay">
+                <el-input v-model="school.JuniorHighSchool.stay" ></el-input>
             </el-form-item>
-            <el-form-item label="授课形式" prop="froml">
-              <el-input v-model="school.JuniorHighSchool.授课形式" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学要求" prop="require">
-              <el-input v-model="school.JuniorHighSchool.入学要求" ></el-input>
-            </el-form-item>
-            <el-form-item label="班级规模" prop="scale">
-              <el-input v-model="school.JuniorHighSchool.班级规模" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学考试" prop="exam">
-              <el-input v-model="school.JuniorHighSchool.入学考试" ></el-input>
-            </el-form-item>
-            <el-form-item label="是否住宿" prop="stay">
-              <el-input v-model="school.JuniorHighSchool.是否住宿" ></el-input>
-          </el-form-item>
+            </div>
           </div>
 
-           <h4>高中</h4>
-           <div class="Kindergarten">
-            <el-form-item label="招生对象" prop="target">
-              <el-input v-model="school.heightSchool.招生对象"></el-input>
-            </el-form-item>
-            <el-form-item label="授课形式" prop="froml">
-              <el-input v-model="school.heightSchool.授课形式" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学要求" prop="require">
-              <el-input v-model="school.heightSchool.入学要求" ></el-input>
-            </el-form-item>
-            <el-form-item label="班级规模" prop="scale">
-              <el-input v-model="school.heightSchool.班级规模" ></el-input>
-            </el-form-item>
-            <el-form-item label="入学考试" prop="exam">
-              <el-input v-model="school.heightSchool.入学考试" ></el-input>
-            </el-form-item>
-            <el-form-item label="是否住宿" prop="stay">
-              <el-input v-model="school.heightSchool.是否住宿" ></el-input>
-            </el-form-item>
-           </div>
+          <div v-if="heightSchool">
+            <h4>高中</h4>
+            <div class="Kindergarten">
+              <el-form-item label="招生对象" prop="target">
+                <el-input v-model="school.heightSchool.target"></el-input>
+              </el-form-item>
+              <el-form-item label="授课形式" prop="froml">
+                <el-input v-model="school.heightSchool.froml" ></el-input>
+              </el-form-item>
+              <el-form-item label="入学要求" prop="require">
+                <el-input v-model="school.heightSchool.require" ></el-input>
+              </el-form-item>
+              <el-form-item label="班级规模" prop="scale">
+                <el-input v-model="school.heightSchool.scale" ></el-input>
+              </el-form-item>
+              <el-form-item label="入学考试" prop="exam">
+                <el-input v-model="school.heightSchool.exam" ></el-input>
+              </el-form-item>
+              <el-form-item label="是否住宿" prop="stay">
+                <el-input v-model="school.heightSchool.stay" ></el-input>
+              </el-form-item>
+            </div>
+
+          </div>
 
           <!-- <button @click="addscjson">1111</button> -->
-           <el-button @click="addscjson">默认按钮</el-button>
+          <el-button @click="addscjson">默认按钮</el-button>
         </div>
 
 
@@ -591,7 +601,6 @@ export default {
       logoShowFour:false,
       logoShowFive:false,
       dialogVisible: false,
-      updataImg:true,
       schoolLogo:"",
       provice:provice,
       srcList:[],//大图预览
@@ -605,12 +614,16 @@ export default {
       inputCheckboxCourse:[], //课程
       inputCheckboxauthentication:[], //认证组织
       centerDialogVisible: false,//提示框
+      Kindergarten:true,   //幼儿园
+      primarySchool:true,   //小学
+      JuniorHighSchool:true, //初中
+      heightSchool:true,  //高中
        //表单属性
       "school":{
-        "Kindergarten":{"招生对象":"无要求","授课形式":"英语","入学要求":"测试+面试","班级规模":"18-22人","入学考试":"数学英语","是否住宿":"是"},
-        "primarySchool":{"招生对象":"无要求","授课形式":"英语","入学要求":"测试+面试","班级规模":"18-22人","入学考试":"数学英语","是否住宿":"是"},
-        "JuniorHighSchool":{"招生对象":"无要求","授课形式":"英语","入学要求":"测试+面试","班级规模":"18-22人","入学考试":"数学英语","是否住宿":"是"},
-        "heightSchool":{"招生对象":"无要求","授课形式":"英语","入学要求":"测试+面试","班级规模":"18-22人","入学考试":"数学英语","是否住宿":"是"},
+        "Kindergarten":{"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"},
+        "primarySchool":{"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"},
+        "JuniorHighSchool":{"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"},
+        "heightSchool":{"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"},
       },
       //表单属性
       form: {
@@ -668,6 +681,8 @@ export default {
         verifySign:"",  //0：审核中 1：审核通过
         yearOfData:2019, //数据年份
       },
+
+      detailData:{},
       //表单验证
       rules:{
         schoolName:[ //学校名字
@@ -794,22 +809,32 @@ export default {
       this.form.town = mycityTown[indexTwo].text;
     },
     getData(){
-      //判断是否有id字段
-      if(this.$route.query.hasOwnProperty('id')){
-
-        this.updataImg = false;
         getDetails({
           schoolId : this.$route.query.id
         }).then(res=>{
           delete res.data.createTime
           delete res.data.schoolCharacteristicsVo
           delete res.data.studentEnrollmentVo
-          this.form = res.data;
-          //多选框编辑赋值
-          let str = res.data.schoolSystem;
-          let str2 = res.data.course;
-          let str3 = res.data.authentication;
+          this.detailData = res.data;
+          console.log(111111111);
+          this.transfromData();
+        }).catch(error=>{
+
+        })
+        this.citySelect = true;
+    },
+
+    transfromData(){
+
+      console.log(222222222);
+      //多选框编辑赋值
+          let str = this.detailData.schoolSystem;
+          let str2 = this.detailData.course;
+          let str3 = this.detailData.authentication;
+
+          console.log(this.detailData);
           //学制多选
+            console.log(str)
           let str4 = [];
           str = str.split(";");
           for(var i=0;i<str.length-1;i++){
@@ -818,32 +843,15 @@ export default {
           str4 = str4.split(",");
           this.inputCheckbox=str4;
 
-          //国际课程多选
-          let str5 = [];
-          str2 = str2.split(";");
-          for(var i=0;i<str2.length-1;i++){
-            str5 += str2[i]+";,"
-          };
-          str5 = str5.split(",");
-          this.inputCheckboxCourse=str5;
 
-          //认证组织多选
-          let str6 = [];
-          str3 = str3.split(";");
-          for(var i=0;i<str3.length-1;i++){
-            str6 += str3[i]+";,"
-          };
-          str6 = str6.split(",");
-          this.inputCheckboxauthentication=str6;
+          var obj_studentEnrollment = JSON.parse(this.detailData.studentEnrollment)
+          console.log(obj_studentEnrollment)
+          this.school=obj_studentEnrollment
 
-        }).catch(error=>{
-
-        })
-        this.citySelect = true;
-      }else{
-      }
 
     },
+
+
     //立即创建按钮   插入  编辑   学校接口
     submitForm:utils.debounce(function(formName) {
       //学制 分隔符中英文转换
@@ -864,13 +872,11 @@ export default {
       str7 = str7.replace(/：/g,":");
       this.form.teacherStuRatio = str7
 
-
       //立即创建按钮的执行操作
       this.$refs[formName].validate((valid) => {
         if (valid) {
 
             this.form.id = this.$route.query.id;
-            console.log(typeof this.form.schoolShowOne);
 
             getSchoolUpdate(
               this.form
@@ -904,13 +910,8 @@ export default {
     },
     // 取消页面按钮
     addCancel(){
-      console.log(localStorage["userName"]) //登录人邮箱
-      // this.$router.push({path:"/siku/school"})
-      // console.log(mycityTown[indexTwo].text)
-      // this.isEdit = store.state.isEd;
 
-      // console.log(this.isEdit);
-      console.log( this.form.schoolShowOne)
+      console.log(typeof this.form.studentEnrollment)
     },
     //上传logo、
     handleAvatarSuccess(res, file) {
@@ -978,7 +979,7 @@ export default {
 
   },
   created() {
-    console.log(store.state.isEd)
+
     this.getData();
 
   },
@@ -990,6 +991,18 @@ export default {
         str1 += val[i]
       }
       this.form.schoolSystem = str1;
+
+      let schoolSystem = this.form.schoolSystem;
+      let Kindergarten = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
+      let primarySchool = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
+      let JuniorHighSchool = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
+      let heightSchool = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
+      // console.log(schoolSystem.length)
+      // for(var i=0;i<val.length;i++){
+      //   val.search("幼儿园") != -1 ? "":this.school.Kindergarten = "";
+      //   console.log( val.search("幼儿园") != -1 ? this.school.Kindergarten:this.school.Kindergarten = "");
+      // }
+
     },
     //国际课程多选
     "inputCheckboxCourse":function(val){
@@ -1228,6 +1241,25 @@ export default {
     }
     .deme_upload{
       margin-left: -60px;
+    }
+  }
+
+  // 招生信息
+  .RecruitStudents{
+    border: 1px solid #cccccc;
+    h2{
+
+    }
+    h4{
+      margin-top: 0px;
+      margin-bottom: 20px;
+    }
+    .Kindergarten{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .el-form-item[data-v-7e47b10f] {
+      margin-top: 0px;
     }
   }
 </style>
