@@ -371,57 +371,58 @@
             </div>
           </div>
 
-          <div v-if="JuniorHighSchool">
+          <div v-if="MiddleSchool">
             <h4>初中</h4>
             <div class="Kindergarten">
               <el-form-item label="招生对象" prop="target">
-                <el-input v-model="school.JuniorHighSchool.target"></el-input>
+                <el-input v-model="school.MiddleSchool.target"></el-input>
               </el-form-item>
               <el-form-item label="授课形式" prop="froml">
-                <el-input v-model="school.JuniorHighSchool.froml" ></el-input>
+                <el-input v-model="school.MiddleSchool.froml" ></el-input>
               </el-form-item>
               <el-form-item label="入学要求" prop="require">
-                <el-input v-model="school.JuniorHighSchool.require" ></el-input>
+                <el-input v-model="school.MiddleSchool.require" ></el-input>
               </el-form-item>
               <el-form-item label="班级规模" prop="scale">
-                <el-input v-model="school.JuniorHighSchool.scale" ></el-input>
+                <el-input v-model="school.MiddleSchool.scale" ></el-input>
               </el-form-item>
               <el-form-item label="入学考试" prop="exam">
-                <el-input v-model="school.JuniorHighSchool.exam" ></el-input>
+                <el-input v-model="school.MiddleSchool.exam" ></el-input>
               </el-form-item>
               <el-form-item label="是否住宿" prop="stay">
-                <el-input v-model="school.JuniorHighSchool.stay" ></el-input>
+                <el-input v-model="school.MiddleSchool.stay" ></el-input>
             </el-form-item>
             </div>
           </div>
 
-          <div v-if="heightSchool">
+          <div v-if="HighSchool">
             <h4>高中</h4>
             <div class="Kindergarten">
               <el-form-item label="招生对象" prop="target">
-                <el-input v-model="school.heightSchool.target"></el-input>
+                <el-input v-model="school.HighSchool.target"></el-input>
               </el-form-item>
               <el-form-item label="授课形式" prop="froml">
-                <el-input v-model="school.heightSchool.froml" ></el-input>
+                <el-input v-model="school.HighSchool.froml" ></el-input>
               </el-form-item>
               <el-form-item label="入学要求" prop="require">
-                <el-input v-model="school.heightSchool.require" ></el-input>
+                <el-input v-model="school.HighSchool.require" ></el-input>
               </el-form-item>
               <el-form-item label="班级规模" prop="scale">
-                <el-input v-model="school.heightSchool.scale" ></el-input>
+                <el-input v-model="school.HighSchool.scale" ></el-input>
               </el-form-item>
               <el-form-item label="入学考试" prop="exam">
-                <el-input v-model="school.heightSchool.exam" ></el-input>
+                <el-input v-model="school.HighSchool.exam" ></el-input>
               </el-form-item>
               <el-form-item label="是否住宿" prop="stay">
-                <el-input v-model="school.heightSchool.stay" ></el-input>
+                <el-input v-model="school.HighSchool.stay" ></el-input>
               </el-form-item>
             </div>
 
           </div>
 
           <!-- <button @click="addscjson">1111</button> -->
-          <el-button @click="addscjson">默认按钮</el-button>
+          <el-button @click="addscjson" type="primary">默认按钮</el-button>
+          <el-button @click="defaultJson">默认模板</el-button>
         </div>
 
 
@@ -586,14 +587,14 @@ export default {
       centerDialogVisible: false,//提示框
       Kindergarten:false,   //幼儿园
       primarySchool:false,   //小学
-      JuniorHighSchool:false, //初中
-      heightSchool:false,  //高中
+      MiddleSchool:false, //初中
+      HighSchool:false,  //高中
       //表单属性
       "school":{
         "Kindergarten":"",  //幼儿园
         "primarySchool":"",   //小学
-        "JuniorHighSchool":"", //初中
-        "heightSchool":"",  //高中
+        "MiddleSchool":"", //初中
+        "HighSchool":"",  //高中
       },
        mouse:[],
       form: {
@@ -848,10 +849,32 @@ export default {
     },
     //json 生成
     addscjson:function(){
+      let defautlNull={"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
+      let schoolSystem = this.form.schoolSystem;
+      if(schoolSystem.search("幼儿园") == -1){
+        this.school.Kindergarten = defautlNull
+      }
+      if(schoolSystem.search("小学") == -1){
+        this.school.primarySchool = defautlNull
+      }
+      if(schoolSystem.search("初中") == -1){
+        this.school.MiddleSchool = defautlNull
+      }
+      if(schoolSystem.search("高中") ==-1){
+        this.school.HighSchool = defautlNull
+      }
       console.log(this.school)
       // this.mouse = this.mouse.push(this.school)
       this.form.studentEnrollment=JSON.stringify(this.school)
-    }
+    },
+    //默认按钮
+    defaultJson:function(){
+      console.log(this.school)
+      this.school.Kindergarten = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
+      this.school.primarySchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
+      this.school.MiddleSchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
+      this.school.HighSchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
+    },
   },
   created() {
   },
@@ -865,12 +888,12 @@ export default {
       this.form.schoolSystem = str1;
 
       let schoolSystem = this.form.schoolSystem;
-      let Kindergarten = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
-      let primarySchool = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
-      let JuniorHighSchool = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
-      let heightSchool = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
-      console.log(JSON.parse(Kindergarten))
-      // console.log(schoolSystem.length)
+      // let Kindergarten = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
+      // let primarySchool = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
+      // let MiddleSchool = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
+      // let HighSchool = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
+      // console.log(JSON.parse(Kindergarten))
+      console.log(schoolSystem)
       // for(var i=0;i<val.length;i++){
       //   val.search("幼儿园") != -1 ? "":this.school.Kindergarten = "";
       //   console.log( val.search("幼儿园") != -1 ? this.school.Kindergarten:this.school.Kindergarten = "");
@@ -878,32 +901,36 @@ export default {
 
 
       if(schoolSystem.search("幼儿园") != -1){
-        this.school.Kindergarten=JSON.parse(Kindergarten);
         this.Kindergarten = true;
       }else{
         this.school.Kindergarten = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
+        this.Kindergarten = fasle;
       }
+
       if(schoolSystem.search("小学") != -1){
-        this.school.primarySchool=JSON.parse(primarySchool)
+        console.log("you")
         this.primarySchool = true;
       }else{
-        this.school.primarySchool = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
+        // this.school.primarySchool = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
+        this.primarySchool = false;
+        console.log(this.primarySchool);
+
       }
+
       if(schoolSystem.search("初中") != -1){
-        this.school.JuniorHighSchool=JSON.parse(JuniorHighSchool)
-         this.JuniorHighSchool = true;
+         this.MiddleSchool = true;
       }else{
-        this.school.JuniorHighSchool = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
+        this.school.MiddleSchool = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
+        this.MiddleSchool = false;
       }
       if( schoolSystem.search("高中") != -1){
-        this.school.heightSchool=JSON.parse(heightSchool);
-        this.heightSchool = true;
+        this.HighSchool = true;
       }else{
-        this.school.heightSchool = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
+        this.school.HighSchool = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
+        this.HighSchool = false;
       }
 
 
-      console.log(schoolSystem.search("高中") != -1);
       console.log(this.school)
       console.log(this.school.Kindergarten)
 
@@ -1144,9 +1171,6 @@ export default {
   // 招生信息
   .RecruitStudents{
     border: 1px solid #cccccc;
-    h2{
-
-    }
     h4{
       margin-top: 0px;
       margin-bottom: 20px;
@@ -1155,8 +1179,12 @@ export default {
       display: flex;
       flex-wrap: wrap;
     }
-    .el-form-item[data-v-7e47b10f] {
+    .el-form-item{
       margin-top: 0px;
+    }
+    .el-button--primary {
+      margin-left: 230px;
+      margin-bottom: 20px;
     }
   }
 </style>

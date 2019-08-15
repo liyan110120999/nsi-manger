@@ -399,50 +399,50 @@
             </div>
           </div>
 
-          <div v-if="JuniorHighSchool">
+          <div v-if="MiddleSchool">
             <h4>初中</h4>
             <div class="Kindergarten">
               <el-form-item label="招生对象" prop="target">
-                <el-input v-model="school.JuniorHighSchool.target"></el-input>
+                <el-input v-model="school.MiddleSchool.target"></el-input>
               </el-form-item>
               <el-form-item label="授课形式" prop="froml">
-                <el-input v-model="school.JuniorHighSchool.froml" ></el-input>
+                <el-input v-model="school.MiddleSchool.froml" ></el-input>
               </el-form-item>
               <el-form-item label="入学要求" prop="require">
-                <el-input v-model="school.JuniorHighSchool.require" ></el-input>
+                <el-input v-model="school.MiddleSchool.require" ></el-input>
               </el-form-item>
               <el-form-item label="班级规模" prop="scale">
-                <el-input v-model="school.JuniorHighSchool.scale" ></el-input>
+                <el-input v-model="school.MiddleSchool.scale" ></el-input>
               </el-form-item>
               <el-form-item label="入学考试" prop="exam">
-                <el-input v-model="school.JuniorHighSchool.exam" ></el-input>
+                <el-input v-model="school.MiddleSchool.exam" ></el-input>
               </el-form-item>
               <el-form-item label="是否住宿" prop="stay">
-                <el-input v-model="school.JuniorHighSchool.stay" ></el-input>
+                <el-input v-model="school.MiddleSchool.stay" ></el-input>
             </el-form-item>
             </div>
           </div>
 
-          <div v-if="heightSchool">
+          <div v-if="HighSchool">
             <h4>高中</h4>
             <div class="Kindergarten">
               <el-form-item label="招生对象" prop="target">
-                <el-input v-model="school.heightSchool.target"></el-input>
+                <el-input v-model="school.HighSchool.target"></el-input>
               </el-form-item>
               <el-form-item label="授课形式" prop="froml">
-                <el-input v-model="school.heightSchool.froml" ></el-input>
+                <el-input v-model="school.HighSchool.froml" ></el-input>
               </el-form-item>
               <el-form-item label="入学要求" prop="require">
-                <el-input v-model="school.heightSchool.require" ></el-input>
+                <el-input v-model="school.HighSchool.require" ></el-input>
               </el-form-item>
               <el-form-item label="班级规模" prop="scale">
-                <el-input v-model="school.heightSchool.scale" ></el-input>
+                <el-input v-model="school.HighSchool.scale" ></el-input>
               </el-form-item>
               <el-form-item label="入学考试" prop="exam">
-                <el-input v-model="school.heightSchool.exam" ></el-input>
+                <el-input v-model="school.HighSchool.exam" ></el-input>
               </el-form-item>
               <el-form-item label="是否住宿" prop="stay">
-                <el-input v-model="school.heightSchool.stay" ></el-input>
+                <el-input v-model="school.HighSchool.stay" ></el-input>
               </el-form-item>
             </div>
 
@@ -450,7 +450,7 @@
 
           <!-- <button @click="addscjson">1111</button> -->
           <el-button @click="addscjson" type="primary">确认按钮</el-button>
-          <el-button @click="defaultJson">默认按钮</el-button>
+          <el-button @click="defaultJson">默认模板</el-button>
         </div>
 
 
@@ -500,7 +500,7 @@
         </el-form-item>
 
         <el-form-item class="addBtn">
-          <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
+          <el-button type="primary" @click="submitForm('form')">立即修改</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -616,14 +616,14 @@ export default {
       centerDialogVisible: false,//提示框
       Kindergarten:false,   //幼儿园
       primarySchool:false,   //小学
-      JuniorHighSchool:false, //初中
-      heightSchool:false,  //高中
+      MiddleSchool:false, //初中
+      HighSchool:false,  //高中
        //表单属性
       "school":{
         "Kindergarten":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
         "primarySchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
-        "JuniorHighSchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
-        "heightSchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
+        "MiddleSchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
+        "HighSchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
       },
       //表单属性
       form: {
@@ -915,10 +915,10 @@ export default {
           this.school.primarySchool = defautlNull
         }
         if(schoolSystem.search("初中") == -1){
-          this.school.JuniorHighSchool = defautlNull
+          this.school.MiddleSchool = defautlNull
         }
         if(schoolSystem.search("高中") ==-1){
-          this.school.heightSchool = defautlNull
+          this.school.HighSchool = defautlNull
         }
 
 
@@ -932,8 +932,8 @@ export default {
        console.log(this.school)
       this.school.Kindergarten = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
       this.school.primarySchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
-      this.school.JuniorHighSchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
-      this.school.heightSchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
+      this.school.MiddleSchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
+      this.school.HighSchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
     },
 
     // 取消页面按钮
@@ -1034,20 +1034,20 @@ export default {
            this.primarySchool = false
         };
         if(schoolSystem.search("初中") != -1){
-          this.JuniorHighSchool = true;
+          this.MiddleSchool = true;
         }else{
-           this.JuniorHighSchool = false
+           this.MiddleSchool = false
         };
         if(schoolSystem.search("高中") != -1){
-          this.heightSchool = true;
+          this.HighSchool = true;
         }else{
-           this.heightSchool = false
+           this.HighSchool = false
         };
       }else{
         schoolSystem.search("幼儿园") != -1 ? this.Kindergarten = true : this.Kindergarten = false;
         schoolSystem.search("小学") != -1 ? this.primarySchool = true : this.primarySchool = false;
-        schoolSystem.search("初中") != -1 ? this.JuniorHighSchool = true : this.JuniorHighSchool = false;
-        schoolSystem.search("高中") != -1 ? this.heightSchool = true : this.heightSchool = false;
+        schoolSystem.search("初中") != -1 ? this.MiddleSchool = true : this.MiddleSchool = false;
+        schoolSystem.search("高中") != -1 ? this.HighSchool = true : this.HighSchool = false;
         var obj_studentEnrollment = JSON.parse(this.detailData.studentEnrollment)
         this.school=obj_studentEnrollment;
         console.log(schoolSystem)
@@ -1056,8 +1056,8 @@ export default {
         // let schoolSystem = this.form.schoolSystem;
         // schoolSystem.search("幼儿园") != -1 ? this.Kindergarten = true : this.Kindergarten = false;
         // schoolSystem.search("小学") != -1 ? this.primarySchool = true : this.primarySchool = false;
-        // schoolSystem.search("初中") != -1 ? this.JuniorHighSchool = true : this.JuniorHighSchool = false;
-        // schoolSystem.search("高中") != -1 ? this.heightSchool = true : this.heightSchool = false;
+        // schoolSystem.search("初中") != -1 ? this.MiddleSchool = true : this.MiddleSchool = false;
+        // schoolSystem.search("高中") != -1 ? this.HighSchool = true : this.HighSchool = false;
 
 
     },
@@ -1302,11 +1302,8 @@ export default {
   }
 
   // 招生信息
-  .RecruitStudents{
+  /deep/.RecruitStudents{
     border: 1px solid #cccccc;
-    h2{
-
-    }
     h4{
       margin-top: 0px;
       margin-bottom: 20px;
@@ -1315,8 +1312,12 @@ export default {
       display: flex;
       flex-wrap: wrap;
     }
-    .el-form-item[data-v-7e47b10f] {
+    .el-form-item{
       margin-top: 0px;
+    }
+    .el-button--primary {
+      margin-left: 230px;
+      margin-bottom: 20px;
     }
   }
 </style>
