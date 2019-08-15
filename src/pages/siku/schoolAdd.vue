@@ -881,25 +881,25 @@ export default {
         this.school.Kindergarten=JSON.parse(Kindergarten);
         this.Kindergarten = true;
       }else{
-        this.school.Kindergarten = "";
+        this.school.Kindergarten = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
       }
       if(schoolSystem.search("小学") != -1){
         this.school.primarySchool=JSON.parse(primarySchool)
         this.primarySchool = true;
       }else{
-        this.school.primarySchool = "";
+        this.school.primarySchool = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
       }
       if(schoolSystem.search("初中") != -1){
         this.school.JuniorHighSchool=JSON.parse(JuniorHighSchool)
          this.JuniorHighSchool = true;
       }else{
-        this.school.JuniorHighSchool = "";
+        this.school.JuniorHighSchool = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
       }
       if( schoolSystem.search("高中") != -1){
         this.school.heightSchool=JSON.parse(heightSchool);
         this.heightSchool = true;
       }else{
-        this.school.heightSchool = "";
+        this.school.heightSchool = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
       }
 
 

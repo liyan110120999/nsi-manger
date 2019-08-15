@@ -295,8 +295,14 @@
           value: '书店',
           label: '书店'
         },{
+          value: '购物车',
+          label: '购物车'
+        },{
           value: '课程',
           label: '课程'
+        },{
+          value: '活动',
+          label: '活动'
         }],
         productTypeValue:'',
         fahuoOrbianji:true,

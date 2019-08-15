@@ -449,7 +449,8 @@
           </div>
 
           <!-- <button @click="addscjson">1111</button> -->
-          <el-button @click="addscjson">默认按钮</el-button>
+          <el-button @click="addscjson" type="primary">确认按钮</el-button>
+          <el-button @click="defaultJson">默认按钮</el-button>
         </div>
 
 
@@ -580,7 +581,6 @@ export default {
     //学费  容量
     var twoTuition = (rele,value,callback) =>{
       if(value == "" || value == null){
-          console.log("ronliang1111")
           callback()
       }else{
         if(!/^\d+$/.test(value)){
@@ -614,16 +614,16 @@ export default {
       inputCheckboxCourse:[], //课程
       inputCheckboxauthentication:[], //认证组织
       centerDialogVisible: false,//提示框
-      Kindergarten:true,   //幼儿园
-      primarySchool:true,   //小学
-      JuniorHighSchool:true, //初中
-      heightSchool:true,  //高中
+      Kindergarten:false,   //幼儿园
+      primarySchool:false,   //小学
+      JuniorHighSchool:false, //初中
+      heightSchool:false,  //高中
        //表单属性
       "school":{
-        "Kindergarten":{"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"},
-        "primarySchool":{"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"},
-        "JuniorHighSchool":{"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"},
-        "heightSchool":{"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"},
+        "Kindergarten":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
+        "primarySchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
+        "JuniorHighSchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
+        "heightSchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
       },
       //表单属性
       form: {
@@ -814,9 +814,10 @@ export default {
         }).then(res=>{
           delete res.data.createTime
           delete res.data.schoolCharacteristicsVo
-          delete res.data.studentEnrollmentVo
+          delete res.data.studentEnrollmentVo;
+          this.form = res.data;
           this.detailData = res.data;
-          console.log(111111111);
+          console.log(this.detailData);
           this.transfromData();
         }).catch(error=>{
 
@@ -825,28 +826,23 @@ export default {
     },
 
     transfromData(){
-
       console.log(222222222);
       //多选框编辑赋值
-          let str = this.detailData.schoolSystem;
-          let str2 = this.detailData.course;
-          let str3 = this.detailData.authentication;
+      let str = this.detailData.schoolSystem;
+      let str2 = this.detailData.course;
+      let str3 = this.detailData.authentication;
 
-          console.log(this.detailData);
-          //学制多选
-            console.log(str)
-          let str4 = [];
-          str = str.split(";");
-          for(var i=0;i<str.length-1;i++){
-            str4 += str[i]+";,"
-          }
-          str4 = str4.split(",");
-          this.inputCheckbox=str4;
+      //学制多选
+      let str4 = [];
+      str = str.split(";");
+      for(var i=0;i<str.length-1;i++){
+        str4 += str[i]+";,"
+      }
+      str4 = str4.split(",");
+      this.inputCheckbox=str4;
 
 
-          var obj_studentEnrollment = JSON.parse(this.detailData.studentEnrollment)
-          console.log(obj_studentEnrollment)
-          this.school=obj_studentEnrollment
+
 
 
     },
@@ -872,21 +868,27 @@ export default {
       str7 = str7.replace(/：/g,":");
       this.form.teacherStuRatio = str7
 
+      console.log(this.form.studentEnrollment)
       //立即创建按钮的执行操作
       this.$refs[formName].validate((valid) => {
         if (valid) {
-
             this.form.id = this.$route.query.id;
-
             getSchoolUpdate(
               this.form
             ).then(res => {
               console.log(res)
-              this.$message({
-                message: '数据编辑成功',
-                type: 'success'
-              });
-              this.$router.push({path:"/siku/school"})
+              if(res.code == 1){
+                this.$message({
+                  message: '数据编辑失败',
+                  type: 'error'
+                });
+              }else{
+                this.$message({
+                  message: '数据编辑成功',
+                  type: 'success'
+                });
+                this.$router.push({path:"/siku/school"})
+              }
             }).catch(error => {
               console.log(error)
               this.$message({
@@ -904,10 +906,36 @@ export default {
     }),
     //json 生成
     addscjson:function(){
+        let defautlNull={"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
+        let schoolSystem = this.form.schoolSystem;
+        if(schoolSystem.search("幼儿园") == -1){
+          this.school.Kindergarten = defautlNull
+        }
+        if(schoolSystem.search("小学") == -1){
+          this.school.primarySchool = defautlNull
+        }
+        if(schoolSystem.search("初中") == -1){
+          this.school.JuniorHighSchool = defautlNull
+        }
+        if(schoolSystem.search("高中") ==-1){
+          this.school.heightSchool = defautlNull
+        }
+
+
       console.log(this.school)
       // this.mouse = this.mouse.push(this.school)
       this.form.studentEnrollment=JSON.stringify(this.school)
     },
+
+        //默认按钮
+    defaultJson:function(){
+       console.log(this.school)
+      this.school.Kindergarten = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
+      this.school.primarySchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
+      this.school.JuniorHighSchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
+      this.school.heightSchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
+    },
+
     // 取消页面按钮
     addCancel(){
 
@@ -992,16 +1020,45 @@ export default {
       }
       this.form.schoolSystem = str1;
 
+
       let schoolSystem = this.form.schoolSystem;
-      let Kindergarten = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
-      let primarySchool = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
-      let JuniorHighSchool = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
-      let heightSchool = ` {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"}`;
-      // console.log(schoolSystem.length)
-      // for(var i=0;i<val.length;i++){
-      //   val.search("幼儿园") != -1 ? "":this.school.Kindergarten = "";
-      //   console.log( val.search("幼儿园") != -1 ? this.school.Kindergarten:this.school.Kindergarten = "");
-      // }
+      if(this.detailData.studentEnrollment == ""){
+        if(schoolSystem.search("幼儿园") != -1){
+          this.Kindergarten = true;
+        }else{
+           this.Kindergarten = false
+        };
+        if(schoolSystem.search("小学") != -1){
+          this.primarySchool = true;
+        }else{
+           this.primarySchool = false
+        };
+        if(schoolSystem.search("初中") != -1){
+          this.JuniorHighSchool = true;
+        }else{
+           this.JuniorHighSchool = false
+        };
+        if(schoolSystem.search("高中") != -1){
+          this.heightSchool = true;
+        }else{
+           this.heightSchool = false
+        };
+      }else{
+        schoolSystem.search("幼儿园") != -1 ? this.Kindergarten = true : this.Kindergarten = false;
+        schoolSystem.search("小学") != -1 ? this.primarySchool = true : this.primarySchool = false;
+        schoolSystem.search("初中") != -1 ? this.JuniorHighSchool = true : this.JuniorHighSchool = false;
+        schoolSystem.search("高中") != -1 ? this.heightSchool = true : this.heightSchool = false;
+        var obj_studentEnrollment = JSON.parse(this.detailData.studentEnrollment)
+        this.school=obj_studentEnrollment;
+        console.log(schoolSystem)
+      }
+      console.log(this.school.Kindergarten)
+        // let schoolSystem = this.form.schoolSystem;
+        // schoolSystem.search("幼儿园") != -1 ? this.Kindergarten = true : this.Kindergarten = false;
+        // schoolSystem.search("小学") != -1 ? this.primarySchool = true : this.primarySchool = false;
+        // schoolSystem.search("初中") != -1 ? this.JuniorHighSchool = true : this.JuniorHighSchool = false;
+        // schoolSystem.search("高中") != -1 ? this.heightSchool = true : this.heightSchool = false;
+
 
     },
     //国际课程多选
