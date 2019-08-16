@@ -449,7 +449,7 @@
           </div>
 
           <!-- <button @click="addscjson">1111</button> -->
-          <el-button @click="addscjson" type="primary">确认按钮</el-button>
+          <el-button @click="addToJson" type="primary">确认按钮</el-button>
           <el-button @click="defaultJson">默认模板</el-button>
         </div>
 
@@ -808,6 +808,7 @@ export default {
       let indexTwo = mycityTown.selectedIndex;
       this.form.town = mycityTown[indexTwo].text;
     },
+    //获取数据
     getData(){
         getDetails({
           schoolId : this.$route.query.id
@@ -824,27 +825,42 @@ export default {
         })
         this.citySelect = true;
     },
-
+    // 多选赋值
     transfromData(){
-      console.log(222222222);
-      console.log(this.inputCheckbox)
       //多选框编辑赋值
       console.log(this.detailData.schoolSystem)
       let str = this.detailData.schoolSystem;
-      // let str2 = this.detailData.course;
-      // let str3 = this.detailData.authentication;
+      let strCourse = this.detailData.course;
+      let strAuthentication = this.detailData.authentication;
 
-      // //学制多选
-      let str4 = [];
+      //学制多选
+      let strNewSchoolSystem = [];
       str = str.split(";");
       for(var i=0;i<str.length-1;i++){
-        str4 += str[i]+";,"
+        strNewSchoolSystem += str[i]+";,"
       }
-      str4 = str4.split(",");
-      console.log(str4)
-      console.log(this.inputCheckbox)
-      this.inputCheckbox=str4;
-      console.log(this.inputCheckbox)
+      strNewSchoolSystem = strNewSchoolSystem.split(",");
+      this.inputCheckbox=strNewSchoolSystem;
+
+      //国际课程多选
+      let strNewCourse = [];
+      strCourse = strCourse.split(";");
+      for(var i=0;i<strCourse.length-1;i++){
+        strNewCourse += strCourse[i]+";,"
+      }
+      strNewCourse = strNewCourse.split(",");
+      this.inputCheckboxCourse = strNewCourse;
+
+      //认证组织
+      let strNewAuthentication = [];
+      strAuthentication = strAuthentication.split(";");
+      for(var i=0;i<strAuthentication.length-1;i++){
+        strNewAuthentication += strAuthentication[i]+";,"
+      }
+      strNewAuthentication = strNewAuthentication.split(",");
+      this.inputCheckboxauthentication = strNewAuthentication;
+
+
 
     },
 
@@ -852,22 +868,22 @@ export default {
     //立即创建按钮   插入  编辑   学校接口
     submitForm:utils.debounce(function(formName) {
       //学制 分隔符中英文转换
-      let str1 = this.form.schoolSystem;
-      this.form.schoolSystem = str1;
+      let SchoolSystemToSeparate = this.form.schoolSystem;
+      this.form.schoolSystem = SchoolSystemToSeparate;
       //课程中英文分隔符转换
-      let str3 = this.form.course;
-      let str4 = str3.split("；").join(";")
-      str4.charAt(str4.length-1) == ";" || str4.length==0  ? "" : str4= str4 + ";";
-      this.form.course = str4
+      let CourseToSeparate = this.form.course;
+      let NewCourseToSeparate = CourseToSeparate.split("；").join(";")
+      NewCourseToSeparate.charAt(NewCourseToSeparate.length-1) == ";" || NewCourseToSeparate.length==0  ? "" : NewCourseToSeparate= NewCourseToSeparate + ";";
+      this.form.course = NewCourseToSeparate
       //认证组织 分隔符中英文转换
-      let str5 = this.form.authentication;
-      let str6 = str5.split("；").join(";")
-      str6.charAt(str6.length-1) == ";" || str6.length==0 ? "" : str6= str6 + ";";
-      this.form.authentication = str6
+      let AuthenticationToSeparate = this.form.authentication;
+      let NewAuthenticationToSeparate = AuthenticationToSeparate.split("；").join(";")
+      NewAuthenticationToSeparate.charAt(NewAuthenticationToSeparate.length-1) == ";" || NewAuthenticationToSeparate.length==0 ? "" : NewAuthenticationToSeparate= NewAuthenticationToSeparate + ";";
+      this.form.authentication = NewAuthenticationToSeparate
       //师生比 冒号中英文转换
-      let str7 = this.form.teacherStuRatio;
-      str7 = str7.replace(/：/g,":");
-      this.form.teacherStuRatio = str7
+      let teacherStuRatioToColon = this.form.teacherStuRatio;
+      teacherStuRatioToColon = teacherStuRatioToColon.replace(/：/g,":");
+      this.form.teacherStuRatio = teacherStuRatioToColon
 
       console.log(this.form.studentEnrollment)
       //立即创建按钮的执行操作
@@ -906,7 +922,7 @@ export default {
 
     }),
     //json 生成
-    addscjson:function(){
+    addToJson:function(){
         let defautlNull={"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
         let schoolSystem = this.form.schoolSystem;
         if(schoolSystem.search("幼儿园") == -1){
@@ -1015,13 +1031,13 @@ export default {
   watch: {
     //学制多选
     "inputCheckbox":function(val){
-      let str1 = ""
+      let strInputCheckbox = ""
       for(let i=0;i<val.length;i++){
-        str1 += val[i]
+        strInputCheckbox += val[i]
       }
-      this.form.schoolSystem = str1;
+      this.form.schoolSystem = strInputCheckbox;
 
-
+      //招生信息赋值
       let schoolSystem = this.form.schoolSystem;
       console.log(this.detailData.studentEnrollment)
       if(this.detailData.studentEnrollment == "" || this.detailData.studentEnrollment == null || this.detailData.studentEnrollment == undefined){
@@ -1056,29 +1072,25 @@ export default {
         console.log(obj_studentEnrollment)
       }
       console.log(this.school.Kindergarten)
-        // let schoolSystem = this.form.schoolSystem;
-        // schoolSystem.search("幼儿园") != -1 ? this.Kindergarten = true : this.Kindergarten = false;
-        // schoolSystem.search("小学") != -1 ? this.PrimarySchool = true : this.PrimarySchool = false;
-        // schoolSystem.search("初中") != -1 ? this.MiddleSchool = true : this.MiddleSchool = false;
-        // schoolSystem.search("高中") != -1 ? this.HighSchool = true : this.HighSchool = false;
+
 
 
     },
     //国际课程多选
     "inputCheckboxCourse":function(val){
-      let str2 = ""
+      let strCourse = ""
       for(let i=0;i<val.length;i++){
-        str2 += val[i]
+        strCourse += val[i]
       }
-      this.form.course = str2;
+      this.form.course = strCourse;
     },
     //认证组织
     "inputCheckboxauthentication":function(val){
-      let str3 = ""
+      let strCation = ""
       for(let i=0;i<val.length;i++){
-        str3 += val[i]
+        strCation += val[i]
       }
-      this.form.authentication = str3;
+      this.form.authentication = strCation;
     }
   },
 }
