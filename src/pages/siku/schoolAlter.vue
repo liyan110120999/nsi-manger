@@ -375,26 +375,26 @@
             </div>
           </div>
 
-          <div v-if="primarySchool">
+          <div v-if="PrimarySchool">
             <h4>小学</h4>
             <div class="Kindergarten">
               <el-form-item label="招生对象" prop="target">
-                <el-input v-model="school.primarySchool.target"></el-input>
+                <el-input v-model="school.PrimarySchool.target"></el-input>
               </el-form-item>
               <el-form-item label="授课形式" prop="froml">
-                <el-input v-model="school.primarySchool.froml" ></el-input>
+                <el-input v-model="school.PrimarySchool.froml" ></el-input>
               </el-form-item>
               <el-form-item label="入学要求" prop="require">
-                <el-input v-model="school.primarySchool.require" ></el-input>
+                <el-input v-model="school.PrimarySchool.require" ></el-input>
               </el-form-item>
               <el-form-item label="班级规模" prop="scale">
-                <el-input v-model="school.primarySchool.scale" ></el-input>
+                <el-input v-model="school.PrimarySchool.scale" ></el-input>
               </el-form-item>
               <el-form-item label="入学考试" prop="exam">
-                <el-input v-model="school.primarySchool.exam" ></el-input>
+                <el-input v-model="school.PrimarySchool.exam" ></el-input>
               </el-form-item>
               <el-form-item label="是否住宿" prop="stay">
-                <el-input v-model="school.primarySchool.stay" ></el-input>
+                <el-input v-model="school.PrimarySchool.stay" ></el-input>
               </el-form-item>
             </div>
           </div>
@@ -615,13 +615,13 @@ export default {
       inputCheckboxauthentication:[], //认证组织
       centerDialogVisible: false,//提示框
       Kindergarten:false,   //幼儿园
-      primarySchool:false,   //小学
+      PrimarySchool:false,   //小学
       MiddleSchool:false, //初中
       HighSchool:false,  //高中
        //表单属性
       "school":{
         "Kindergarten":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
-        "primarySchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
+        "PrimarySchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
         "MiddleSchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
         "HighSchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},
       },
@@ -817,7 +817,7 @@ export default {
           delete res.data.studentEnrollmentVo;
           this.form = res.data;
           this.detailData = res.data;
-          console.log(this.detailData);
+          console.log(this.form);
           this.transfromData();
         }).catch(error=>{
 
@@ -827,23 +827,24 @@ export default {
 
     transfromData(){
       console.log(222222222);
+      console.log(this.inputCheckbox)
       //多选框编辑赋值
+      console.log(this.detailData.schoolSystem)
       let str = this.detailData.schoolSystem;
-      let str2 = this.detailData.course;
-      let str3 = this.detailData.authentication;
+      // let str2 = this.detailData.course;
+      // let str3 = this.detailData.authentication;
 
-      //学制多选
+      // //学制多选
       let str4 = [];
       str = str.split(";");
       for(var i=0;i<str.length-1;i++){
         str4 += str[i]+";,"
       }
       str4 = str4.split(",");
+      console.log(str4)
+      console.log(this.inputCheckbox)
       this.inputCheckbox=str4;
-
-
-
-
+      console.log(this.inputCheckbox)
 
     },
 
@@ -912,7 +913,7 @@ export default {
           this.school.Kindergarten = defautlNull
         }
         if(schoolSystem.search("小学") == -1){
-          this.school.primarySchool = defautlNull
+          this.school.PrimarySchool = defautlNull
         }
         if(schoolSystem.search("初中") == -1){
           this.school.MiddleSchool = defautlNull
@@ -931,7 +932,7 @@ export default {
     defaultJson:function(){
        console.log(this.school)
       this.school.Kindergarten = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
-      this.school.primarySchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
+      this.school.PrimarySchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
       this.school.MiddleSchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
       this.school.HighSchool = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
     },
@@ -1022,16 +1023,18 @@ export default {
 
 
       let schoolSystem = this.form.schoolSystem;
-      if(this.detailData.studentEnrollment == ""){
+      console.log(this.detailData.studentEnrollment)
+      if(this.detailData.studentEnrollment == "" || this.detailData.studentEnrollment == null || this.detailData.studentEnrollment == undefined){
+        console.log("ifififififiifif")
         if(schoolSystem.search("幼儿园") != -1){
           this.Kindergarten = true;
         }else{
            this.Kindergarten = false
         };
         if(schoolSystem.search("小学") != -1){
-          this.primarySchool = true;
+          this.PrimarySchool = true;
         }else{
-           this.primarySchool = false
+           this.PrimarySchool = false
         };
         if(schoolSystem.search("初中") != -1){
           this.MiddleSchool = true;
@@ -1045,17 +1048,17 @@ export default {
         };
       }else{
         schoolSystem.search("幼儿园") != -1 ? this.Kindergarten = true : this.Kindergarten = false;
-        schoolSystem.search("小学") != -1 ? this.primarySchool = true : this.primarySchool = false;
+        schoolSystem.search("小学") != -1 ? this.PrimarySchool = true : this.PrimarySchool = false;
         schoolSystem.search("初中") != -1 ? this.MiddleSchool = true : this.MiddleSchool = false;
         schoolSystem.search("高中") != -1 ? this.HighSchool = true : this.HighSchool = false;
         var obj_studentEnrollment = JSON.parse(this.detailData.studentEnrollment)
-        this.school=obj_studentEnrollment;
-        console.log(schoolSystem)
+        // this.school=obj_studentEnrollment;
+        console.log(obj_studentEnrollment)
       }
       console.log(this.school.Kindergarten)
         // let schoolSystem = this.form.schoolSystem;
         // schoolSystem.search("幼儿园") != -1 ? this.Kindergarten = true : this.Kindergarten = false;
-        // schoolSystem.search("小学") != -1 ? this.primarySchool = true : this.primarySchool = false;
+        // schoolSystem.search("小学") != -1 ? this.PrimarySchool = true : this.PrimarySchool = false;
         // schoolSystem.search("初中") != -1 ? this.MiddleSchool = true : this.MiddleSchool = false;
         // schoolSystem.search("高中") != -1 ? this.HighSchool = true : this.HighSchool = false;
 
