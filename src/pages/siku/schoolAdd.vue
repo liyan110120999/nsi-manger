@@ -427,7 +427,7 @@
 
 
         <el-form-item label="招生信息" prop="studentEnrollment">
-          <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.studentEnrollment"></el-input>
+          <el-input type="textarea" :disabled="true" placeholder="请输入内容" :rows="4" v-model="form.studentEnrollment"></el-input>
           <!-- <el-input v-model="form.studentEnrollment" ></el-input> -->
         </el-form-item>
         <el-form-item label="留学生留学国家" prop="studeAbroadCountries" class="addFlex">
@@ -591,10 +591,10 @@ export default {
       HighSchool:false,  //高中
       //表单属性
       "school":{
-        "Kindergarten":"",  //幼儿园
-        "PrimarySchool":"",   //小学
-        "MiddleSchool":"", //初中
-        "HighSchool":"",  //高中
+        "Kindergarten":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},  //幼儿园
+        "PrimarySchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},   //小学
+        "MiddleSchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""}, //初中
+        "HighSchool":{"exam": "","scale": "","froml": "","require": "","target": "","stay": ""},  //高中
       },
        mouse:[],
       form: {
@@ -658,7 +658,7 @@ export default {
           {required:true,message:"学校名字不能为空",trigger:'blur'},
         ],
         schoolEnglishName:[ //学校英文名字
-          {required:true,validator: schoolEnglishName,trigger: 'blur' }
+
         ],
         schoolProperties:[ //学校性质
         ],
@@ -845,9 +845,10 @@ export default {
     }),
     // 取消页面按钮
     addCancel(){
-      console.log(this.school.Kindergarten)
+       this.$router.push({path:"/siku/school"})
+      // console.log(this.school.Kindergarten)
     },
-    //json 生成
+    // 确定按钮  json生成
     addscjson:function(){
       let defautlNull={"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
       let schoolSystem = this.form.schoolSystem;
@@ -867,7 +868,7 @@ export default {
       // this.mouse = this.mouse.push(this.school)
       this.form.studentEnrollment=JSON.stringify(this.school)
     },
-    //默认按钮
+    //默认按钮 json
     defaultJson:function(){
       console.log(this.school)
       this.school.Kindergarten = {"exam": "数学英语","scale": "18-22人","froml": "英语","require": "测试+面试","target": "无要求","stay": "是"};
@@ -881,41 +882,43 @@ export default {
   watch: {
     //学制多选
     "inputCheckbox":function(val){
-      let strInputCheckbox = ""
+      let strInputCheckbox = "";
       for(let i=0;i<val.length;i++){
         strInputCheckbox += val[i]
       }
       this.form.schoolSystem = strInputCheckbox;
 
       let schoolSystem = this.form.schoolSystem;
-      if(schoolSystem.search("幼儿园") != -1){
-        this.Kindergarten = true;
-      }else{
-        this.school.Kindergarten = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
-        this.Kindergarten = fasle;
-      }
+      schoolSystem.search("幼儿园") != -1 ? this.Kindergarten = true :  this.Kindergarten = false ;
+      schoolSystem.search("小学") != -1 ? this.PrimarySchool = true :  this.PrimarySchool = false ;
+      schoolSystem.search("初中") != -1 ? this.MiddleSchool = true :  this.MiddleSchool = false ;
+      schoolSystem.search("高中") != -1 ? this.HighSchool = true :  this.HighSchool = false ;
 
-      if(schoolSystem.search("小学") != -1){
-        console.log("you")
-        this.PrimarySchool = true;
-      }else{
-        this.PrimarySchool = false;
-        console.log(this.PrimarySchool);
 
-      }
+      // console.log(schoolSystem.search("幼儿园") != -1)
+      // if(schoolSystem.search("幼儿园") != -1){
+      //   this.Kindergarten = true;
+      // }else{
+      //   this.Kindergarten = false;
+      // }
 
-      if(schoolSystem.search("初中") != -1){
-         this.MiddleSchool = true;
-      }else{
-        this.school.MiddleSchool = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
-        this.MiddleSchool = false;
-      }
-      if( schoolSystem.search("高中") != -1){
-        this.HighSchool = true;
-      }else{
-        this.school.HighSchool = {"exam": "","scale": "","froml": "","require": "","target": "","stay": ""};
-        this.HighSchool = false;
-      }
+      // if(schoolSystem.search("小学") != -1){
+      //   console.log("you")
+      //   this.PrimarySchool = true;
+      // }else{
+      //   this.PrimarySchool = false;
+      // }
+
+      // if(schoolSystem.search("初中") != -1){
+      //    this.MiddleSchool = true;
+      // }else{
+      //   this.MiddleSchool = false;
+      // }
+      // if( schoolSystem.search("高中") != -1){
+      //   this.HighSchool = true;
+      // }else{
+      //   this.HighSchool = false;
+      // }
 
     },
     //国际课程多选
@@ -948,11 +951,14 @@ export default {
   .addTitle{
     font-size: 25px;
     i{
+      width: 40px;
+      height: 40px;
       float:right;
-      font-size: 20px;
+      font-size: 40px;
     }
     i:hover{
-      color: red;
+      background: red;
+      color: #ccc;
     }
   }
   .addBasic{
@@ -1154,8 +1160,14 @@ export default {
   // 招生信息
   .RecruitStudents{
     border: 1px solid #cccccc;
+    margin-left: 50px;
+    margin-right: 90px;
     h4{
       margin-top: 0px;
+      margin-bottom: 20px;
+    }
+    h2{
+      margin-top: 10px;
       margin-bottom: 20px;
     }
     .Kindergarten{
@@ -1166,8 +1178,13 @@ export default {
       margin-top: 0px;
     }
     .el-button--primary {
-      margin-left: 230px;
+      margin-left: 0px;
       margin-bottom: 20px;
     }
+  }
+
+  //确定 取消按钮
+  /deep/.addBtn .el-form-item__content{
+    text-align: left;
   }
 </style>

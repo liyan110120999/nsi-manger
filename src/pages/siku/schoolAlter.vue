@@ -452,12 +452,11 @@
           <el-button @click="addToJson" type="primary">确认按钮</el-button>
           <el-button @click="defaultJson">默认模板</el-button>
         </div>
-
-
         <el-form-item label="招生信息" prop="studentEnrollment">
-          <el-input type="textarea" placeholder="请输入内容" :rows="4" v-model="form.studentEnrollment"></el-input>
-          <!-- <el-input v-model="form.studentEnrollment" ></el-input> -->
+          <el-input type="textarea" :disabled="true" placeholder="请输入内容" :rows="4" v-model="form.studentEnrollment"></el-input>
         </el-form-item>
+
+
         <el-form-item label="留学生留学国家" prop="studeAbroadCountries" class="addFlex">
           <el-input v-model="form.studeAbroadCountries" ></el-input>
           <i>请分号分割 例：中国;美国;英国</i>
@@ -533,20 +532,6 @@ import axios from "axios";
 import store from '../../vuex/store.js'
 export default {
   data() {
-    //学校英文名字验证
-    var schoolEnglishName = (rele,value,callback) =>{
-      let parent = /^[^\(\,]+[a-zA-Z]+$/;
-      if(value == ""){
-        callback();
-      }else{
-        if(parent.test(value)){
-          callback()
-        }else{
-          callback(new Error("格式不正确,不能出现中文或者特殊符号"));
-        }
-
-      }
-    };
     //验证成立时间
     var foundingTime = (rele,value,callback) =>{
       if(value == "" || value == null){
@@ -689,7 +674,7 @@ export default {
           {required:true,message:"学校名字不能为空",trigger:'blur'},
         ],
         schoolEnglishName:[ //学校英文名字
-          {required:true,validator: schoolEnglishName,trigger: 'blur' }
+
         ],
         schoolProperties:[ //学校性质
         ],
@@ -913,8 +898,11 @@ export default {
                 type: 'error'
               });
             })
-
         } else {
+          this.$message({
+            message: '数据修改失败 数据输入格式错误',
+            type: 'error'
+          });
           console.log('error submit!!');
           return false;
         }
@@ -955,7 +943,7 @@ export default {
 
     // 取消页面按钮
     addCancel(){
-
+      this.$router.push({path:"/siku/school"});
       console.log(typeof this.form.studentEnrollment)
     },
     //上传logo、
@@ -1039,28 +1027,29 @@ export default {
 
       //招生信息赋值
       let schoolSystem = this.form.schoolSystem;
-      console.log(this.detailData.studentEnrollment)
-      if(this.detailData.studentEnrollment == "" || this.detailData.studentEnrollment == null || this.detailData.studentEnrollment == undefined){
+      console.log(this.detailData.studentEnrollment);
+      console.log(this.detailData.studentEnrollment == "" || this.detailData.studentEnrollment == null || this.detailData.studentEnrollment == "undefined");
+      if(this.detailData.studentEnrollment == "" || this.detailData.studentEnrollment == null || this.detailData.studentEnrollment == "undefined"){
         console.log("ifififififiifif")
         if(schoolSystem.search("幼儿园") != -1){
           this.Kindergarten = true;
         }else{
-           this.Kindergarten = false
+           this.Kindergarten = false;
         };
         if(schoolSystem.search("小学") != -1){
           this.PrimarySchool = true;
         }else{
-           this.PrimarySchool = false
+           this.PrimarySchool = false;
         };
         if(schoolSystem.search("初中") != -1){
           this.MiddleSchool = true;
         }else{
-           this.MiddleSchool = false
+           this.MiddleSchool = false;
         };
         if(schoolSystem.search("高中") != -1){
           this.HighSchool = true;
         }else{
-           this.HighSchool = false
+           this.HighSchool = false;
         };
       }else{
         schoolSystem.search("幼儿园") != -1 ? this.Kindergarten = true : this.Kindergarten = false;
@@ -1068,10 +1057,10 @@ export default {
         schoolSystem.search("初中") != -1 ? this.MiddleSchool = true : this.MiddleSchool = false;
         schoolSystem.search("高中") != -1 ? this.HighSchool = true : this.HighSchool = false;
         var obj_studentEnrollment = JSON.parse(this.detailData.studentEnrollment)
-        // this.school=obj_studentEnrollment;
-        console.log(obj_studentEnrollment)
+        this.school=obj_studentEnrollment;
+        // console.log(obj_studentEnrollment)
       }
-      console.log(this.school.Kindergarten)
+      // console.log(this.school.Kindergarten)
 
 
 
@@ -1106,11 +1095,14 @@ export default {
   .addTitle{
     font-size: 25px;
     i{
+      width: 40px;
+      height: 40px;
       float:right;
-      font-size: 20px;
+      font-size: 40px;
     }
     i:hover{
-      color: red;
+      background: red;
+      color: #ccc;
     }
   }
   .addBasic{
@@ -1317,10 +1309,16 @@ export default {
   }
 
   // 招生信息
-  /deep/.RecruitStudents{
+  .RecruitStudents{
     border: 1px solid #cccccc;
+    margin-left: 50px;
+    margin-right: 90px;
     h4{
       margin-top: 0px;
+      margin-bottom: 20px;
+    }
+    h2{
+      margin-top: 10px;
       margin-bottom: 20px;
     }
     .Kindergarten{
@@ -1331,8 +1329,16 @@ export default {
       margin-top: 0px;
     }
     .el-button--primary {
-      margin-left: 230px;
+      margin-left: 0px;
       margin-bottom: 20px;
     }
+  }
+
+  //确定 取消按钮
+  /deep/.addBtn{
+    .el-form-item__content{
+      text-align: -webkit-auto;
+    }
+
   }
 </style>
