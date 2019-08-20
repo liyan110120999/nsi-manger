@@ -193,8 +193,9 @@
     <div class="block">
       <el-pagination
         @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
         :current-page.sync="currentPage1"
-        :page-size="100"
+        :page-size="pageSize"
         layout="total, prev, pager, next"
         :total="schoolPageSize">
       </el-pagination>
@@ -256,9 +257,14 @@ export default {
     schoolAddPage(){
       this.$router.push({path:"/siku/schooAdd",query:{type:"add"}})
     },
+    // 每页多少条
+    handleSizeChange(val) {
+
+        console.log(`每页 ${val} 条`);
+      },
     // 当前页: ${val}`;
     handleCurrentChange(val) {
-
+      console.log(`当前页: ${val}`);
       this.pageNum = val;
       this.getSchoolData()
     },

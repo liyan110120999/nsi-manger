@@ -107,8 +107,8 @@
               <el-menu-item-group>
                 <el-menu-item index="/siku/school" @click="SikuSchool">学校库</el-menu-item>
                 <el-menu-item index="/siku/lianxi">机构库</el-menu-item>
-                <el-menu-item index="/siku/caiwu">人才库</el-menu-item>
-                <el-menu-item index="/siku/caiwu">项目库</el-menu-item>
+                <el-menu-item index="/siku/lianxiTwo">人才库</el-menu-item>
+                <el-menu-item index="/siku/lianxiTwo">项目库</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 

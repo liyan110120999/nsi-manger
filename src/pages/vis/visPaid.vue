@@ -15,11 +15,13 @@
           <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
       </div>
       <div class="headerBtnLeft">
-          <el-button type="primary" @click="schoolAddPage">添加活动</el-button>
+          <!-- <el-button type="primary" @click="schoolAddPage">添加活动</el-button> -->
+          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="success">导出</el-button>
       </div>
     </div>
     <!-- 表格 -->
     <el-table
+      id="rebateSetTable"
       :data="visData"
       border
       style="width: 100%"
@@ -106,9 +108,10 @@
     <!-- 分页 -->
     <div class="block">
       <el-pagination
+        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage1"
-        :page-size="100"
+        :page-size="10"
         layout="total, prev, pager, next"
         :total="schoolPageSize">
       </el-pagination>
@@ -123,13 +126,17 @@ import axios from "axios";
 import QS from 'qs';
 import {getvislist,getvisorder} from "@/api/api";
 import utils from "@/api/utils.js";
+
+import FileSaver from 'file-saver';
+import XLSX from 'xlsx';
+
 export default {
   data() {
     return {
       input:"",
       visData:null,
       currentPage1: 5,
-      schoolPageSize:0,
+      schoolPageSize:50,
       pageNum:1,
       pageSize:20,
       centerDialogVisible: false,//弹出框
@@ -154,7 +161,7 @@ export default {
       getvisorder({
         type:this.type
       }).then(res=>{
-        this.schoolPageSize=res.data.length
+        // this.schoolPageSize=res.data.length
         this.visData = res.data;
 
         //时间戳 转换时间
@@ -191,18 +198,37 @@ export default {
       console.log(this.type)
     //   this.$router.push({path:"/siku/schooAdd",query:{type:"add"}})
     },
-    // 当前页: ${val}`;
-    handleCurrentChange(val) {
-      console.log(val)
-      this.pageNum = val;
-      this.getvis()
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
     },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    },
+    // 当前页: ${val}`;
+    // handleCurrentChange(val) {
+    //   console.log(val)
+    //   this.pageNum = val;
+    //   this.getvis()
+    // },
     //搜索
     schoolSearch(){
       this.getvis()
     },
 
-
+    //导出excel
+    exportExcel () {
+      /* generate workbook object from table */
+      let wb = XLSX.utils.table_to_book(document.querySelector('#rebateSetTable'));
+      /* get binary string as output */
+      let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' });
+      try {
+        FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '报名已付款列表.xlsx');
+      } catch (e) {
+        if (typeof console !== 'undefined')
+          console.log(e, wbout)
+        }
+      return wbout
+    },
 
   },
   created() {

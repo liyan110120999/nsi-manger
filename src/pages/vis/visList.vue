@@ -15,12 +15,14 @@
           <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
       </div>
       <div class="headerBtnLeft">
-          <el-button type="primary" @click="schoolAddPage">添加学校</el-button>
+          <!-- <el-button type="primary" @click="schoolAddPage">添加学校</el-button> -->
+          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="success">导出</el-button>
       </div>
     </div>
     <!-- 表格 -->
     <el-table
       :data="visData"
+      id="rebateSetTable"
       border
       style="width: 100%"
       height="640">
@@ -125,6 +127,9 @@ import QS from 'qs';
 import {getvislist} from "@/api/api";
 import {getSchoolDelete} from '@/api/api';
 import utils from "@/api/utils.js";
+
+import FileSaver from 'file-saver';
+import XLSX from 'xlsx';
 export default {
   data() {
     return {
@@ -135,7 +140,7 @@ export default {
       pageNum:1,
       pageSize:20,
       centerDialogVisible: false,//弹出框
-      type:"",
+      type:"vis2019",
       form: {
         name: '',
         region: '',
@@ -220,9 +225,22 @@ export default {
           message: '已取消删除'
         });
       });
-
-
      }),
+
+     //导出excel
+    exportExcel () {
+      /* generate workbook object from table */
+      let wb = XLSX.utils.table_to_book(document.querySelector('#rebateSetTable'));
+      /* get binary string as output */
+      let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' });
+      try {
+        FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '报名列表.xlsx');
+      } catch (e) {
+        if (typeof console !== 'undefined')
+          console.log(e, wbout)
+        }
+      return wbout
+    },
   },
   created() {
     this.getvis()
