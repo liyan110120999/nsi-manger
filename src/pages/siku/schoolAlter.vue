@@ -1025,6 +1025,7 @@ export default {
       }
       this.form.schoolSystem = strInputCheckbox;
 
+      console.log(val)
       //招生信息赋值
       let schoolSystem = this.form.schoolSystem;
       console.log(this.detailData.studentEnrollment);
@@ -1060,9 +1061,6 @@ export default {
         this.school=obj_studentEnrollment;
         // console.log(obj_studentEnrollment)
       }
-      // console.log(this.school.Kindergarten)
-
-
 
     },
     //国际课程多选
@@ -1108,14 +1106,13 @@ export default {
   .addBasic{
     .addBaH{
       background: #ccc;
-      height: 60px;
+      height: 50px;
       border-left: 5px solid #133e6d;
-      line-height: 60px;
+      line-height: 50px;
       text-align: center;
-      margin-top: 30px;
-      font-size: 45px;
+      margin-top: 10px;
+      font-size: 28px;
     }
-
   }
   .el-form-item {
     margin-top: 30px;

@@ -25,12 +25,6 @@
       style="width: 100%"
       height="640">
       <el-table-column
-        align="center"
-        fixed="left"
-        type="selection"
-        width="50">
-      </el-table-column>
-      <el-table-column
         fixed="left"
         prop="name"
         align="center"
@@ -49,21 +43,21 @@
         align="center"
         label="职位"
         :show-overflow-tooltip="true"
-        width="190">
+        width="120">
       </el-table-column>
       <el-table-column
         prop="type"
         align="center"
         label="类型"
         :show-overflow-tooltip="true"
-        width="190">
+        width="70">
       </el-table-column>
       <el-table-column
         prop="phone"
         align="center"
         label="电话"
         :show-overflow-tooltip="true"
-        width="190">
+        width="120">
       </el-table-column>
        <el-table-column
         prop="mail"
@@ -72,25 +66,39 @@
         :show-overflow-tooltip="true"
         width="190">
       </el-table-column>
+
+      <el-table-column
+        prop="totalPrice"
+        align="center"
+        label="价格"
+        width="100">
+      </el-table-column>
+
+      <el-table-column
+        prop="creattime"
+        align="center"
+        label="创建时间"
+        width="190">
+      </el-table-column>
       <el-table-column
         prop="ispublic"
         align="center"
         label="是否公开"
-        width="190">
+        width="100">
       </el-table-column>
       <el-table-column
         prop="option01"
         align="center"
         label="选项1"
         :show-overflow-tooltip="true"
-        width="190">
+        width="100">
       </el-table-column>
       <el-table-column
         prop="option02"
         align="center"
         label="选项2"
         :show-overflow-tooltip="true"
-        width="190">
+        width="100">
       </el-table-column>
 
 
@@ -148,6 +156,23 @@ export default {
       }).then(res=>{
         this.schoolPageSize=res.data.length
         this.visData = res.data;
+
+        //时间戳 转换时间
+        function formatDate(now) {
+          var year=now.getFullYear();
+          var month=now.getMonth()+1;
+          var date=now.getDate();
+          var hour=now.getHours();
+          var minute=now.getMinutes();
+          var second=now.getSeconds();
+          return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+        }
+        //如果记得时间戳是毫秒级的就需要*1000 不然就错了记得转换成整型
+        for(var i=0; i<res.data.length; i++){
+          var d=new Date(res.data[i].creattime);
+          this.visData[i].creattime = formatDate(d);
+        }
+
       }).catch(error=>{
         this.$message({
           message: '数据请求失败',
@@ -168,6 +193,7 @@ export default {
     },
     // 当前页: ${val}`;
     handleCurrentChange(val) {
+      console.log(val)
       this.pageNum = val;
       this.getvis()
     },

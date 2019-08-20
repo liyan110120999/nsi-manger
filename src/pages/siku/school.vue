@@ -258,6 +258,7 @@ export default {
     },
     // 当前页: ${val}`;
     handleCurrentChange(val) {
+
       this.pageNum = val;
       this.getSchoolData()
     },

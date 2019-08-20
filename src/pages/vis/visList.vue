@@ -25,17 +25,11 @@
       style="width: 100%"
       height="640">
       <el-table-column
-        align="center"
-        fixed="left"
-        type="selection"
-        width="50">
-      </el-table-column>
-      <el-table-column
         prop="name"
         align="center"
          fixed="left"
         label="姓名"
-        width="190">
+        width="120">
       </el-table-column>
       <el-table-column
         prop="company"
@@ -49,21 +43,21 @@
         align="center"
         label="职位"
         :show-overflow-tooltip="true"
-        width="190">
+        width="120">
       </el-table-column>
        <el-table-column
         prop="type"
         align="center"
         label="类型"
         :show-overflow-tooltip="true"
-        width="190">
+        width="70">
       </el-table-column>
       <el-table-column
         prop="phone"
         align="center"
         label="电话"
         :show-overflow-tooltip="true"
-        width="190">
+        width="120">
       </el-table-column>
       <el-table-column
         prop="mail"
@@ -72,29 +66,34 @@
         :show-overflow-tooltip="true"
         width="190">
       </el-table-column>
+
+      <el-table-column
+        prop="creattime"
+        align="center"
+        label="创建时间"
+        width="190">
+      </el-table-column>
       <el-table-column
         prop="ispublic"
         align="center"
         label="是否公开"
-        width="190">
+        width="100">
       </el-table-column>
-
-
       <el-table-column
         prop="option01"
         align="center"
         label="选项1"
         :show-overflow-tooltip="true"
-        width="190">
+        width="100">
       </el-table-column>
       <el-table-column
         prop="option02"
         align="center"
         label="选项2"
         :show-overflow-tooltip="true"
-        width="190">
+        width="100">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         fixed="right"
         label="操作"
         align="center"
@@ -103,7 +102,7 @@
           <el-button @click="schoolDetail(scope.row.id)" type="text" size="small" style="color:#67C23A">编辑</el-button>
           <el-button @click="SchoolDelete(scope.row.id)" type="text" size="small" style="color:red">删除</el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <!-- 分页 -->
     <div class="block">
@@ -154,10 +153,26 @@ export default {
     getvis(){
       let that = this;
       getvislist({
-        type:this.type
+        type:this.type,
       }).then(res=>{
-        console.log(res.data)
+        this.schoolPageSize=res.data.length
         this.visData = res.data;
+        console.log(res.data)
+
+        function formatDate(now) {
+          var year=now.getFullYear();
+          var month=now.getMonth()+1;
+          var date=now.getDate();
+          var hour=now.getHours();
+          var minute=now.getMinutes();
+          var second=now.getSeconds();
+          return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+        }
+        //如果记得时间戳是毫秒级的就需要*1000 不然就错了记得转换成整型
+        for(var i=0; i<res.data.length; i++){
+          var d=new Date(res.data[i].creattime);
+          this.visData[i].creattime = formatDate(d);
+        }
       }).catch(error=>{
         this.$message({
           message: '数据请求失败',
@@ -165,6 +180,7 @@ export default {
         });
       })
     },
+    //活动类型
     changeVisType(){
       this.type = this.form.region;
       console.log(this.type)
@@ -178,12 +194,13 @@ export default {
     },
     // 当前页: ${val}`;
     handleCurrentChange(val) {
-      this.pageNum = val;
-      this.getvis()
+      console.log(val)
+      // this.pageNum = val;
+      // this.getvis()
     },
     //编辑按钮
     schoolDetail(row) {
-      this.$router.push({path:"/siku/schooAdd",query:{id:row}})
+      this.$router.push()
     },
     //搜索
     schoolSearch(){
@@ -196,15 +213,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        getSchoolDelete({
-          schoolId:row
-        }).then(res =>{
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-          this.getvis()
-        })
+
       }).catch(() => {
         this.$message({
           type: 'info',

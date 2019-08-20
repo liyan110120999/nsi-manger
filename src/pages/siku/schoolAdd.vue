@@ -893,8 +893,8 @@ export default {
       schoolSystem.search("小学") != -1 ? this.PrimarySchool = true :  this.PrimarySchool = false ;
       schoolSystem.search("初中") != -1 ? this.MiddleSchool = true :  this.MiddleSchool = false ;
       schoolSystem.search("高中") != -1 ? this.HighSchool = true :  this.HighSchool = false ;
-
-
+      console.log(this.school.MiddleSchool)
+      console.log(this.school.HighSchool)
       // console.log(schoolSystem.search("幼儿园") != -1)
       // if(schoolSystem.search("幼儿园") != -1){
       //   this.Kindergarten = true;
@@ -964,12 +964,12 @@ export default {
   .addBasic{
     .addBaH{
       background: #ccc;
-      height: 60px;
+      height: 50px;
       border-left: 5px solid #133e6d;
-      line-height: 60px;
+      line-height: 50px;
       text-align: center;
-      margin-top: 30px;
-      font-size: 45px;
+      margin-top: 10px;
+      font-size: 28px;
     }
 
   }
