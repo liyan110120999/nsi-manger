@@ -16,7 +16,7 @@
       </div>
       <div class="headerBtnLeft">
           <!-- <el-button type="primary" @click="schoolAddPage">添加活动</el-button> -->
-          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="success">导出</el-button>
+          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出</el-button>
       </div>
     </div>
     <!-- 表格 -->
@@ -214,20 +214,31 @@ export default {
     schoolSearch(){
       this.getvis()
     },
-
     //导出excel
     exportExcel () {
-      /* generate workbook object from table */
-      let wb = XLSX.utils.table_to_book(document.querySelector('#rebateSetTable'));
+      var fix = document.querySelector('.el-table__fixed');
+      var wb;
+      var xlsxParam = { raw: true }  //转换成excel时，使用原始的格式
+      if (fix) {
+        wb = XLSX.utils.table_to_book(document.getElementById('rebateSetTable').removeChild(fix),xlsxParam);
+        document.getElementById('rebateSetTable').appendChild(fix);
+      } else {
+          wb = XLSX.utils.table_to_book(document.getElementById('rebateSetTable'),xlsxParam);
+      }
       /* get binary string as output */
-      let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' });
+      var wbout = XLSX.write(wb, {
+          bookType: 'xlsx',
+          bookSST: true,
+          type: 'array'
+      });
       try {
-        FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '报名已付款列表.xlsx');
+        FileSaver.saveAs(
+        new Blob([wbout], { type: "application/octet-stream;charset=utf-8" }),
+        'sheetjs.xlsx')
       } catch (e) {
-        if (typeof console !== 'undefined')
-          console.log(e, wbout)
-        }
-      return wbout
+        if (typeof console !== 'undefined') console.log(e, wbout)
+      }
+    return wbout;
     },
 
   },
