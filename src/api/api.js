@@ -3,6 +3,8 @@ import {
   post
 } from '@/api/http'
 
+//商城 发票管理  /Invoice/del.do
+export const getInvoiceDel = p => get('/Invoice/del.do', p)
 //学校库  学校列表
 export const getSchoolLibrary = p => get('/new/school/list.do', p)
 //学校库  添加列表
@@ -19,5 +21,7 @@ export const getSchoolDelete = p => get('/manager/new/school/delete.do', p)
 export const getvislist = p => post('/activity/vis_list.do', p)
 //活动管理 vis 已交费
 export const getvisorder = p => post('/activity/vis_orderList.do', p)
-//村小库  图片logo上传
+//学校库  图片logo上传
 export const getupolad = p => post('/new/school/upload_logo.do', p)
+//学校库 申请访校接口
+export const getApplySchool = p => get('/visit/manager/school/list.do', p)

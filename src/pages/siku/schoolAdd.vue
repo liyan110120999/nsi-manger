@@ -895,30 +895,6 @@ export default {
       schoolSystem.search("高中") != -1 ? this.HighSchool = true :  this.HighSchool = false ;
       console.log(this.school.MiddleSchool)
       console.log(this.school.HighSchool)
-      // console.log(schoolSystem.search("幼儿园") != -1)
-      // if(schoolSystem.search("幼儿园") != -1){
-      //   this.Kindergarten = true;
-      // }else{
-      //   this.Kindergarten = false;
-      // }
-
-      // if(schoolSystem.search("小学") != -1){
-      //   console.log("you")
-      //   this.PrimarySchool = true;
-      // }else{
-      //   this.PrimarySchool = false;
-      // }
-
-      // if(schoolSystem.search("初中") != -1){
-      //    this.MiddleSchool = true;
-      // }else{
-      //   this.MiddleSchool = false;
-      // }
-      // if( schoolSystem.search("高中") != -1){
-      //   this.HighSchool = true;
-      // }else{
-      //   this.HighSchool = false;
-      // }
 
     },
     //国际课程多选

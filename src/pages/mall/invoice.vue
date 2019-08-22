@@ -17,19 +17,23 @@
     <div class="headerBtnRight">
       <el-input v-model="keyword" placeholder="请输入关键字搜索"></el-input>
       <el-button @click="getWebsiteTable" type="success" class="selectBtn" ><i class="el-icon-search"></i><span>查询</span></el-button>
+      <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出</el-button>
     </div>
-    
+
   </div>
   <!-- 表格 -->
   <el-table
     :data="websiteTableData"
+    id="rebateSetTable"
     border
     stripe
     v-loading="websiteTableDataloading"
+    height="640"
     class="websiteTable">
     <el-table-column
       prop="id"
       align="center"
+      fixed="left"
       label="编号"
       >
     </el-table-column>
@@ -54,7 +58,7 @@
       width="160"
       >
     </el-table-column>
-    
+
     <el-table-column
       prop="userinvoicenum"
       align="center"
@@ -86,14 +90,14 @@
       align="center"
       width="120">
     </el-table-column>
-    
+
     <el-table-column
       prop="managepaymentmethod"
       label="支付方式"
       align="center"
       width="120">
     </el-table-column>
-    
+
     <el-table-column
       prop="managestate"
       label="审核状态"
@@ -150,7 +154,7 @@
       width="100">
       <template slot-scope="scope">
         <el-button @click.prevent="edit(scope.row.id)" type="text" size="small">{{scope.row.financestate==0?'未开票':'未开票'}}</el-button>
-        <!-- <el-button @click.prevent="deleteWebsiteTableData(scope.row.id,websiteTableData)" type="text" size="small" style="color:#f56c6c">删除</el-button> -->
+        <el-button @click.prevent="deleteWebsiteTableData(scope.row.id,websiteTableData)" type="text" size="small" style="color:#f56c6c">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -166,10 +170,13 @@
     :total="pageTotalnum">
   </el-pagination>
 </div>
-  
+
 </template>
 
 <script>
+import {getInvoiceDel} from '@/api/api'
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
   export default {
     data() {
       return {
@@ -212,7 +219,7 @@
           that.pageTotalnum=response.data.data.total
           that.websiteTableData=response.data.data.list
           console.log(that.websiteTableData)
-        
+
           for (var i = 0; i < that.websiteTableData.length; i++) {
               that.websiteTableData[i].createtime=that.changetime(that.websiteTableData[i].createtime)
               that.websiteTableData[i].updatetime=that.changetime(that.websiteTableData[i].updatetime)
@@ -249,7 +256,7 @@
         this.getWebsiteTable()
       },
       //一页数据量改变
-      handleSizeChange(num){ 
+      handleSizeChange(num){
         this.pageSize=num
         this.getWebsiteTable()
       },
@@ -261,11 +268,11 @@
           confirmButtonText: '确定',
           type: 'warning'
         }).then(() => {
-          
+
           let url=that.baseUrl + "/Invoice/PassShopInvoice.do"
           var formData =new URLSearchParams();
           formData.append('Id', newsId)
-          
+
           that.$axios.post(url,formData).then(function(response){
             console.log(response)
             that.$message({
@@ -283,7 +290,7 @@
           that.$message({
             type: 'info',
             message: '已取消修改'
-          });          
+          });
         });
         // this.$store.state.websiteNewsId=newsId
         // this.$router.push({path:'/website/createnews'});
@@ -296,24 +303,46 @@
           confirmButtonText: '确定',
           type: 'warning'
         }).then(() => {
-          let url=that.baseUrl + "/manager/article/delete.do"+"?articleId="+articleId
-          that.$axios.get(url).then(function(response){
-            that.$message({
-              message: response.data.msg,
-              type: 'sucess'
-            });
-            that.getWebsiteTable()
-          }).catch(function (response){
+          getInvoiceDel({
+            id:articleId
+          }).then(res => {
+            if(res.code == 0){
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            }else{
+              that.$message({
+                message: '数据删除失败',
+                type: 'error'
+              });
+            }
+            this.getWebsiteTable()
+            console.log(res)
+          }).catch(error =>{
             that.$message({
               message: '数据请求失败',
               type: 'error'
             });
-          });
+          })
+          // let url=that.baseUrl + "/manager/article/delete.do"+"?articleId="+articleId
+          // that.$axios.get(url).then(function(response){
+          //   that.$message({
+          //     message: response.data.msg,
+          //     type: 'sucess'
+          //   });
+          //   that.getWebsiteTable()
+          // }).catch(function (response){
+          //   that.$message({
+          //     message: '数据请求失败',
+          //     type: 'error'
+          //   });
+          // });
         }).catch(() => {
           that.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       },
       //复制链接成功
@@ -332,9 +361,35 @@
       },
       //创建新资讯
       createNews(){
-       
-      },
 
+      },
+      //导出 elsx
+      exportExcel () {
+        var fix = document.querySelector('.el-table__fixed');
+        console.log(fix)
+        var wb;
+        var xlsxParam = { raw: true }  //转换成excel时，使用原始的格式
+        if (fix) {
+          wb = XLSX.utils.table_to_book(document.getElementById('rebateSetTable').removeChild(fix),xlsxParam);
+          document.getElementById('rebateSetTable').appendChild(fix);
+        } else {
+            wb = XLSX.utils.table_to_book(document.getElementById('rebateSetTable'),xlsxParam);
+        }
+        /* get binary string as output */
+        var wbout = XLSX.write(wb, {
+            bookType: 'xlsx',
+            bookSST: true,
+            type: 'array'
+        });
+        try {
+          FileSaver.saveAs(
+          new Blob([wbout], { type: "application/octet-stream;charset=utf-8" }),
+          'sheetjs.xlsx')
+        } catch (e) {
+          if (typeof console !== 'undefined') console.log(e, wbout)
+        }
+        return wbout;
+      },
     },
     created(){
       //初始化表格数据

@@ -29,7 +29,7 @@
       <el-table-column
         prop="name"
         align="center"
-         fixed="left"
+        fixed="left"
         label="姓名"
         width="120">
       </el-table-column>
@@ -230,6 +230,7 @@ export default {
     //导出excel
     exportExcel () {
       var fix = document.querySelector('.el-table__fixed');
+      console.log(fix)
       var wb;
       var xlsxParam = { raw: true }  //转换成excel时，使用原始的格式
       if (fix) {
@@ -251,7 +252,7 @@ export default {
       } catch (e) {
         if (typeof console !== 'undefined') console.log(e, wbout)
       }
-    return wbout;
+      return wbout;
     },
 
 

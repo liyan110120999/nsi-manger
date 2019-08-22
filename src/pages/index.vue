@@ -109,6 +109,7 @@
                 <el-menu-item index="/siku/lianxi">机构库</el-menu-item>
                 <el-menu-item index="/siku/lianxiTwo">人才库</el-menu-item>
                 <el-menu-item index="/siku/lianxiTwo">项目库</el-menu-item>
+                <el-menu-item index="/siku/ApplySchool">申请访校表</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 

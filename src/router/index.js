@@ -28,6 +28,7 @@ import lianxitwo from '@/pages/siku/lianxitwo.vue'
 import visList from '@/pages/vis/visList.vue'
 import visPaid from '@/pages/vis/visPaid.vue'
 import schoolAlter from '@/pages/siku/schoolAlter.vue'
+import ApplySchool from '@/pages/siku/ApplySchool.vue'
 
 Vue.use(Router)
 
@@ -125,7 +126,9 @@ export default new Router({
         }, {
           path: '/siku/schoolAlter',
           component: schoolAlter,
-          //   name:"schoolAlter"
+        }, {
+          path: '/siku/ApplySchool',
+          component: ApplySchool,
         }
 	　 ]
     },
