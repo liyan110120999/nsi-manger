@@ -17,7 +17,7 @@
           <el-select v-model="form.schoolProperties" placeholder="请选择学校属性" :value-key="form.schoolProperties">
             <el-option label="运营中" value="运营中"></el-option>
             <el-option label="停办" value="停办"></el-option>
-            <el-option label="凑建" value="凑建"></el-option>
+            <el-option label="筹建" value="筹建"></el-option>
           </el-select>
         </el-form-item>
 
@@ -96,19 +96,19 @@
             <el-checkbox label="高中;" name="schoolSystem">高中</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="幼儿园-学费" prop="oneTuition" class="addFlex">
+        <el-form-item label="幼儿园-学费" prop="oneTuition" class="addFlex" v-if="Kindergarten">
           <el-input v-model.number="form.oneTuition" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="小学-学费" prop="twoTuition" class="addFlex">
+        <el-form-item label="小学-学费" prop="twoTuition" class="addFlex" v-if="PrimarySchool">
           <el-input v-model="form.twoTuition" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="初中-学费" prop="thirdTuition" class="addFlex">
+        <el-form-item label="初中-学费" prop="thirdTuition" class="addFlex" v-if="MiddleSchool">
           <el-input v-model.number="form.thirdTuition" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
-        <el-form-item label="高中-学费" prop="fourTuition" class="addFlex">
+        <el-form-item label="高中-学费" prop="fourTuition" class="addFlex" v-if="HighSchool">
           <el-input v-model.number="form.fourTuition" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
@@ -467,9 +467,6 @@
         <el-form-item label="数据年份">
           <el-input v-model="form.yearOfData" ></el-input>
         </el-form-item>
-        <el-form-item label="提交人">
-          <el-input v-model="form.submitter" ></el-input>
-        </el-form-item>
 
         <el-form-item class="addBtn">
           <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
@@ -544,7 +541,7 @@ export default {
         callback();
       }else{
         if(value.indexOf("http") == 0 || value.indexOf("https") == 0){
-          callback(new Error("禁止出现 http://或https:// 开头 例:baidu.com"));
+          callback(new Error("禁止出现 http://或https:// 开头 例:www.baidu.com"));
         }else{
           callback()
         }
@@ -556,11 +553,12 @@ export default {
           console.log("ronliang1111")
           callback()
       }else{
-        if(!/^\d+$/.test(value)){
-          console.log("不是整数");
-          callback(new Error("必须为数字值 例：25000"));
-        }else{
-          callback()
+        // if(!/^\d+$/.test(value)){
+        if(/^[0-9]*$/.test(value)){
+            callback()
+          }else{
+            console.log("不是整数");
+            callback(new Error("必须为数字值 例：25000"));
         }
       }
     };
@@ -598,6 +596,7 @@ export default {
       },
        mouse:[],
       form: {
+        id:"", //学校Id
         schoolName:"",  //学校名字
         schoolEnglishName:"", //学校英文名
         schoolProperties:"",  //学校性质
@@ -731,11 +730,8 @@ export default {
         hardware:[ //硬件设施
           // {required:true,message:"硬件不能为空",trigger:'blur'},
         ],
-        investment:[//投资信息
-
-        ],
-        remark:[ //备注
-
+        filingFee:[ //申请费
+          {required:true,validator: twoTuition,trigger: 'blur' },
         ],
       },
 
@@ -743,25 +739,42 @@ export default {
 
   },
   methods:{
-    //判断学校是否重复
+    //判断学校名字
     CheckSchool(){
-      if(this.$route.query.hasOwnProperty('id')){
-
+      //判断学校是否重复
+      if(this.form.schoolName == ""){
       }else{
-        console.log(11111);
-
         getSchoolCheck({
           schoolName:this.form.schoolName
         }).then(res=>{
           console.log(res)
           res.code == 0 ? "" : this.centerDialogVisible = true;
-          // if(res.code != 0){
-          //   this.centerDialogVisible = true
-          // }
         }).catch(error=>{
           console.log(error)
         })
       }
+      //添加学校
+      getSchoolAdd(
+        this.form
+      ).then(res =>{
+        this.form.id = res.data;
+        if(res.code == 0){
+          this.$message({
+            message: '数据插入成功',
+            type: 'success'
+          });
+        }else{
+          this.$message({
+            message: '数据插入失败',
+            type: 'error'
+          });
+        }
+      }).catch(error=>{
+        this.$message({
+          message: '数据插入失败',
+          type: 'error'
+        });
+      })
 
     },
     //下拉框
@@ -821,7 +834,8 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
             //添加接口
-            getSchoolAdd(
+            console.log(this.form)
+            getSchoolUpdate(
               this.form
             ).then(res =>{
               console.log(res);
@@ -1157,6 +1171,10 @@ export default {
       margin-left: 0px;
       margin-bottom: 20px;
     }
+  }
+
+  .avatar-uploader{
+    width: 300px;
   }
 
   //确定 取消按钮

@@ -17,7 +17,7 @@
           <el-select v-model="form.schoolProperties" placeholder="请选择学校属性" :value-key="form.schoolProperties">
             <el-option label="运营中" value="运营中"></el-option>
             <el-option label="停办" value="停办"></el-option>
-            <el-option label="凑建" value="凑建"></el-option>
+            <el-option label="筹建" value="筹建"></el-option>
           </el-select>
         </el-form-item>
 
@@ -186,7 +186,7 @@
           <i>需要为整数</i>
         </el-form-item>
         <el-form-item label="学生容量" prop="studentCapacity" class="addFlex">
-          <el-input v-model.number="form.studentCapacity" ></el-input>
+          <el-input v-model="form.studentCapacity" ></el-input>
           <i>需要为整数</i>
         </el-form-item>
         <el-form-item label="毕业班人数" prop="graduatedStuNum" class="addFlex">
@@ -494,9 +494,6 @@
         <el-form-item label="数据年份">
           <el-input v-model="form.yearOfData" ></el-input>
         </el-form-item>
-        <el-form-item label="提交人">
-          <el-input v-model="form.submitter" ></el-input>
-        </el-form-item>
 
         <el-form-item class="addBtn">
           <el-button type="primary" @click="submitForm('form')">立即修改</el-button>
@@ -545,7 +542,7 @@ export default {
           if(num.length == "4"){
             callback()
           }else{
-              callback(new Error("格式不正确,请输入四位数字  例：2019"));
+            callback(new Error("格式不正确,请输入四位数字  例：2019"));
           }
 
         }
@@ -557,7 +554,7 @@ export default {
         callback();
       }else{
         if(value.indexOf("http") == 0 || value.indexOf("https") == 0){
-          callback(new Error("禁止出现 http://或https:// 开头 例:baidu.com"));
+          callback(new Error("禁止出现 http://或https:// 开头 例:www.baidu.com"));
         }else{
           callback()
         }
@@ -720,7 +717,8 @@ export default {
           {required:true,validator: twoTuition,trigger: 'blur' }
         ],
         studentCapacity:[//学生容量
-          {required:true,validator: twoTuition,trigger: 'blur' }
+          {required:true,validator: twoTuition,trigger: 'blur' },
+          // {type:"Number",message:"必须数字",trigger: 'blur'}
         ],
         graduatedStuNum:[//毕业班人数
           {required:true,validator: twoTuition,trigger: 'blur' }
@@ -744,14 +742,8 @@ export default {
         builtArea:[//建筑面积
           {required:true,validator: twoTuition,trigger: 'blur' }
         ],
-        hardware:[ //硬件设施
-          // {required:true,message:"硬件不能为空",trigger:'blur'},
-        ],
-        investment:[//投资信息
-
-        ],
-        remark:[ //备注
-
+        filingFee:[ //申请费
+          {required:true,validator: twoTuition,trigger: 'blur' },
         ],
       },
 
@@ -1291,6 +1283,9 @@ export default {
       }
     }
 
+  }
+  .avatar-uploader{
+    width: 300px;
   }
   .logoImgThree{
     display: flex;

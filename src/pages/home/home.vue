@@ -12,7 +12,7 @@
 import PanelGroup from '../../components/websiteIndex/PanelGroup'
 import LineChart from '../../components/websiteIndex/LineChart'
 
-console.log('version :', "0822");
+console.log('version :', "0823");
 
 export default {
   name: 'home',

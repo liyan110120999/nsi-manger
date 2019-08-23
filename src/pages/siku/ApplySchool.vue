@@ -10,15 +10,30 @@
         prop="id"
         align="center"
         label="编号"
+        fixed="left"
         :show-overflow-tooltip="true"
-        width="120">
+        width="100">
+      </el-table-column>
+      <el-table-column
+        prop="schoolId"
+        align="center"
+        label="学校id"
+        fixed="left"
+        :show-overflow-tooltip="true"
+        width="140">
       </el-table-column>
       <el-table-column
         prop="name"
         align="center"
-        fixed="left"
         label="学生姓名"
         width="170">
+      </el-table-column>
+      <el-table-column
+        prop="attend"
+        align="center"
+        label="在读年级"
+        :show-overflow-tooltip="true"
+        width="200">
       </el-table-column>
       <el-table-column
         prop="telphone"
@@ -27,13 +42,7 @@
         :show-overflow-tooltip="true"
         width="250">
       </el-table-column>
-       <el-table-column
-        prop="attend"
-        align="center"
-        label="在读年级"
-        :show-overflow-tooltip="true"
-        width="200">
-      </el-table-column>
+
        <el-table-column
         prop="remark"
         align="center"
@@ -83,7 +92,8 @@
     data() {
       return {
         AppluSchoolData:[],
-        schoolPageSize:""
+        schoolPageSize:0,
+        currentPage1:1
       }
     },
     methods: {
@@ -114,12 +124,13 @@
 
         })
         console.log("1111")
-      }
+      },
+      handleCurrentChange(){},
+
     },
     created() {
       this.getApplySchoolData()
     },
-
   }
 </script>
 

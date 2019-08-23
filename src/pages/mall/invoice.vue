@@ -298,7 +298,7 @@ import XLSX from 'xlsx'
       //删除资讯
       deleteWebsiteTableData(articleId){
         var that=this
-        that.$confirm('此操作将删除该条资讯,且无法恢复, 是否继续?', '提示', {
+        that.$confirm('此操作将删除该条信息,且无法恢复, 是否继续?', '提示', {
           cancelButtonText: '取消',
           confirmButtonText: '确定',
           type: 'warning'
