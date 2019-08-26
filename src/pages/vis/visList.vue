@@ -5,8 +5,8 @@
       <el-form ref="form" :model="form" label-width="70px">
         <el-form-item label="活动类型" >
           <el-select v-model="form.region" placeholder="请选择活动类型" @change="changeVisType">
-            <!-- <el-option label="FIT" value="FIT"></el-option> -->
-            <!-- <el-option label="vis2019" value="vis2019"></el-option> -->
+            <el-option label="FIT" value="FIT"></el-option>
+            <el-option label="vis2019" value="vis2019"></el-option>
           </el-select>
         </el-form-item>
       </el-form>

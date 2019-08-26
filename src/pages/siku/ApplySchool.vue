@@ -20,7 +20,14 @@
         label="学校id"
         fixed="left"
         :show-overflow-tooltip="true"
-        width="140">
+        width="120">
+      </el-table-column>
+      <el-table-column
+        prop="schoolName"
+        align="center"
+        label="学生名字"
+        :show-overflow-tooltip="true"
+        width="190">
       </el-table-column>
       <el-table-column
         prop="name"

@@ -140,7 +140,7 @@ export default {
       pageNum:1,
       pageSize:20,
       centerDialogVisible: false,//弹出框
-      type:"",
+      type:"vis2019",
       form: {
         region:"",
         name: '',
