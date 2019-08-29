@@ -16,7 +16,7 @@
       </div>
       <div class="headerBtnLeft">
           <!-- <el-button type="primary" @click="schoolAddPage">添加活动</el-button> -->
-          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出</el-button>
+          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出Excel</el-button>
       </div>
     </div>
     <!-- 表格 -->
@@ -111,7 +111,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage1"
-        :page-size="10"
+        :page-size="pageSize"
         layout="total, prev, pager, next"
         :total="schoolPageSize">
       </el-pagination>
@@ -136,13 +136,12 @@ export default {
       input:"",
       visData:null,
       currentPage1: 5,
-      schoolPageSize:50,
+      schoolPageSize:0,
       pageNum:1,
       pageSize:20,
       centerDialogVisible: false,//弹出框
       type:"vis2019",
       form: {
-        region:"",
         name: '',
         region: '',
         date1: '',
@@ -159,10 +158,12 @@ export default {
     getvis(){
       let that = this;
       getvisorder({
-        type:this.type
+        pageNum:this.pageNum,
+        type:this.type,
+        pageSize : that.pageSize
       }).then(res=>{
-        // this.schoolPageSize=res.data.length
-        this.visData = res.data;
+        this.schoolPageSize=res.data.total;
+        this.visData = res.data.list;
 
         //时间戳 转换时间
         function formatDate(now) {
@@ -175,8 +176,8 @@ export default {
           return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
         }
         //如果记得时间戳是毫秒级的就需要*1000 不然就错了记得转换成整型
-        for(var i=0; i<res.data.length; i++){
-          var d=new Date(res.data[i].creattime);
+        for(var i=0; i<res.data.list.length; i++){
+          var d=new Date(res.data.list[i].creattime);
           this.visData[i].creattime = formatDate(d);
         }
 
@@ -201,15 +202,11 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-    },
     // 当前页: ${val}`;
-    // handleCurrentChange(val) {
-    //   console.log(val)
-    //   this.pageNum = val;
-    //   this.getvis()
-    // },
+    handleCurrentChange(val) {
+      this.pageNum = val;
+      this.getvis()
+    },
     //搜索
     schoolSearch(){
       this.getvis()

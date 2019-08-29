@@ -16,7 +16,7 @@
       </div>
       <div class="headerBtnLeft">
           <!-- <el-button type="primary" @click="schoolAddPage">添加学校</el-button> -->
-          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出</el-button>
+          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出Excel</el-button>
       </div>
     </div>
     <!-- 表格 -->
@@ -111,7 +111,7 @@
       <el-pagination
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage1"
-        :page-size="100"
+        :page-size="pageSize"
         layout="total, prev, pager, next"
         :total="schoolPageSize">
       </el-pagination>
@@ -158,10 +158,12 @@ export default {
     getvis(){
       let that = this;
       getvislist({
+        pageNum:this.pageNum,
         type:this.type,
+        pageSize : this.pageSize
       }).then(res=>{
-        this.schoolPageSize=res.data.length
-        this.visData = res.data;
+        this.schoolPageSize=res.data.total
+        this.visData = res.data.list;
         console.log(res.data)
 
         function formatDate(now) {
@@ -174,8 +176,8 @@ export default {
           return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
         }
         //如果记得时间戳是毫秒级的就需要*1000 不然就错了记得转换成整型
-        for(var i=0; i<res.data.length; i++){
-          var d=new Date(res.data[i].creattime);
+        for(var i=0; i<res.data.list.length; i++){
+          var d=new Date(res.data.list[i].creattime);
           this.visData[i].creattime = formatDate(d);
         }
       }).catch(error=>{
@@ -199,9 +201,8 @@ export default {
     },
     // 当前页: ${val}`;
     handleCurrentChange(val) {
-      console.log(val)
-      // this.pageNum = val;
-      // this.getvis()
+      this.pageNum = val;
+      this.getvis()
     },
     //编辑按钮
     schoolDetail(row) {
