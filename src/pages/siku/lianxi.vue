@@ -13,11 +13,24 @@
     },
     data() {
       return {
+        count:1
       }
     },
     methods: {
-
-
+      timer: function () {
+        if (this.count > 0) {
+          console.log("1111")
+        }
+      }
+    },
+    mounted() {
+      this.$nextTick(function () {
+          // setInterval(this.timer, 1000);
+      })
+      
+    },
+    created() {
+      
     },
 
 
