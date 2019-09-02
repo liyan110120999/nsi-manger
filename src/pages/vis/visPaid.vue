@@ -27,6 +27,13 @@
       style="width: 100%"
       height="640">
       <el-table-column
+        prop="buyerMessage"
+        align="center"
+        fixed="left"
+        label="类型"
+        width="120">
+      </el-table-column>
+      <el-table-column
         fixed="left"
         prop="name"
         align="center"
@@ -179,6 +186,14 @@ export default {
         for(var i=0; i<res.data.list.length; i++){
           var d=new Date(res.data.list[i].creattime);
           this.visData[i].creattime = formatDate(d);
+        }
+
+        //票的分类
+        console.log(res.data.list)
+        for(var i=0;i<res.data.list.length;i++){
+          let ticket = res.data.list[i].buyerMessage.split("-");
+          res.data.list[i].buyerMessage = ticket[ticket.length-1]
+          console.log()
         }
 
       }).catch(error=>{
