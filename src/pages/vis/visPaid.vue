@@ -30,8 +30,14 @@
         prop="buyerMessage"
         align="center"
         fixed="left"
-        label="类型"
+        label="票务分类"
+        v-if="ticketShow"
         width="120">
+        <template slot-scope="scope">
+          <font v-if="scope.row.buyerMessage === '尊享票'" color="skyblue">尊享票</font>
+           <font v-else-if="scope.row.buyerMessage === '贵宾票'" color="#e6a23c">贵宾票</font>
+          <font v-else>FIT</font>
+        </template>
       </el-table-column>
       <el-table-column
         fixed="left"
@@ -146,6 +152,7 @@ export default {
       schoolPageSize:0,
       pageNum:1,
       pageSize:20,
+      ticketShow:true,
       centerDialogVisible: false,//弹出框
       type:"vis2019",
       form: {
