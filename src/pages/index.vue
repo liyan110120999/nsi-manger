@@ -121,6 +121,7 @@
               <el-menu-item-group>
                 <el-menu-item index="/vis/visList">报名列表</el-menu-item>
                 <el-menu-item index="/vis/visPaid">报名已付款</el-menu-item>
+                <el-menu-item index="/vis/ExhibitionList">展商信息</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 

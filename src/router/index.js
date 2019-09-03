@@ -26,9 +26,11 @@ import schoolAdd from '@/pages/siku/schoolAdd.vue'
 import lianxi from '@/pages/siku/lianxi.vue'
 import lianxitwo from '@/pages/siku/lianxitwo.vue'
 import visList from '@/pages/vis/visList.vue'
-import visPaid from '@/pages/vis/visPaid.vue'
 import schoolAlter from '@/pages/siku/schoolAlter.vue'
 import ApplySchool from '@/pages/siku/ApplySchool.vue'
+import visPaid from '@/pages/vis/visPaid.vue'
+import ExhibitionList from '@/pages/vis/ExhibitionList.vue'
+import ExhibitionDetails from '@/pages/vis/ExhibitionDetails.vue'
 
 Vue.use(Router)
 
@@ -116,6 +118,12 @@ export default new Router({
 		      component: lianxitwo,
 		      //   name:"lianxitwo"
 		    }, {
+		      path: '/siku/schoolAlter',
+		      component: schoolAlter,
+		    }, {
+		      path: '/siku/ApplySchool',
+		      component: ApplySchool,
+		    }, {
 		      path: '/vis/visList',
 		      component: visList,
 		      //   name:"visList"
@@ -124,11 +132,12 @@ export default new Router({
 		      component: visPaid,
 		      //   name:"visPaid"
         }, {
-          path: '/siku/schoolAlter',
-          component: schoolAlter,
+          path: '/vis/ExhibitionList',
+          component:ExhibitionList,
         }, {
-          path: '/siku/ApplySchool',
-          component: ApplySchool,
+          path: '/vis/ExhibitionDetails',
+          component: ExhibitionDetails,
+          //   name:"visPaid"
         }
 	　 ]
     },
