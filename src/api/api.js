@@ -35,3 +35,7 @@ export const getvisorder = p => post('/activity/vis_orderList.do', p)
 export const getExhibitorList = p => post('/manager/exhibitor/list.do', p)
 //活动管理 展商详情
 export const getExhibitorDetail = p => post('/manager/exhibitor/detail.do', p)
+//活动管理 添加展商信息
+export const getExhibitorInsert = p => post('/manager/exhibitor/insert.do', p)
+//活动管理 修改展商信息
+export const getExhibitorUpdate = p => post('/manager/exhibitor/update.do', p)

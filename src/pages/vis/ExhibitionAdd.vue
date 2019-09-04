@@ -2,7 +2,7 @@
   <div class="schoolAdd">
     <!-- <div class="addTitle">添加学校信息<i class="el-icon-close" @click="addCancel"></i></div> -->
     <div class="addBasic">
-      <div class="addBaH">修改展位信息 <i class="el-icon-close" @click="addCancel"></i></div>
+      <div class="addBaH">添加展位信息</div>
       <div class="addTips">注意：带※标记的为必填项</div>
       <el-form ref="form" :model="form" class="createNews" label-width="160px">
 
@@ -15,6 +15,9 @@
         </el-form-item>
         <el-form-item label="简介" prop="nationalityOfStudents">
           <el-input v-model="form.intro" ></el-input>
+        </el-form-item>
+        <el-form-item label="logo" prop="classSize">
+          <el-input v-model="form.logoIcon" ></el-input>
         </el-form-item>
 
 
@@ -40,9 +43,10 @@
           </div>
         </div>
 
-         <!-- 编辑器 -->
-        <div ref="editor" style="text-align:left;"></div>
 
+        <!-- 编辑器 -->
+        <div ref="editor" style="text-align:left;"></div>
+        <div @click="aa">1413213232</div>
         <el-form-item class="addBtn">
           <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
           <el-button>取消</el-button>
@@ -55,12 +59,12 @@
 
 <script>
 // import qs from 'qs';
-import {getExhibitorDetail,getExhibitorUpdate} from '@/api/api';
+import {getExhibitorInsert} from '@/api/api';
 import utils from '@/api/utils.js'
 import {provice} from '../../api/city.js'
 import bus from "@/api/bus";
 import axios from "axios";
-import store from '../../vuex/store.js'
+import store from '../../vuex/store.js';
 //引入编辑器
 import E from 'wangeditor'
 import Cropper from "cropperjs"
@@ -71,66 +75,38 @@ export default {
       articleContent:"", //编辑器的值
       //表单属性
       form: {
+        exhibitorName:"",
+        boothNum:"",
+        intro:"",
+        logoIcon:"",
+        textDesc:""
       }
 
     }
 
   },
   methods:{
-    getData(){
-      //加载编辑器组件
-      var editor = new E(this.$refs.editor)
-      editor.customConfig.onchange = (html) => {
-        this.articleContent = html
-      }
-      editor.create()
-      //请求数据
-      getExhibitorDetail({
-        exhibitorId : this.$route.query.id
-      }).then(res=>{
-        this.form = res.data;
-        this.articleContent = res.data.textDesc;
-         console.log(this.articleContent)
-        //调用编辑器方法，默认数据
-        editor.cmd.do('insertHTML', this.articleContent)
-        console.log(this.articleContent)
-
-      }).catch(error=>{
-
-      })
-    },
-
-
     //立即创建按钮   插入  编辑   学校接口
     submitForm:utils.debounce(function(formName) {
 
       //立即创建按钮的执行操作
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          delete this.form.createTime;
-          this.form.textDesc =this.articleContent;
-          console.log(this.form)
-          getExhibitorUpdate(
+          this.form.textDesc = this.articleContent
+          console.log(this.form.textDesc);
+          getExhibitorInsert(
             this.form
           ).then(res => {
             console.log(res)
-            if(res.code == 500){
-              this.$message({
-                message: '数据编辑失败',
-                type: 'error'
-              });
-            }else{
-              this.$message({
-                message: '数据编辑成功',
-                type: 'success'
-              });
-              this.$router.push({path:"/vis/ExhibitionList"})
-            }
-
+            this.$message({
+              message: '添加数据成功',
+              type: 'success'
+            });
+            this.$router.push({path:"/vis/ExhibitionList"})
           }).catch(error => {
             console.log(error)
             this.$message({
-              message: '数据编辑失败',
+              message: '添加数据失败',
               type: 'error'
             });
           })
@@ -141,6 +117,46 @@ export default {
       });
 
     }),
+    aa:function () {
+      console.log(this.articleContent)
+    },
+    //上传图片成功后回调
+    handleAvatarSuccess(res, file) {
+      this.form.logoIcon = res.data.url;
+      // console.log(file)
+    },
+    //上传图片 删除回调
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    //上传图片 上传成功后 点击图片
+    handlePreview(file) {
+      console.log(file);
+    },
+    //上传图片 限制上传条数
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    // 上传图片 确定删除弹出框
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+    //图片限制
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
+
+
+
     // 取消页面按钮
     addCancel(){
       console.log(localStorage["userName"]) //登录人邮箱
@@ -149,18 +165,75 @@ export default {
       // this.isEdit = store.state.isEd;
 
       // console.log(this.isEdit);
-      console.log( this.articleContent)
+      console.log( this.form.schoolShowOne)
     },
 
 
   },
   mounted(){
-    var that=this;
+    var that=this
+    //加载编辑器组件
+    var editor = new E(this.$refs.editor)
+    editor.customConfig.onchange = (html) => {
+      this.articleContent = html
+    }
+    editor.customConfig.uploadImgServer = that.baseUrl+'/manager/talent/upload.do'
+    editor.customConfig.uploadImgParams = {
+        'type':'nsi-event/vis-2019/exhibitor-info/'//上传图片参数
+    }
+    editor.customConfig.uploadImgHooks = {
+      before: function (xhr, editor, files) {
+          that.uploadLoading=true
+      },
+      success: function (xhr, editor, result) {
+          that.uploadLoading=false
+          that.$message({
+            message: '图片上传成功',
+            type: 'success'
+          });
+      },
+      fail: function (xhr, editor, result) {
+          that.uploadLoading=false
+          that.$message({
+            message: '图片上传成功,但未插入',
+            type: 'error'
+          });
+      },
+      error: function (xhr, editor) {
+          that.uploadLoading=false
+          that.$message({
+            message: '图片上传失败',
+            type: 'error'
+          });
+      },
+      timeout: function (xhr, editor) {
+          that.uploadLoading=false
+          that.$message({
+            message: '上传图片超时,请检查网络连接',
+            type: 'error'
+          });
+      },
+      customInsert: function (insertImg, result, editor) {
+          var url = result.data.url
+          insertImg(url)
+      }
+    }
+    editor.customConfig.uploadFileName = 'file'
+    editor.customConfig.uploadImgTimeout = 10000
+    editor.customConfig.pasteTextHandle = function (content) {
+        if(content.indexOf('"=""')>=0){
+          that.$message({
+            message: '文章有不规范字符,请粘贴纯文本',
+            type: 'error'
+          });
+        }
+        return content.replace(/<img src="http:\/\//g,'<img src="https://')
 
-    this.getData();
+    }
+    editor.create()
   },
   created() {
-    console.log(store.state.isEd)
+
 
   },
 
@@ -177,22 +250,25 @@ export default {
   .addTitle{
     font-size: 25px;
     i{
+      width: 40px;
+      height: 40px;
       float:right;
-      font-size: 20px;
+      font-size: 40px;
     }
     i:hover{
-      color: red;
+      background: red;
+      color: #ccc;
     }
   }
   .addBasic{
     .addBaH{
       background: #ccc;
-      height: 60px;
+      height: 50px;
       border-left: 5px solid #133e6d;
-      line-height: 60px;
+      line-height: 50px;
       text-align: center;
-      margin-top: 30px;
-      font-size: 45px;
+      margin-top: 10px;
+      font-size: 28px;
     }
 
   }
@@ -347,14 +423,6 @@ export default {
     width: 150px;
     height: 150px;
   }
-  .maxlogo{
-    // width: 100px;
-    // height: 100px;
-    // position: fixed;
-    // background: red;
-    // top: 0px;
-    // left: 0px;
-  }
   .schoolImg{
     margin-bottom: 40px;
     .avatar-uploader{
@@ -385,5 +453,41 @@ export default {
     .deme_upload{
       margin-left: -60px;
     }
+  }
+
+
+  // 招生信息
+  .RecruitStudents{
+    border: 1px solid #cccccc;
+    margin-left: 50px;
+    margin-right: 90px;
+    h4{
+      margin-top: 0px;
+      margin-bottom: 20px;
+    }
+    h2{
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    .Kindergarten{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .el-form-item{
+      margin-top: 0px;
+    }
+    .el-button--primary {
+      margin-left: 0px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .avatar-uploader{
+    width: 300px;
+  }
+
+  //确定 取消按钮
+  /deep/.addBtn .el-form-item__content{
+    text-align: left;
   }
 </style>

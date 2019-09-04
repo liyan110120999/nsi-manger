@@ -31,6 +31,7 @@ import ApplySchool from '@/pages/siku/ApplySchool.vue'
 import visPaid from '@/pages/vis/visPaid.vue'
 import ExhibitionList from '@/pages/vis/ExhibitionList.vue'
 import ExhibitionDetails from '@/pages/vis/ExhibitionDetails.vue'
+import ExhibitionAdd from '@/pages/vis/ExhibitionAdd.vue'
 
 Vue.use(Router)
 
@@ -137,6 +138,10 @@ export default new Router({
         }, {
           path: '/vis/ExhibitionDetails',
           component: ExhibitionDetails,
+          //   name:"visPaid"
+        }, {
+          path: '/vis/ExhibitionAdd',
+          component: ExhibitionAdd,
           //   name:"visPaid"
         }
 	　 ]

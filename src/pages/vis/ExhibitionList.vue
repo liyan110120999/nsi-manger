@@ -143,7 +143,7 @@ export default {
         pageSize : that.pageSize,
         searchKey : that.input
       }).then(res=>{
-        console.log(res)
+
         that.ExhibitionData=res.data.list;
         this.ExhibitionPageSize = res.data.total;
 
@@ -163,7 +163,7 @@ export default {
           this.ExhibitionData[i].createTime = formatDate(d);
         }
 
-
+    console.log(res)
 
 
       }).catch(error=>{
@@ -175,7 +175,7 @@ export default {
     },
     // 添加学校 跳转详情页面
     schoolAddPage(){
-      this.$router.push({path:"/siku/schooAdd",query:{type:"add"}})
+      this.$router.push({path:"/vis/ExhibitionAdd",query:{type:"add"}})
     },
     // 每页多少条
     handleSizeChange(val) {
