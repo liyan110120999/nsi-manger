@@ -141,6 +141,40 @@ export default {
       });
 
     }),
+    //上传图片成功后回调
+    handleAvatarSuccess(res, file) {
+      this.form.logoIcon = res.data.url;
+      // console.log(file)
+    },
+    //上传图片 删除回调
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    //上传图片 上传成功后 点击图片
+    handlePreview(file) {
+      console.log(file);
+    },
+    //上传图片 限制上传条数
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    // 上传图片 确定删除弹出框
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+    //图片限制
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
     // 取消页面按钮
     addCancel(){
       console.log(localStorage["userName"]) //登录人邮箱

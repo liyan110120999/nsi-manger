@@ -16,9 +16,6 @@
         <el-form-item label="简介" prop="nationalityOfStudents">
           <el-input v-model="form.intro" ></el-input>
         </el-form-item>
-        <el-form-item label="logo" prop="classSize">
-          <el-input v-model="form.logoIcon" ></el-input>
-        </el-form-item>
 
 
          <!-- //图片上传 -->
@@ -46,7 +43,6 @@
 
         <!-- 编辑器 -->
         <div ref="editor" style="text-align:left;"></div>
-        <div @click="aa">1413213232</div>
         <el-form-item class="addBtn">
           <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
           <el-button>取消</el-button>
@@ -117,9 +113,6 @@ export default {
       });
 
     }),
-    aa:function () {
-      console.log(this.articleContent)
-    },
     //上传图片成功后回调
     handleAvatarSuccess(res, file) {
       this.form.logoIcon = res.data.url;
@@ -177,7 +170,9 @@ export default {
     editor.customConfig.onchange = (html) => {
       this.articleContent = html
     }
+    //配置服务器端地址
     editor.customConfig.uploadImgServer = that.baseUrl+'/manager/talent/upload.do'
+    //上传图片时可自定义传递一些参数，例如传递验证的token等。
     editor.customConfig.uploadImgParams = {
         'type':'nsi-event/vis-2019/exhibitor-info/'//上传图片参数
     }
