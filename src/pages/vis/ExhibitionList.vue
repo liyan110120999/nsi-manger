@@ -162,10 +162,6 @@ export default {
           var d=new Date(res.data.list[i].createTime);
           this.ExhibitionData[i].createTime = formatDate(d);
         }
-
-    console.log(res)
-
-
       }).catch(error=>{
         this.$message({
           message: '数据请求失败',

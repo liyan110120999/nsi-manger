@@ -39,3 +39,9 @@ export const getExhibitorDetail = p => post('/manager/exhibitor/detail.do', p)
 export const getExhibitorInsert = p => post('/manager/exhibitor/insert.do', p)
 //活动管理 修改展商信息
 export const getExhibitorUpdate = p => post('/manager/exhibitor/update.do', p)
+//活动管理 赠票审核列表
+export const getEntryAuditList = p => get('/manager/entryAudit/list.do', p)
+//活动管理 赠票审核通过
+export const getEntryAuditSuccess_audit = p => get('/manager/entryAudit/success_audit.do', p)
+//活动管理 赠票删除
+export const getEntryAuditDelete = p => get('/manager/entryAudit/delete.do', p)

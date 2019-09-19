@@ -32,7 +32,7 @@ import visPaid from '@/pages/vis/visPaid.vue'
 import ExhibitionList from '@/pages/vis/ExhibitionList.vue'
 import ExhibitionDetails from '@/pages/vis/ExhibitionDetails.vue'
 import ExhibitionAdd from '@/pages/vis/ExhibitionAdd.vue'
-
+import GiveTicketList from '@/pages/vis/GiveTicketList.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -143,6 +143,9 @@ export default new Router({
           path: '/vis/ExhibitionAdd',
           component: ExhibitionAdd,
           //   name:"visPaid"
+        }, {
+          path: '/vis/GiveTicketList',
+          component: GiveTicketList
         }
 	　 ]
     },
