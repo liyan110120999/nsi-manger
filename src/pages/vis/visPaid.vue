@@ -35,7 +35,7 @@
         width="120">
         <template slot-scope="scope">
           <font v-if="scope.row.buyerMessage === '尊享票'" color="skyblue">尊享票</font>
-           <font v-else-if="scope.row.buyerMessage === '贵宾票'" color="#e6a23c">贵宾票</font>
+          <font v-else-if="scope.row.buyerMessage === '贵宾票'" color="#e6a23c">贵宾票</font>
           <font v-else>FIT</font>
         </template>
       </el-table-column>
@@ -90,7 +90,7 @@
       </el-table-column>
 
       <el-table-column
-        prop="creattime"
+        prop="createTime"
         align="center"
         label="创建时间"
         width="190">
@@ -191,19 +191,21 @@ export default {
         }
         //如果记得时间戳是毫秒级的就需要*1000 不然就错了记得转换成整型
         for(var i=0; i<res.data.list.length; i++){
-          var d=new Date(res.data.list[i].creattime);
-          this.visData[i].creattime = formatDate(d);
+          var d=new Date(res.data.list[i].createTime);
+          this.visData[i].createTime = formatDate(d);
         }
 
         //票的分类
-        console.log(res.data.list)
+        console.log(res.data.list[0])
+        console.log(res.data.list[0].buyerMessage)
         for(var i=0;i<res.data.list.length;i++){
           let ticket = res.data.list[i].buyerMessage.split("-");
           res.data.list[i].buyerMessage = ticket[ticket.length-1]
-          console.log()
         }
+          console.log("----")
 
       }).catch(error=>{
+        console.log(error)
         this.$message({
           message: '数据请求失败',
           type: 'error'

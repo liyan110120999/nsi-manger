@@ -68,14 +68,21 @@
         width="100">
       </el-table-column>
       <el-table-column
+        prop=""
+        align="center"
+        label=""
+        :show-overflow-tooltip="true"
+        width="600">
+      </el-table-column>
+      <el-table-column
         fixed="right"
         label="操作"
         align="center"
         width="100">
         <template slot-scope="scope">
-          <el-button @click="schoolDetail(scope.row.id)" type="text" size="small" v-if="scope.row.checkMsg === '审核中'">未开票</el-button>
-          <el-button type="text" size="small" style="color:#67C23A" v-if="scope.row.checkMsg === '已审核'">已开票</el-button>
-          <el-button @click="SchoolDelete(scope.row.id)" type="text" size="small" style="color:red">删除</el-button>
+          <el-button @click="schoolDetail(scope.row.id)" type="text" size="small" v-if="scope.row.checkMsg === '审核中'">同意 </el-button>
+          <el-button type="text" size="small" style="color:#67C23A" v-if="scope.row.checkMsg === '已审核'"></el-button>
+          <el-button @click="SchoolDelete(scope.row.id)" type="text" size="small" style="color:red" v-if="scope.row.checkMsg === '审核中'">拒绝</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -201,7 +208,21 @@ export default {
     },
     //搜索
     schoolSearch(){
-      this.getData()
+      console.log("-----")
+      // this.getData()
+      var timestamp = Date.parse(new Date());
+      var d=new Date(timestamp);
+      function formExcl(now) {
+        var year=now.getFullYear();
+        var month=now.getMonth()+1;
+        var date=now.getDate();
+        var hour=now.getHours();
+        var minute=now.getMinutes();
+        var second=now.getSeconds();
+        return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+      }
+      console.log(formExcl(d))
+      console.log(timestamp);
     },
     //删除
     SchoolDelete:utils.debounce(function(row){
@@ -249,9 +270,24 @@ export default {
           type: 'array'
       });
       try {
+
+        //xlsx加时间
+        var timestamp = Date.parse(new Date());
+        var d=new Date(timestamp);
+        function formExcl(now) {
+          var year=now.getFullYear();
+          var month=now.getMonth()+1;
+          var date=now.getDate();
+          var hour=now.getHours();
+          var minute=now.getMinutes();
+          var second=now.getSeconds();
+          return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+        }
+        let formExclTime = formExcl(d);
+
         FileSaver.saveAs(
         new Blob([wbout], { type: "application/octet-stream;charset=utf-8" }),
-        'sheetjs.xlsx')
+        '审核列表'+formExclTime+'.xlsx')
       } catch (e) {
         if (typeof console !== 'undefined') console.log(e, wbout)
       }

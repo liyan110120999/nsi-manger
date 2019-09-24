@@ -164,8 +164,6 @@ export default {
       }).then(res=>{
         this.schoolPageSize=res.data.total
         this.visData = res.data.list;
-        console.log(res.data)
-
         function formatDate(now) {
           var year=now.getFullYear();
           var month=now.getMonth()+1;
@@ -181,6 +179,7 @@ export default {
           this.visData[i].creattime = formatDate(d);
         }
       }).catch(error=>{
+        console.log(error)
         this.$message({
           message: '数据请求失败',
           type: 'error'

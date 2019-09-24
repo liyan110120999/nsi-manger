@@ -146,7 +146,7 @@ export default {
 
         that.ExhibitionData=res.data.list;
         this.ExhibitionPageSize = res.data.total;
-
+        console.log(this.ExhibitionPageSize)
          //时间戳 转换时间
         function formatDate(now) {
           var year=now.getFullYear();
