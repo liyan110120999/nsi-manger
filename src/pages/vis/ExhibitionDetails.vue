@@ -2,7 +2,7 @@
   <div class="schoolAdd">
     <!-- <div class="addTitle">添加学校信息<i class="el-icon-close" @click="addCancel"></i></div> -->
     <div class="addBasic">
-      <div class="addBaH">修改展位信息 <i class="el-icon-close" @click="addCancel"></i></div>
+      <div class="addBaH">修改展位信息</div>
       <div class="addTips">注意：带※标记的为必填项</div>
       <el-form ref="form" :model="form" class="createNews" label-width="160px">
 
@@ -21,8 +21,8 @@
          <!-- //图片上传 -->
         <div>
           <div class="logoImgThree">
-            <el-form-item label="logo" prop="schoolShowOne" class="logoBtn"></el-form-item>
-            <el-input v-model="form.schoolShowOne" class="el_inputOne"></el-input>
+            <el-form-item label="logo" prop="logoIcon" class="logoBtn"></el-form-item>
+            <el-input v-model="form.logoIcon" class="el_inputOne"></el-input>
             <el-upload
                 class="upload-demo deme_upload"
                 :action="tutscOne"
@@ -83,17 +83,74 @@ export default {
       editor.customConfig.onchange = (html) => {
         this.articleContent = html
       }
+      //配置服务器端地址
+      var that = this;
+      editor.customConfig.uploadImgServer = that.baseUrl+'/manager/talent/upload.do'
+      //上传图片时可自定义传递一些参数，例如传递验证的token等。
+      editor.customConfig.uploadImgParams = {
+          'type':'nsi-event/vis-2019/exhibitor-info/'//上传图片参数
+      }
+      editor.customConfig.uploadImgHooks = {
+        before: function (xhr, editor, files) {
+            that.uploadLoading=true
+        },
+        success: function (xhr, editor, result) {
+            that.uploadLoading=false
+            that.$message({
+              message: '图片上传成功',
+              type: 'success'
+            });
+        },
+        fail: function (xhr, editor, result) {
+            that.uploadLoading=false
+            that.$message({
+              message: '图片上传成功,但未插入',
+              type: 'error'
+            });
+        },
+        error: function (xhr, editor) {
+            that.uploadLoading=false
+            that.$message({
+              message: '图片上传失败',
+              type: 'error'
+            });
+        },
+        timeout: function (xhr, editor) {
+            that.uploadLoading=false
+            that.$message({
+              message: '上传图片超时,请检查网络连接',
+              type: 'error'
+            });
+        },
+        customInsert: function (insertImg, result, editor) {
+            var url = result.data.url
+            insertImg(url)
+        }
+      }
+      editor.customConfig.uploadFileName = 'file'
+      editor.customConfig.uploadImgTimeout = 10000
+      editor.customConfig.pasteTextHandle = function (content) {
+          if(content.indexOf('"=""')>=0){
+            that.$message({
+              message: '文章有不规范字符,请粘贴纯文本',
+              type: 'error'
+            });
+          }
+          return content.replace(/<img src="http:\/\//g,'<img src="https://')
+
+      }
       editor.create()
+
+
       //请求数据
       getExhibitorDetail({
         exhibitorId : this.$route.query.id
       }).then(res=>{
         this.form = res.data;
         this.articleContent = res.data.textDesc;
-         console.log(this.articleContent)
+         console.log(this.form)
         //调用编辑器方法，默认数据
         editor.cmd.do('insertHTML', this.articleContent)
-        console.log(this.articleContent)
 
       }).catch(error=>{
 

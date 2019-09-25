@@ -66,7 +66,7 @@
         align="center"
         label="邮箱"
         :show-overflow-tooltip="true"
-        width="190">
+        width="250">
       </el-table-column>
 
       <el-table-column

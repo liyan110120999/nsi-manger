@@ -21,8 +21,8 @@
          <!-- //图片上传 -->
         <div>
           <div class="logoImgThree">
-            <el-form-item label="logo" prop="schoolShowOne" class="logoBtn"></el-form-item>
-            <el-input v-model="form.schoolShowOne" class="el_inputOne"></el-input>
+            <el-form-item label="logo" prop="logoIcon" class="logoBtn"></el-form-item>
+            <el-input v-model="form.logoIcon" class="el_inputOne"></el-input>
             <el-upload
                 class="upload-demo deme_upload"
                 :action="tutscOne"

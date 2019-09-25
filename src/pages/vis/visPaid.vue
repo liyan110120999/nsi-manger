@@ -34,7 +34,7 @@
         v-if="ticketShow"
         width="120">
         <template slot-scope="scope">
-          <font v-if="scope.row.buyerMessage === '尊享票'" color="skyblue">尊享票</font>
+          <font v-if="scope.row.buyerMessage === '尊享票'" color="skyblue" >尊享票</font>
           <font v-else-if="scope.row.buyerMessage === '贵宾票'" color="#e6a23c">贵宾票</font>
           <font v-else>FIT</font>
         </template>
@@ -79,7 +79,7 @@
         align="center"
         label="邮箱"
         :show-overflow-tooltip="true"
-        width="190">
+        width="250">
       </el-table-column>
 
       <el-table-column
@@ -87,6 +87,9 @@
         align="center"
         label="价格"
         width="100">
+        <template slot-scope="scope">
+          <div style="font-weight:bold;">{{scope.row.totalPrice}}</div>
+        </template>
       </el-table-column>
 
       <el-table-column
