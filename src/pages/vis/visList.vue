@@ -95,16 +95,16 @@
         :show-overflow-tooltip="true"
         width="100">
       </el-table-column>
-      <!-- <el-table-column
+      <el-table-column
         fixed="right"
-        label="操作"
+        label="点击查看二维码"
         align="center"
-        width="100">
+        width="150">
         <template slot-scope="scope">
-          <el-button @click="schoolDetail(scope.row.id)" type="text" size="small" style="color:#67C23A">编辑</el-button>
-          <el-button @click="SchoolDelete(scope.row.id)" type="text" size="small" style="color:red">删除</el-button>
+          <el-button @click="centerDialogVisibl(scope.row)" type="text" size="small" style="color:#67C23A">展示二维码</el-button>
+
         </template>
-      </el-table-column> -->
+      </el-table-column>
     </el-table>
     <!-- 分页 -->
     <div class="block">
@@ -117,14 +117,32 @@
       </el-pagination>
     </div>
 
+    <!-- 查看二维码提示框 -->
+    <el-dialog
+      title="二维码展示"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center>
+      <div class="QRcodebox">
+        <span>姓名：{{QRcodeName}}</span>
+        <p><img class="CQRcodeURL" :src="QRcodeURL" /></p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
+
+
     <!-- {{schoolData}}111 -->
   </div>
+
 </template>
 
 <script>
 import axios from "axios";
 import QS from 'qs';
-import {getvislist} from "@/api/api";
+import {getvislist,getvisImageUrl} from "@/api/api";
 import {getSchoolDelete} from '@/api/api';
 import utils from "@/api/utils.js";
 
@@ -140,6 +158,8 @@ export default {
       pageNum:1,
       pageSize:20,
       centerDialogVisible: false,//弹出框
+      QRcodeName:"xxx",//二维码显示姓名
+      QRcodeURL:"", //二维码图片地址
       type:"vis2019",
       form: {
         name: '',
@@ -192,12 +212,6 @@ export default {
       console.log(this.type)
       this.getvis()
     },
-    // 添加学校 跳转详情页面
-    schoolAddPage(){
-      this.type = this.form.region;
-      console.log(this.type)
-    //   this.$router.push({path:"/siku/schooAdd",query:{type:"add"}})
-    },
     // 当前页: ${val}`;
     handleCurrentChange(val) {
       this.pageNum = val;
@@ -211,21 +225,23 @@ export default {
     schoolSearch(){
       this.getvis()
     },
-    //删除
-    SchoolDelete:utils.debounce(function(row){
-      this.$confirm('此操作将永久删除该学校信息, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-    }),
+    //查看二维码
+    centerDialogVisibl(UserInformation){
+      this.centerDialogVisible = true;
+      this.QRcodeName = UserInformation.name;
+      //获取用户id
+      let userId  = UserInformation.id;
+      let type = UserInformation;
+      console.log(userId)
+      getvisImageUrl({
+        qrImgUrl :"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + userId,
+        username:UserInformation.name,
+      }).then(res => {
+        console.log(res.data)
+        this.QRcodeURL = res.data
+      })
+      console.log(UserInformation)
+    },
 
     //导出excel
     exportExcel () {
@@ -275,5 +291,16 @@ export default {
   }
   .block{
     margin-top: 30px;
+  }
+  .QRcodebox{
+    text-align: center;
+    .CQRcodeURL{
+      width: 220px;
+      margin-top: 20px;
+    }
+    span{
+      font-size: 16px;
+      font-weight: 600;
+    }
   }
 </style>

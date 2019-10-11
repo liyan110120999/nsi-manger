@@ -29,6 +29,9 @@ export const getupolad = p => post('/new/school/upload_logo.do', p)
 
 //活动管理 活动列表 活动类型
 export const getvislist = p => post('/activity/vis_list.do', p)
+   //活动二维码
+   export const getvisImageUrl = p => post('activity/get_vis_image_url.do', p)
+
 //活动管理 vis 已交费
 export const getvisorder = p => post('/activity/vis_orderList.do', p)
 //活动管理 展商列表
