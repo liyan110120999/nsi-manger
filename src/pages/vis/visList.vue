@@ -7,6 +7,9 @@
           <el-select v-model="form.region" placeholder="请选择活动类型" @change="changeVisType">
             <el-option label="FIT" value="FIT"></el-option>
             <el-option label="vis2019" value="vis2019"></el-option>
+            <el-option label="vis2019-嘉宾" value="嘉宾"></el-option>
+            <el-option label="vis2019-赠票" value="赠票"></el-option>
+            <el-option label="vis2019-友情票" value="友情票"></el-option>
           </el-select>
         </el-form-item>
       </el-form>

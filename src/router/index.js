@@ -33,6 +33,7 @@ import ExhibitionList from '@/pages/vis/ExhibitionList.vue'
 import ExhibitionDetails from '@/pages/vis/ExhibitionDetails.vue'
 import ExhibitionAdd from '@/pages/vis/ExhibitionAdd.vue'
 import GiveTicketList from '@/pages/vis/GiveTicketList.vue'
+import OfflinePayment from '@/pages/vis/OfflinePayment.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -146,6 +147,9 @@ export default new Router({
         }, {
           path: '/vis/GiveTicketList',
           component: GiveTicketList
+        }, {
+          path: '/vis/OfflinePayment',
+          component: OfflinePayment
         }
 	　 ]
     },

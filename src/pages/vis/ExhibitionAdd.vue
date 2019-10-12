@@ -2,18 +2,26 @@
   <div class="schoolAdd">
     <!-- <div class="addTitle">添加学校信息<i class="el-icon-close" @click="addCancel"></i></div> -->
     <div class="addBasic">
-      <div class="addBaH">添加展位信息</div>
+      <div class="addBaH">添加投票信息</div>
       <div class="addTips">注意：带※标记的为必填项</div>
       <el-form ref="form" :model="form" class="createNews" label-width="160px">
 
-        <el-form-item label="公司" prop="schoolName" class="addFlex">
+        <el-form-item label="投票类型" prop="type">
+          <el-radio-group v-model="form.type" class="offlineOrdo">
+            <el-radio label="学校"></el-radio>
+            <el-radio label="校长"></el-radio>
+            <el-radio label="机构"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+
+        <el-form-item label="公司/名称" prop="schoolName" class="addFlex">
           <el-input v-model.trim="form.exhibitorName"></el-input>
           <i>展位不能为空</i>
         </el-form-item>
-        <el-form-item label="展位" prop="courseSystem">
+        <el-form-item label="展位(仅机构填写)" prop="courseSystem">
           <el-input v-model="form.boothNum" ></el-input>
         </el-form-item>
-        <el-form-item label="简介" prop="nationalityOfStudents">
+        <el-form-item label="简介/描述" prop="nationalityOfStudents">
           <el-input v-model="form.intro" ></el-input>
         </el-form-item>
 
@@ -21,7 +29,7 @@
          <!-- //图片上传 -->
         <div>
           <div class="logoImgThree">
-            <el-form-item label="logo" prop="logoIcon" class="logoBtn"></el-form-item>
+            <el-form-item label="logo/头像" prop="logoIcon" class="logoBtn"></el-form-item>
             <el-input v-model="form.logoIcon" class="el_inputOne"></el-input>
             <el-upload
                 class="upload-demo deme_upload"
@@ -71,6 +79,7 @@ export default {
       articleContent:"", //编辑器的值
       //表单属性
       form: {
+        type: '',
         exhibitorName:"",
         boothNum:"",
         intro:"",
@@ -89,7 +98,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.form.textDesc = this.articleContent
-          console.log(this.form.textDesc);
+          console.log(this.form);
           getExhibitorInsert(
             this.form
           ).then(res => {
@@ -484,5 +493,8 @@ export default {
   //确定 取消按钮
   /deep/.addBtn .el-form-item__content{
     text-align: left;
+  }
+   .offlineOrdo{
+    margin-top: 14px;
   }
 </style>

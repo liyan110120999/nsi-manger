@@ -48,3 +48,7 @@ export const getEntryAuditList = p => get('/manager/entryAudit/list.do', p)
 export const getEntryAuditSuccess_audit = p => get('/manager/entryAudit/success_audit.do', p)
 //活动管理 赠票删除
 export const getEntryAuditDelete = p => get('/manager/entryAudit/delete.do', p)
+//活动管理  线下支付  插入接口
+export const getVisInsert = p => get('/activity/vis_insert.do', p)
+//活动管理  线下支付  获取图片
+export const getVisImage = p => get('/activity/get_vis_image_url.do', p)

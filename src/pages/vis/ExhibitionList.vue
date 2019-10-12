@@ -4,9 +4,10 @@
     <div class="headerBtn" style="">
       <el-form ref="form" :model="form" label-width="70px">
         <el-form-item label="活动区域">
-          <el-select v-model="form.region" placeholder="请选择学校类型">
-            <el-option label="民办" value="shanghai"></el-option>
-            <el-option label="公办" value="beijing"></el-option>
+          <el-select v-model="form.region" placeholder="请选择类型"  @change="changeExhibition">
+            <el-option label="学校" value="学校"></el-option>
+            <el-option label="校长" value="校长"></el-option>
+            <el-option label="机构" value="机构"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -15,7 +16,7 @@
           <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
       </div>
       <div class="headerBtnLeft">
-          <el-button type="primary" @click="schoolAddPage">添加展商</el-button>
+          <el-button type="primary" @click="schoolAddPage">添加投票</el-button>
       </div>
     </div>
     <!-- 表格 -->
@@ -50,6 +51,13 @@
         label="公司"
         :show-overflow-tooltip="true"
         width="300">
+      </el-table-column>
+      <el-table-column
+        prop="thumbValue"
+        align="center"
+        label="点赞数"
+        :show-overflow-tooltip="true"
+        width="100">
       </el-table-column>
       <el-table-column
         prop="logoIcon"
@@ -115,6 +123,7 @@ import store from '../../vuex/store.js';
 export default {
   data() {
     return {
+      type:"",
       input:"",
       ExhibitionData:[],
       currentPage1: 5,
@@ -139,6 +148,7 @@ export default {
     getExhibitionData(){
       let that = this;
       getExhibitorList({
+        type:this.type,
         pageNum : that.pageNum,
         pageSize : that.pageSize,
         searchKey : that.input
@@ -221,7 +231,14 @@ export default {
       });
 
 
-     }),
+    }),
+    //投票类型
+    changeExhibition(){
+      this.type = this.form.region;
+      console.log(this.type)
+      this.getExhibitionData()
+    },
+
   },
   created() {
     this.getExhibitionData()

@@ -12,7 +12,7 @@
 import PanelGroup from '../../components/websiteIndex/PanelGroup'
 import LineChart from '../../components/websiteIndex/LineChart'
 
-console.log('version :', "0925");
+console.log('version :', "191012-1");
 
 export default {
   name: 'home',
@@ -58,10 +58,10 @@ export default {
    }
   },
   beforeCreate(){
-    console.log('beforeCreate')
+    // console.log('beforeCreate')
   },
   created(){
-    console.log('created')
+    // console.log('created')
     this.minHeight=window.innerHeight-110+'px'
     this.getChartData()
   },

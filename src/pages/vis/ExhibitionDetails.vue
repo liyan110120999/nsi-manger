@@ -2,9 +2,17 @@
   <div class="schoolAdd">
     <!-- <div class="addTitle">添加学校信息<i class="el-icon-close" @click="addCancel"></i></div> -->
     <div class="addBasic">
-      <div class="addBaH">修改展位信息</div>
+      <div class="addBaH">修改投票信息</div>
       <div class="addTips">注意：带※标记的为必填项</div>
       <el-form ref="form" :model="form" class="createNews" label-width="160px">
+
+        <el-form-item label="投票类型" prop="type">
+          <el-radio-group v-model="form.type" class="offlineOrdo">
+            <el-radio label="学校"></el-radio>
+            <el-radio label="校长"></el-radio>
+            <el-radio label="机构"></el-radio>
+          </el-radio-group>
+        </el-form-item>
 
         <el-form-item label="公司" prop="schoolName" class="addFlex">
           <el-input v-model.trim="form.exhibitorName"></el-input>
@@ -476,5 +484,8 @@ export default {
     .deme_upload{
       margin-left: -60px;
     }
+  }
+  .offlineOrdo{
+    margin-top: 14px;
   }
 </style>
