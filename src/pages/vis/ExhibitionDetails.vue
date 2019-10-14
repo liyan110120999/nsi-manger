@@ -24,6 +24,9 @@
         <el-form-item label="简介" prop="nationalityOfStudents">
           <el-input v-model="form.intro" ></el-input>
         </el-form-item>
+        <el-form-item label="点赞数" prop="nationalityOfStudents">
+          <el-input v-model="form.thumbValue" ></el-input>
+        </el-form-item>
 
 
          <!-- //图片上传 -->

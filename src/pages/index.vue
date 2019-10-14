@@ -6,7 +6,7 @@
         <el-col :span="12" class="headerLeft">
           <div style="display:flex;align-items:center;" class="nsiLog">
             <!-- <img style="background:#999;" src="./../assets/images/logo.png" height="40" width="40" alt=""> -->
-            <span>新学说官网</span>
+            <span>新学说后台</span>
           </div>
           <span class="nsiMenuBtn" @click="isCollapse">☰</span>
         </el-col>
