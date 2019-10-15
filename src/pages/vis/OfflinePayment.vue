@@ -28,7 +28,7 @@
         </el-form-item>
       </el-form>
       <!-- 生成form表单 -->
-      <div v-if="offlinePaymentShow" class="offlinePaymentShow">
+      <div v-if="offlinePaymentShow" class="offlinePaymentShow" name="el-fade-in-linear">
         <el-form ref="form" :model="form" class="createNews TwoLeft" :rules="rules" label-width="160px">
           <el-form-item label="名字" prop="name" class="addFlex">
             <el-input v-model.trim="form.name" :disabled="true"></el-input>
@@ -54,10 +54,12 @@
             <el-button @click="resetForm('form')">重置</el-button>
           </el-form-item>
         </el-form>
-        <div class="TwoRight">
-          <img :src="getVisImage">
 
+        <div class="TwoRight" v-loading="loading">
+          <img :src="getVisImage">
         </div>
+
+
       </div>
     </div>
 
@@ -78,8 +80,9 @@ export default {
     return {
       offlinePaymentShow:false,//生成表单开关
       getVisImage:"",
+      loading:false,
       form: {
-        id:"",
+        temp_id:"",
         radio2: "", //单选
         name:"",  //名字
         position:"",//职位
@@ -116,22 +119,30 @@ export default {
   methods:{
     //立提交按钮
     submitForm:utils.debounce(function(formName) {
-
       //立即创建按钮的执行操作
       this.$refs[formName].validate((valid) => {
+        console.log("-----");
         if (valid) {
             //添加接口
             console.log(this.form)
             getVisInsert(
               this.form
             ).then(res =>{
-              console.log(res);
-              this.$message({
-                message: '数据插入成功',
-                type: 'success'
-              });
-              this.form.id = res.data;
-              this.offlinePaymentShow = true;
+              var strData = res.data;
+              //这是用正则表达是检查 字符串是否是数字
+              if(/^[0-9]+$/.test(strData)){
+                this.$message({
+                  message: '数据插入成功',
+                  type: 'success'
+                });
+                this.form.temp_id = res.data;
+                this.offlinePaymentShow = true;
+              }else{
+                this.$message({
+                  message: '数据插入失败,请检查网路,请刷新页面',
+                  type: 'error'
+                });
+              }
             }).catch(error=>{
               this.$message({
                 message: '数据插入失败',
@@ -147,13 +158,15 @@ export default {
     }),
     //立创建生成按钮
     submitFormTwo:utils.debounce(function(formName) {
+      console.log("222222");
       //立即创建按钮的执行操作
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.loading=true;
           //添加接口
           console.log(this.form)
           getVisImage({
-             qrImgUrl:"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data="+ this.form.id,
+             qrImgUrl:"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data="+ this.form.temp_id,
              username:this.form.name,
              type:this.form.radio2,
           }).then(res =>{
@@ -163,6 +176,7 @@ export default {
                 message: '入场券生成成功',
                 type: 'success'
               });
+              this.loading=false;
             }else{
               this.$message({
               message: '入场券生成失败',
@@ -185,11 +199,12 @@ export default {
     }),
     //重置
     resetForm(formName) {
+      location.reload();
       console.log(formName)
       this.offlinePaymentShow = false;
       this.$refs[formName].resetFields();
       this.form = {
-        id:"",
+        temp_id:"",
         radio2: "", //单选
         name:"",  //名字
         position:"",//职位

@@ -214,9 +214,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        console.log("确定")
         getSchoolDelete({
           schoolId:row
         }).then(res =>{
+          console.log(res)
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -224,6 +226,7 @@ export default {
           this.getExhibitionData()
         })
       }).catch(() => {
+        console.log("取消")
         this.$message({
           type: 'info',
           message: '已取消删除'

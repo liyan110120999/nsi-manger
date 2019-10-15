@@ -41,11 +41,18 @@
       </el-table-column>
       <el-table-column
         fixed="left"
+        prop="id"
+        align="center"
+        label="id"
+        width="120">
+      </el-table-column>
+      <el-table-column
         prop="name"
         align="center"
         label="姓名"
         width="120">
       </el-table-column>
+
       <el-table-column
         prop="company"
         align="center"
@@ -118,6 +125,16 @@
         :show-overflow-tooltip="true"
         width="100">
       </el-table-column>
+      <el-table-column
+        fixed="right"
+        label="点击查看门票"
+        align="center"
+        width="150">
+        <template slot-scope="scope">
+          <el-button @click="centerDialogVisibl(scope.row)" type="text" size="small" style="color:#67C23A">展示门票</el-button>
+
+        </template>
+      </el-table-column>
 
 
     </el-table>
@@ -133,6 +150,22 @@
       </el-pagination>
     </div>
 
+
+    <!-- 查看二维码提示框 -->
+    <el-dialog
+      title="二维码展示"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center>
+      <div class="QRcodebox" v-loading="loading">
+        <span>姓名：{{QRcodeName}}</span>
+        <p><img class="CQRcodeURL" :src="QRcodeURL" /></p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
     <!-- {{schoolData}}111 -->
   </div>
 </template>
@@ -140,7 +173,7 @@
 <script>
 import axios from "axios";
 import QS from 'qs';
-import {getvislist,getvisorder} from "@/api/api";
+import {getvislist,getvisorder,getvisImageUrl} from "@/api/api";
 import utils from "@/api/utils.js";
 
 import FileSaver from 'file-saver';
@@ -156,7 +189,11 @@ export default {
       pageNum:1,
       pageSize:20,
       ticketShow:true,
+      loading:true,
       centerDialogVisible: false,//弹出框
+      QRcodeName:"xxx",//二维码显示姓名
+      QRcodeURL:"", //二维码图片地址
+      QRcodeType:"",//票务类型
       type:"vis2019",
       form: {
         name: '',
@@ -238,6 +275,33 @@ export default {
     schoolSearch(){
       this.getvis()
     },
+    //查看二维码
+    centerDialogVisibl(UserInformation){
+      this.loading = true;
+      this.centerDialogVisible = true;
+      this.QRcodeName = UserInformation.name;
+      //获取用户id
+      let userId  = UserInformation.id;
+      let type = UserInformation;
+
+      //判断票的类型
+      console.log(UserInformation.buyerMessage)
+      if(UserInformation.buyerMessage == "尊享票"){
+        this.QRcodeType = "zx"
+      }else{
+        this.QRcodeType = "gb"
+      }
+      getvisImageUrl({
+        qrImgUrl :"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + userId,
+        username:UserInformation.name,
+        type:this.QRcodeType
+      }).then(res => {
+        console.log(res.data)
+        this.QRcodeURL = res.data;
+        this.loading = false;
+      })
+      console.log(UserInformation)
+    },
     //导出excel
     exportExcel () {
       var fix = document.querySelector('.el-table__fixed');
@@ -283,5 +347,18 @@ export default {
   }
   .block{
     margin-top: 30px;
+  }
+
+  // 二维码提示框
+  .QRcodebox{
+    text-align: center;
+    .CQRcodeURL{
+      width: 220px;
+      margin-top: 20px;
+    }
+    span{
+      font-size: 16px;
+      font-weight: 600;
+    }
   }
 </style>

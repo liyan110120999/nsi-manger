@@ -99,14 +99,11 @@
         width="100">
       </el-table-column>
       <el-table-column
-        fixed="right"
-        label="点击查看二维码"
+        prop="id"
         align="center"
-        width="150">
-        <template slot-scope="scope">
-          <el-button @click="centerDialogVisibl(scope.row)" type="text" size="small" style="color:#67C23A">展示二维码</el-button>
-
-        </template>
+        label="报名表id"
+        :show-overflow-tooltip="true"
+        width="100">
       </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -119,22 +116,6 @@
         :total="schoolPageSize">
       </el-pagination>
     </div>
-
-    <!-- 查看二维码提示框 -->
-    <el-dialog
-      title="二维码展示"
-      :visible.sync="centerDialogVisible"
-      width="30%"
-      center>
-      <div class="QRcodebox">
-        <span>姓名：{{QRcodeName}}</span>
-        <p><img class="CQRcodeURL" :src="QRcodeURL" /></p>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
 
 
     <!-- {{schoolData}}111 -->
@@ -227,23 +208,6 @@ export default {
     //搜索
     schoolSearch(){
       this.getvis()
-    },
-    //查看二维码
-    centerDialogVisibl(UserInformation){
-      this.centerDialogVisible = true;
-      this.QRcodeName = UserInformation.name;
-      //获取用户id
-      let userId  = UserInformation.id;
-      let type = UserInformation;
-      console.log(userId)
-      getvisImageUrl({
-        qrImgUrl :"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + userId,
-        username:UserInformation.name,
-      }).then(res => {
-        console.log(res.data)
-        this.QRcodeURL = res.data
-      })
-      console.log(UserInformation)
     },
 
     //导出excel

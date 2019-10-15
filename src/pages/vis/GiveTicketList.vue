@@ -92,6 +92,16 @@
           <el-button @click="SchoolDelete(scope.row.id)" type="text" size="small" style="color:red" v-if="scope.row.checkMsg === '审核中'">拒绝</el-button>
         </template>
       </el-table-column>
+      <el-table-column
+        fixed="right"
+        label="点击查看门票"
+        align="center"
+        width="150">
+        <template slot-scope="scope">
+          <el-button @click="centerDialogVisibl(scope.row)" type="text" size="small" style="color:#67C23A">展示门票</el-button>
+
+        </template>
+      </el-table-column>
     </el-table>
     <!-- 分页 -->
     <div class="block">
@@ -104,6 +114,21 @@
       </el-pagination>
     </div>
 
+    <!-- 查看二维码提示框 -->
+    <el-dialog
+      title="二维码展示"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center>
+      <div class="QRcodebox" v-loading="loading">
+        <span>姓名：{{QRcodeName}}</span>
+        <p><img class="CQRcodeURL" :src="QRcodeURL" /></p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
     <!-- {{schoolData}}111 -->
   </div>
 </template>
@@ -111,7 +136,7 @@
 <script>
 import axios from "axios";
 import QS from 'qs';
-import {getEntryAuditList,getEntryAuditSuccess_audit,getEntryAuditDelete} from "@/api/api";
+import {getEntryAuditList,getEntryAuditSuccess_audit,getEntryAuditDelete,getvisImageUrl} from "@/api/api";
 import utils from "@/api/utils.js";
 
 import FileSaver from 'file-saver';
@@ -127,6 +152,10 @@ export default {
       pageSize:20,
       centerDialogVisible: false,//弹出框
       isCheck:"0",
+      loading:true,
+      QRcodeName:"xxx",//二维码显示姓名
+      QRcodeURL:"", //二维码图片地址
+      QRcodeType:"",//票务类型
       form: {
 
       },
@@ -257,7 +286,38 @@ export default {
         });
       });
     }),
+    //查看二维码
+    centerDialogVisibl(UserInformation){
+      console.log(UserInformation)
+      this.loading = true;
+      this.centerDialogVisible = true;
+      this.QRcodeName = UserInformation.applicationName;
+      //获取用户id
+      let userId  = UserInformation.entryId;
+      let type = UserInformation;
 
+      //判断票的类型
+      let giveStr = UserInformation.applicationName;
+      let giveArr = giveStr.split("(");
+      let giveType = giveArr[giveArr.length-1];
+      this.QRcodeType = giveType.substr(0,giveType.length-1)
+      console.log(this.QRcodeType)
+      if(this.QRcodeType == "嘉宾"){
+          this.QRcodeType = "gb"
+        }else{
+          this.QRcodeType = "zx"
+      }
+      getvisImageUrl({
+        qrImgUrl :"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + userId,
+        username:UserInformation.applicationName,
+        type:this.QRcodeType
+      }).then(res => {
+        console.log(res)
+        this.QRcodeURL = res.data;
+        this.loading = false;
+      })
+      console.log(UserInformation)
+    },
     //导出excel
     exportExcel () {
       var fix = document.querySelector('.el-table__fixed');
@@ -321,5 +381,18 @@ export default {
   }
   .block{
     margin-top: 30px;
+  }
+
+  // 二维码提示框
+  .QRcodebox{
+    text-align: center;
+    .CQRcodeURL{
+      width: 220px;
+      margin-top: 20px;
+    }
+    span{
+      font-size: 16px;
+      font-weight: 600;
+    }
   }
 </style>

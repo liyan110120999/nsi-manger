@@ -14,14 +14,14 @@
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="公司/名称" prop="schoolName" class="addFlex">
+        <el-form-item label="学校名/姓名/名称" prop="schoolName" class="addFlex">
           <el-input v-model.trim="form.exhibitorName"></el-input>
           <i>展位不能为空</i>
         </el-form-item>
         <el-form-item label="展位(仅机构填写)" prop="courseSystem">
           <el-input v-model="form.boothNum" ></el-input>
         </el-form-item>
-        <el-form-item label="简介/描述" prop="nationalityOfStudents">
+        <el-form-item label="简介/学校/描述" prop="nationalityOfStudents">
           <el-input v-model="form.intro" ></el-input>
         </el-form-item>
 
