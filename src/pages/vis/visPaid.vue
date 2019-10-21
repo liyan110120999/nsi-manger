@@ -218,7 +218,7 @@ export default {
       }).then(res=>{
         this.schoolPageSize=res.data.total;
         this.visData = res.data.list;
-
+        console.log(res.data.total)
         //时间戳 转换时间
         function formatDate(now) {
           var year=now.getFullYear();
@@ -236,16 +236,11 @@ export default {
         }
 
         //票的分类
-        console.log(res.data.list[0])
-        console.log(res.data.list[0].buyerMessage)
         for(var i=0;i<res.data.list.length;i++){
           let ticket = res.data.list[i].buyerMessage.split("-");
           res.data.list[i].buyerMessage = ticket[ticket.length-1]
         }
-          console.log("----")
-
       }).catch(error=>{
-        console.log(error)
         this.$message({
           message: '数据请求失败',
           type: 'error'
@@ -304,6 +299,17 @@ export default {
     },
     //导出excel
     exportExcel () {
+      var _this = this;
+      this.pageSize = this.schoolPageSize;
+      this.getvis();
+      setTimeout(function(){
+        _this.exportExcelTwo()
+        _this.pageSize = 20;
+        _this.getvis();
+      }, 1000);
+
+    },
+    exportExcelTwo(){
       var fix = document.querySelector('.el-table__fixed');
       var wb;
       var xlsxParam = { raw: true }  //转换成excel时，使用原始的格式
@@ -326,9 +332,8 @@ export default {
       } catch (e) {
         if (typeof console !== 'undefined') console.log(e, wbout)
       }
-    return wbout;
-    },
-
+      return wbout;
+    }
   },
   created() {
     this.getvis()

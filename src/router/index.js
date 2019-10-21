@@ -152,7 +152,7 @@ export default new Router({
           path: '/vis/OfflinePayment',
           component: OfflinePayment
         }, {
-          path: '/vis/TestInterface',
+          path: '/Other/TestInterface',
           component: TestInterface
         }
 	　 ]

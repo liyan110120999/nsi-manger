@@ -124,7 +124,16 @@
                 <el-menu-item index="/vis/ExhibitionList">投票(学校-校长-机构)</el-menu-item>
                 <el-menu-item index="/vis/GiveTicketList">赠票审核</el-menu-item>
                 <el-menu-item index="/vis/OfflinePayment">线下支付-生成门票</el-menu-item>
-                <el-menu-item index="/vis/TestInterface">测试</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+
+            <el-submenu style="text-align:left;" index="/Other">
+              <template slot="title">
+               <i class="el-icon-document"></i>
+                <span>其他</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/Other/TestInterface">错误上报</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 

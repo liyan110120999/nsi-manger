@@ -52,5 +52,9 @@ export const getEntryAuditDelete = p => get('/manager/entryAudit/delete.do', p)
 export const getVisInsert = p => get('/activity/vis_insert.do', p)
 //活动管理  线下支付  获取图片
 export const getVisImage = p => get('/activity/get_vis_image_url.do', p)
+//活动管理  错误上报
+export const getSysExceptionLogList = p => get('/SysExceptionLog/list.do', p)
+//活动管理  错误上报 删除接口
+export const getSysExceptionLogDelete = p => get('/SysExceptionLog/delete.do', p)
 
 

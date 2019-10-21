@@ -13,7 +13,7 @@ var consoleError = function(data, api, res) {
   var errMsg = JSON.stringify(res);
   //环境开关
   if (isProduce) {
-    var url = "http://192.168.0.40:8080/nsi-1.0/CommonApi/ErrorNotify.do";
+    var url = "http://data.xinxueshuo.cn/nsi-1.0/CommonApi/ErrorNotify.do";
     axios.post(url, {
       env: Devices,
       url: window.location.href,

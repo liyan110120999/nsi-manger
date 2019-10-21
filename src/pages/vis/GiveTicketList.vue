@@ -172,7 +172,6 @@ export default {
       }).then(res=>{
         this.schoolPageSize=res.data.total
         this.visData = res.data.list;
-
         function formatDate(now) {
           var year=now.getFullYear();
           var month=now.getMonth()+1;
@@ -320,6 +319,17 @@ export default {
     },
     //导出excel
     exportExcel () {
+      var _this = this;
+      this.pageSize = this.schoolPageSize;
+      this.getData();
+      setTimeout(function(){
+        console.log("14121212")
+        _this.exportExcelTwo()
+        _this.pageSize = 20;
+        _this.getData();
+      },1000)
+    },
+    exportExcelTwo(){
       var fix = document.querySelector('.el-table__fixed');
       console.log(fix)
       var wb;
@@ -359,7 +369,7 @@ export default {
         if (typeof console !== 'undefined') console.log(e, wbout)
       }
       return wbout;
-    },
+    }
 
 
 
