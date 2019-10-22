@@ -2,8 +2,9 @@
 
 
 import axios from 'axios';
+import QS from 'qs';
 //生产环境和测试环境的开关（true为生产环境）
-var isProduce = false;
+var isProduce = true;
 //失败回调
 var consoleError = function(data, api, res) {
   //获取浏览器信息
@@ -11,20 +12,28 @@ var consoleError = function(data, api, res) {
   //调用获取浏览器信息
   deviceControl()
   var errMsg = JSON.stringify(res);
+  if (errMsg.length > 100) {
+    errMsg = errMsg.substring(0, 99)
+  }
+  console.log(errMsg.length)
   //环境开关
   if (isProduce) {
-    var url = "http://data.xinxueshuo.cn/nsi-1.0/CommonApi/ErrorNotify.do";
-    axios.post(url, {
+    var url = "https://data.xinxueshuo.cn/nsi-1.0/CommonApi/ErrorNotify.do";
+    // var url = "http://192.168.0.40:8080/nsi-1.0/CommonApi/ErrorNotify.do";
+    var params  = {
       env: Devices,
       url: window.location.href,
       data: data,
       api: api,
-      errMsg: errMsg
-    }).then((res) => {
+      errMsg: "errMsg"
+    }
+    axios.post(url, QS.stringify(params) ).then((res) => {
       console.log(res)
     }).catch(err => {
       console.log(err)
     })
+
+
   }else{
     console.log("测试环境");
     // console.log("浏览器" + Devices, "当前页面" + window.location.href, "参数" + data,  "地址" + api, "返回信息" + errMsg)

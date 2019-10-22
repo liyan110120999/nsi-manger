@@ -13,6 +13,14 @@
         <el-form-item label="学校英文名字" prop="schoolEnglishName">
           <el-input v-model.trim="form.schoolEnglishName" ></el-input>
         </el-form-item>
+        <el-form-item label="学校性质" prop="operationState">
+          <el-select v-model="form.operationState" placeholder="请选择学校属性" :value-key="form.operationState">
+            <el-option label="公办" value="公办"></el-option>
+            <el-option label="民办" value="民办"></el-option>
+            <el-option label="外籍" value="外籍"></el-option>
+            <el-option label="其他" value="其他"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="运营状态" prop="schoolProperties">
           <el-select v-model="form.schoolProperties" placeholder="请选择学校属性" :value-key="form.schoolProperties">
             <el-option label="运营中" value="运营中"></el-option>
@@ -76,14 +84,7 @@
           <el-input v-model.number="form.foundingTime" ></el-input>
           <i>请输入四位数字</i>
         </el-form-item>
-        <el-form-item label="学校性质" prop="operationState">
-          <el-select v-model="form.operationState" placeholder="请选择学校属性" :value-key="form.operationState">
-            <el-option label="公办" value="公办"></el-option>
-            <el-option label="民办" value="民办"></el-option>
-            <el-option label="外籍" value="外籍"></el-option>
-            <el-option label="其他" value="其他"></el-option>
-          </el-select>
-        </el-form-item>
+
         <el-form-item label="学制" prop="schoolSystem" >
           <div class="addFlexTwo">
             <el-input v-model="form.schoolSystem" :disabled=true></el-input>

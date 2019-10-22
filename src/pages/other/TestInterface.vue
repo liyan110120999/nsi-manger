@@ -18,7 +18,7 @@
         prop="env"
         align="center"
         label="浏览器详情信息"
-        width="250">
+        width="400">
       </el-table-column>
       <el-table-column
         prop="request_data"
@@ -83,13 +83,29 @@ export default {
     }
   },
   methods: {
-    // 请求学校数据
+    // 请求列表数据
     getList(){
-      console.log("2454545")
       getSysExceptionLogList({
 
       }).then(res => {
         this.DataList = res.data
+        console.log(res.data)
+        function formatDate(now) {
+          var year=now.getFullYear();
+          var month=now.getMonth()+1;
+          var date=now.getDate();
+          var hour=now.getHours();
+          var minute=now.getMinutes();
+          var second=now.getSeconds();
+          return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+        }
+        //如果记得时间戳是毫秒级的就需要*1000 不然就错了记得转换成整型
+        for(var i=0; i<res.data.length; i++){
+          var d=new Date(res.data[i].create_time);
+          console.log( formatDate(d))
+          this.DataList[i].create_time = formatDate(d);
+        }
+
         console.log(res)
       }).catch(err => {
         console.log(err)
@@ -97,7 +113,7 @@ export default {
     },
     //删除数据
     SysExceptionLogDelete(id){
-      this.$confirm('此操作将永久删除该学校信息, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
