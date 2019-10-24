@@ -1,6 +1,6 @@
 //防抖函数
 export default {
-    debounce(fn, delay = 300) {   //默认300毫秒
+    debounce(fn, delay = 500) {   //默认300毫秒
         var timer;
         return function() {
             var args = arguments;
