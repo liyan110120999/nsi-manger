@@ -13,16 +13,18 @@
         <el-form-item label="学校英文名字" prop="schoolEnglishName">
           <el-input v-model.trim="form.schoolEnglishName" ></el-input>
         </el-form-item>
-        <el-form-item label="学校性质" prop="operationState">
-          <el-select v-model="form.operationState" placeholder="请选择学校属性" :value-key="form.operationState">
+
+        <el-form-item label="学校性质" prop="schoolProperties">
+          <el-select v-model="form.schoolProperties" placeholder="请选择学校性质" :value-key="form.schoolProperties">
             <el-option label="公办" value="公办"></el-option>
             <el-option label="民办" value="民办"></el-option>
             <el-option label="外籍" value="外籍"></el-option>
             <el-option label="其他" value="其他"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="运营状态" prop="schoolProperties">
-          <el-select v-model="form.schoolProperties" placeholder="请选择学校属性" :value-key="form.schoolProperties">
+
+        <el-form-item label="运营状态" prop="operationState">
+          <el-select v-model="form.operationState" placeholder="请选择运营状态" :value-key="form.operationState">
             <el-option label="运营中" value="运营中"></el-option>
             <el-option label="停办" value="停办"></el-option>
             <el-option label="筹建" value="筹建"></el-option>
@@ -242,7 +244,7 @@
                 :limit="1"
                 >
                   <el-button size="small" type="primary" class="btnUpata"  disabled>点击上传</el-button>
-                  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb<br/>图片上传尺寸1100*400</div>
                 </el-upload>
           </div>
         </div>
@@ -258,7 +260,7 @@
               :limit="1"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb<br/>图片上传尺寸1100*400</div>
             </el-upload>
           </div>
         </div>
@@ -274,7 +276,7 @@
               :limit="1"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb<br/>图片上传尺寸1100*400</div>
             </el-upload>
           </div>
         </div>
@@ -289,7 +291,7 @@
               :limit="1"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb<br/>图片上传尺寸1100*400</div>
             </el-upload>
           </div>
         </div>
@@ -305,7 +307,7 @@
               :limit="1"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb<br/>图片上传尺寸1100*400</div>
             </el-upload>
           </div>
         </div>

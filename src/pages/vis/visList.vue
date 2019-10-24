@@ -19,7 +19,7 @@
       </div>
       <div class="headerBtnLeft">
           <!-- <el-button type="primary" @click="schoolAddPage">添加学校</el-button> -->
-          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出Excel</el-button>
+          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出Excel(全部)</el-button>
       </div>
     </div>
     <!-- 表格 -->
@@ -212,6 +212,17 @@ export default {
 
     //导出excel
     exportExcel () {
+      var _this = this;
+      this.pageSize = this.schoolPageSize;
+      this.getvis();
+      setTimeout(function(){
+        console.log("14121212")
+        _this.exportExcelTwo()
+        _this.pageSize = 20;
+        _this.getvis();
+      },1000)
+    },
+    exportExcelTwo(){
       var fix = document.querySelector('.el-table__fixed');
       console.log(fix)
       var wb;
@@ -229,14 +240,29 @@ export default {
           type: 'array'
       });
       try {
+
+        //xlsx加时间
+        var timestamp = Date.parse(new Date());
+        var d=new Date(timestamp);
+        function formExcl(now) {
+          var year=now.getFullYear();
+          var month=now.getMonth()+1;
+          var date=now.getDate();
+          var hour=now.getHours();
+          var minute=now.getMinutes();
+          var second=now.getSeconds();
+          return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+        }
+        let formExclTime = formExcl(d);
+
         FileSaver.saveAs(
         new Blob([wbout], { type: "application/octet-stream;charset=utf-8" }),
-        'sheetjs.xlsx')
+        '审核列表'+formExclTime+'.xlsx')
       } catch (e) {
         if (typeof console !== 'undefined') console.log(e, wbout)
       }
       return wbout;
-    },
+    }
 
 
 

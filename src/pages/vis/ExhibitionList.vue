@@ -17,6 +17,7 @@
       </div>
       <div class="headerBtnLeft">
           <el-button type="primary" @click="schoolAddPage">添加投票</el-button>
+          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出Excel(全部)</el-button>
       </div>
     </div>
     <!-- 表格 -->
@@ -24,7 +25,8 @@
       :data="ExhibitionData"
       border
       style="width: 100%"
-      height="640">
+      height="640"
+      id="rebateSetTable">
       <el-table-column
         align="center"
         fixed="left"
@@ -116,10 +118,11 @@
 import axios from "axios";
 import QS from 'qs';
 import { getExhibitorList } from "@/api/api";
-
 import utils from "@/api/utils.js";
 import bus from "@/api/bus";
 import store from '../../vuex/store.js';
+import FileSaver from 'file-saver';
+import XLSX from 'xlsx';
 export default {
   data() {
     return {
@@ -241,6 +244,60 @@ export default {
       console.log(this.type)
       this.getExhibitionData()
     },
+    //导出excel
+    exportExcel () {
+      var _this = this;
+      this.pageSize = this.ExhibitionPageSize;
+      this.getExhibitionData();
+      setTimeout(function(){
+        console.log("14121212")
+        _this.exportExcelTwo()
+        _this.pageSize = 20;
+        _this.getExhibitionData();
+      },1000)
+    },
+    exportExcelTwo(){
+      var fix = document.querySelector('.el-table__fixed');
+      console.log(fix)
+      var wb;
+      var xlsxParam = { raw: true }  //转换成excel时，使用原始的格式
+      if (fix) {
+        wb = XLSX.utils.table_to_book(document.getElementById('rebateSetTable').removeChild(fix),xlsxParam);
+        document.getElementById('rebateSetTable').appendChild(fix);
+      } else {
+          wb = XLSX.utils.table_to_book(document.getElementById('rebateSetTable'),xlsxParam);
+      }
+      /* get binary string as output */
+      var wbout = XLSX.write(wb, {
+          bookType: 'xlsx',
+          bookSST: true,
+          type: 'array'
+      });
+      try {
+
+        //xlsx加时间
+        var timestamp = Date.parse(new Date());
+        var d=new Date(timestamp);
+        function formExcl(now) {
+          var year=now.getFullYear();
+          var month=now.getMonth()+1;
+          var date=now.getDate();
+          var hour=now.getHours();
+          var minute=now.getMinutes();
+          var second=now.getSeconds();
+          return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+        }
+        let formExclTime = formExcl(d);
+
+        FileSaver.saveAs(
+        new Blob([wbout], { type: "application/octet-stream;charset=utf-8" }),
+        '审核列表'+formExclTime+'.xlsx')
+      } catch (e) {
+        if (typeof console !== 'undefined') console.log(e, wbout)
+      }
+      return wbout;
+    }
+
 
   },
   created() {

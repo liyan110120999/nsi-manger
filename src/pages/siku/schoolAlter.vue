@@ -13,16 +13,17 @@
         <el-form-item label="学校英文名字" prop="schoolEnglishName">
           <el-input v-model.trim="form.schoolEnglishName" ></el-input>
         </el-form-item>
-          <el-form-item label="学校性质" prop="operationState">
-          <el-select v-model="form.operationState" placeholder="请选择学校属性" :value-key="form.operationState">
+        <el-form-item label="学校性质" prop="schoolProperties">
+          <el-select v-model="form.schoolProperties" placeholder="请选择学校性质" :value-key="form.schoolProperties">
             <el-option label="公办" value="公办"></el-option>
             <el-option label="民办" value="民办"></el-option>
             <el-option label="外籍" value="外籍"></el-option>
             <el-option label="其他" value="其他"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="运营状态" prop="schoolProperties">
-          <el-select v-model="form.schoolProperties" placeholder="请选择学校属性" :value-key="form.schoolProperties">
+
+        <el-form-item label="运营状态" prop="operationState">
+          <el-select v-model="form.operationState" placeholder="请选择运营状态" :value-key="form.operationState">
             <el-option label="运营中" value="运营中"></el-option>
             <el-option label="停办" value="停办"></el-option>
             <el-option label="筹建" value="筹建"></el-option>
@@ -246,7 +247,7 @@
                 :on-exceed="handleExceed"
                 >
                   <el-button size="small" type="primary" class="btnUpata"  >点击上传</el-button>
-                  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb<br/>图片上传尺寸1100*400</div>
                 </el-upload>
           </div>
           <img v-if="logoShowOne" :src="form.schoolShowOne" @click="LogoMaxOne(form.schoolShowOne)" class="logoImg">
@@ -267,7 +268,7 @@
               :on-exceed="handleExceed"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" >点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb<br/>图片上传尺寸1100*400</div>
             </el-upload>
           </div>
 
@@ -289,7 +290,7 @@
               :on-exceed="handleExceed"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" >点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb<br/>图片上传尺寸1100*400</div>
             </el-upload>
           </div>
             <img v-if="logoShowThird" :src="form.schoolShowThird" class="logoImg">
@@ -310,7 +311,7 @@
               :on-exceed="handleExceed"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" >点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb<br/>图片上传尺寸1100*400</div>
             </el-upload>
           </div>
 
@@ -332,7 +333,7 @@
               :on-exceed="handleExceed"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" >点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb<br/>图片上传尺寸1100*400</div>
             </el-upload>
           </div>
 
@@ -971,16 +972,23 @@ export default {
     },
 
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return isJPG && isLt2M;
+      const isSize = new Promise(function(resolve, reject) {
+        let width = 1100;
+        let height = 400;
+        let _URL = window.URL || window.webkitURL;
+        let img = new Image();
+        img.onload = function() {
+            let valid = img.width == width && img.height == height;
+            valid ? resolve() : reject();
+        }
+        img.src = _URL.createObjectURL(file);
+      }).then(() => {
+          return file;
+      }, () => {
+          this.$message.error('上传的icon必须是等于1100*400!');
+          return Promise.reject();
+      });
+      return  isSize;
     },
     //上传学校大图
     handleRemove(file, fileList) {

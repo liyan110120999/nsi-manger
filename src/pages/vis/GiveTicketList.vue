@@ -16,7 +16,7 @@
       </div>
       <div class="headerBtnLeft">
           <!-- <el-button type="primary" @click="schoolAddPage">添加学校</el-button> -->
-          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出Excel</el-button>
+          <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出Excel(全部)</el-button>
       </div>
     </div>
     <!-- 表格 -->
