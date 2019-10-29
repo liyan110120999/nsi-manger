@@ -34,6 +34,8 @@ import ExhibitionDetails from '@/pages/vis/ExhibitionDetails.vue'
 import ExhibitionAdd from '@/pages/vis/ExhibitionAdd.vue'
 import GiveTicketList from '@/pages/vis/GiveTicketList.vue'
 import OfflinePayment from '@/pages/vis/OfflinePayment.vue'
+import prizeDrawAdd from '@/pages/vis/prizeDrawAdd.vue'
+import prizeDrawList from '@/pages/vis/prizeDrawList.vue'
 import TestInterface from '@/pages/other/TestInterface.vue'
 Vue.use(Router)
 
@@ -151,6 +153,12 @@ export default new Router({
         }, {
           path: '/vis/OfflinePayment',
           component: OfflinePayment
+        }, {
+          path: '/vis/prizeDrawAdd',
+          component: prizeDrawAdd
+        }, {
+          path: '/vis/prizeDrawList',
+          component: prizeDrawList
         }, {
           path: '/Other/TestInterface',
           component: TestInterface

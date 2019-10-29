@@ -124,6 +124,7 @@
                 <el-menu-item index="/vis/ExhibitionList">投票(学校-校长-机构)</el-menu-item>
                 <el-menu-item index="/vis/GiveTicketList">赠票审核</el-menu-item>
                 <el-menu-item index="/vis/OfflinePayment">线下支付-生成门票</el-menu-item>
+                <el-menu-item index="/vis/prizeDrawList">vis直播抽奖</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 

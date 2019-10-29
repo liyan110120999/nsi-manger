@@ -54,7 +54,12 @@ export const getVisInsert = p => get('/activity/vis_insert.do', p)
 export const getVisImage = p => get('/activity/get_vis_image_url.do', p)
 //活动管理  错误上报
 export const getSysExceptionLogList = p => get('/SysExceptionLog/list.do', p)
-//活动管理  错误上报 删除接口
-export const getSysExceptionLogDelete = p => get('/SysExceptionLog/delete.do', p)
+//活动管理  vis抽奖列表
+export const getTugOfWar_PeopleList = p => get('/activity/TugOfWar_PeopleList.do', p)
+//活动管理  vis直播抽奖插入
+export const getTugOfWar_Insert = p => get('/activity/TugOfWar_Insert.do', p)
 
+
+//其他  错误上报 删除接口
+export const getSysExceptionLogDelete = p => get('/SysExceptionLog/delete.do', p)
 
