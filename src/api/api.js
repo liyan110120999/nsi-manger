@@ -58,6 +58,9 @@ export const getSysExceptionLogList = p => get('/SysExceptionLog/list.do', p)
 export const getTugOfWar_PeopleList = p => get('/activity/TugOfWar_PeopleList.do', p)
 //活动管理  vis直播抽奖插入
 export const getTugOfWar_Insert = p => get('/activity/TugOfWar_Insert.do', p)
+//活动管理  vis直播抽奖 删除接口
+export const getTugOfWar_Delete = p => get('/activity/TugOfWar_Delete.do', p)
+
 
 
 //其他  错误上报 删除接口

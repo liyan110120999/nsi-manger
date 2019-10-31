@@ -78,7 +78,7 @@
         width="100">
         <template slot-scope="scope">
           <el-button @click="ExhibitionDetail(scope.row.id)" type="text" size="small" style="color:#67C23A">编辑</el-button>
-          <el-button @click="SchoolDelete(scope.row.id)" type="text" size="small" style="color:red">删除</el-button>
+          <el-button @click="PrizeDrawDelete(scope.row.id)" type="text" size="small" style="color:red">删除</el-button>
         </template>
       </el-table-column>
 
@@ -103,7 +103,7 @@
 <script>
 import axios from "axios";
 import QS from 'qs';
-import { getTugOfWar_PeopleList } from "@/api/api";
+import { getTugOfWar_PeopleList,getTugOfWar_Delete } from "@/api/api";
 import utils from "@/api/utils.js";
 import bus from "@/api/bus";
 import store from '../../vuex/store.js';
@@ -124,7 +124,7 @@ export default {
     }
   },
   methods: {
-    // 请求学校数据
+    // 请求抽奖数据
     getData(){
       console.log("------")
       let that = this;
@@ -182,15 +182,15 @@ export default {
       this.getData()
     },
     //删除
-    SchoolDelete:utils.debounce(function(row){
-      this.$confirm('此操作将永久删除该学校信息, 是否继续?', '提示', {
+    PrizeDrawDelete:utils.debounce(function(row){
+      this.$confirm('此操作将永久删除该抽奖信息, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        console.log("确定")
-        ({
-
+        console.log(row)
+        getTugOfWar_Delete({
+          id:row
         }).then(res =>{
           console.log(res)
 
