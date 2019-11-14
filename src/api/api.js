@@ -5,6 +5,9 @@ import {
 
 //商城 发票管理  /Invoice/del.do
 export const getInvoiceDel = p => get('/Invoice/del.do', p)
+//商城 发票管理 添加发票
+export const postHandInvoiceCreate = p => post('/Invoice/HandInvoiceCreate.do', p)
+
 //学校库  学校列表
 export const getSchoolLibrary = p => get('/new/school/list.do', p)
 // //学校库  添加列表

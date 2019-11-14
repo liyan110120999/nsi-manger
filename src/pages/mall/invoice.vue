@@ -17,7 +17,8 @@
     <div class="headerBtnRight">
       <el-input v-model="keyword" placeholder="请输入关键字搜索"></el-input>
       <el-button @click="getWebsiteTable" type="success" class="selectBtn" ><i class="el-icon-search"></i><span>查询</span></el-button>
-      <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出</el-button>
+      <el-button @click="exportExcel" style="margin-top: 2px;" size="medium" type="primary">导出(全部)</el-button>
+      <el-button @click="invoiceAdd" style="margin-top: 2px;" size="medium" type="primary">添加</el-button>
     </div>
 
   </div>
@@ -187,6 +188,7 @@ import XLSX from 'xlsx'
         typeIndex:1,//序号开始
         keyword:'',//搜索
         websiteTableDataloading:true,//表格数据展示
+        ExhibitionPageSize:"",//xlsx导出条数
         billstatus:[{
           value: '未开票',
           label: '未开票'
@@ -218,6 +220,7 @@ import XLSX from 'xlsx'
           console.log(response)
           that.pageTotalnum=response.data.data.total
           that.websiteTableData=response.data.data.list
+          that.ExhibitionPageSize = that.websiteTableData.length;
           console.log(that.websiteTableData)
 
           for (var i = 0; i < that.websiteTableData.length; i++) {
@@ -259,6 +262,11 @@ import XLSX from 'xlsx'
       handleSizeChange(num){
         this.pageSize=num
         this.getWebsiteTable()
+      },
+      //跳转添加发票页面
+      invoiceAdd(){
+        this.$router.push({path:"/mall/invoiceAdd"})
+        console.log("11111")
       },
       //编辑资讯
       edit(newsId){
@@ -363,8 +371,19 @@ import XLSX from 'xlsx'
       createNews(){
 
       },
-      //导出 elsx
+      //导出excel
       exportExcel () {
+        var _this = this;
+        this.pageSize = this.ExhibitionPageSize;
+        this.getWebsiteTable();
+        setTimeout(function(){
+          console.log("14121212")
+          _this.exportExcelTwo()
+          _this.pageSize = 20;
+          _this.getWebsiteTable();
+        },1000)
+      },
+      exportExcelTwo(){
         var fix = document.querySelector('.el-table__fixed');
         console.log(fix)
         var wb;
@@ -382,14 +401,29 @@ import XLSX from 'xlsx'
             type: 'array'
         });
         try {
+
+          //xlsx加时间
+          var timestamp = Date.parse(new Date());
+          var d=new Date(timestamp);
+          function formExcl(now) {
+            var year=now.getFullYear();
+            var month=now.getMonth()+1;
+            var date=now.getDate();
+            var hour=now.getHours();
+            var minute=now.getMinutes();
+            var second=now.getSeconds();
+            return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+          }
+          let formExclTime = formExcl(d);
+
           FileSaver.saveAs(
           new Blob([wbout], { type: "application/octet-stream;charset=utf-8" }),
-          'sheetjs.xlsx')
+          '审核列表'+formExclTime+'.xlsx')
         } catch (e) {
           if (typeof console !== 'undefined') console.log(e, wbout)
         }
         return wbout;
-      },
+      }
     },
     created(){
       //初始化表格数据
