@@ -41,30 +41,25 @@
       prop="orderNo"
       align="center"
       label="订单编号"
-      width="180">
+      width="140">
     </el-table-column>
-    <el-table-column
-      prop="statusDesc"
-      label="状态"
-      align="center"
-      width="120">
-    </el-table-column>
+
     <el-table-column
       prop="productType"
       label="类型"
       align="center"
-      width="120">
+      width="80">
     </el-table-column>
     <el-table-column
       prop="total_price"
       label="总价格"
       align="center"
-      width="120">
+      width="80">
     </el-table-column>
     <el-table-column
       align="center"
       label="购买商品"
-      width="180"
+      width="100"
       >
       <template slot-scope="scope">
             <el-button type="text" @click="getorderNoData(scope.row.goodsId)" size="small" style="color:#f56c6c" v-if="scope.row.productType=='购物车'">{{scope.row.productType}}</el-button>
@@ -77,26 +72,14 @@
       prop="quantity"
       align="center"
       label="购买数量"
-      width="100"
+      width="50"
       >
     </el-table-column>
     <el-table-column
       prop="shopVo.receivename"
       label="购买人姓名"
       align="center"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="shopVo.receivephone"
-      label="购买人电话"
-      align="center"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="wechatId"
-      label="购买人wechatId"
-      align="center"
-      width="300">
+      width="90">
     </el-table-column>
     <el-table-column
       label="邮寄地址"
@@ -106,14 +89,8 @@
       >
     </el-table-column>
     <el-table-column
-      prop="shopVo.usermail"
-      label="购买人邮箱"
-      align="center"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="shippingCode"
-      label="物流单号"
+      prop="shopVo.receivephone"
+      label="购买人电话"
       align="center"
       width="120">
     </el-table-column>
@@ -127,8 +104,34 @@
       prop="createTime"
       label="创建时间"
       align="center"
-      width="200">
+      width="160">
     </el-table-column>
+    <el-table-column
+      prop="shopVo.usermail"
+      label="购买人邮箱"
+      align="center"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="shippingCode"
+      label="物流单号"
+      align="center"
+      width="120">
+    </el-table-column>
+
+    <el-table-column
+      prop="wechatId"
+      label="购买人wechatId"
+      align="center"
+      width="300">
+    </el-table-column>
+    <el-table-column
+      prop="statusDesc"
+      label="状态"
+      align="center"
+      width="80">
+    </el-table-column>
+
     <el-table-column
       fixed="right"
       label="操作"

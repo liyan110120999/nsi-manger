@@ -39,16 +39,9 @@
       >
     </el-table-column>
     <el-table-column
-      prop="createtime"
-      align="center"
-      label="创建时间"
-      width="160"
-      >
-    </el-table-column>
-    <el-table-column
       prop="managename"
       align="center"
-      label="发票名称"
+      label="来源"
       width="160"
       >
     </el-table-column>
@@ -112,12 +105,6 @@
       width="120">
     </el-table-column>
     <el-table-column
-      prop="financestate"
-      label="财务状态"
-      align="center"
-      width="120">
-    </el-table-column>
-    <el-table-column
       prop="remark"
       label="备注"
       align="center"
@@ -142,9 +129,9 @@
       width="120">
     </el-table-column>
     <el-table-column
-      prop="updatetime"
-      label="更新时间"
+      prop="createtime"
       align="center"
+      label="创建时间"
       width="160"
       >
     </el-table-column>

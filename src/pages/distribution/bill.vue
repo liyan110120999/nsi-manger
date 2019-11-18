@@ -19,6 +19,7 @@
         prop="payment"
         align="center"
         label="支付类型"
+        width="100"
         >
       </el-table-column>
       <el-table-column
@@ -30,6 +31,7 @@
       <el-table-column
         prop="mail"
         align="center"
+        width="100"
         label="邮箱">
       </el-table-column>
       <el-table-column
@@ -45,27 +47,32 @@
       <el-table-column
         prop="phone"
         align="center"
+        width="120"
         label="手机号">
       </el-table-column>
       <el-table-column
         prop="institution"
         align="center"
+        width="120"
         label="公司">
       </el-table-column>
       <el-table-column
         prop="position"
         align="center"
+        width="120"
         label="职位">
       </el-table-column>
       <el-table-column
         prop="activity"
         align="center"
+        width="120"
         label="购买商品">
       </el-table-column>
-      
+
       <el-table-column
         prop="create_time"
         align="center"
+        width="200"
         label="支付时间">
       </el-table-column>
     </el-table>
@@ -104,7 +111,7 @@ export default {
         this.getDistributionTableData()
       },
       //一页数据量改变
-      handleSizeChange(num){ 
+      handleSizeChange(num){
         this.pageSize=num
         this.getDistributionTableData()
       },
@@ -124,7 +131,7 @@ export default {
         // D = date.getDate() + ' ';
         // h = date.getHours() + ':';
         // m = date.getMinutes() + ':';
-        // s = date.getSeconds(); 
+        // s = date.getSeconds();
         //console.log(Y+M+D+h+m+s);
         //new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
         that.pageTotalnum=response.data.data.total
@@ -141,7 +148,7 @@ export default {
         //   return item
         // })
 
-        
+
         console.log(that.distributionTableData)
         let websiteTableDataLength=that.distributionTableData.length
         //let flagNum=0
@@ -156,7 +163,7 @@ export default {
     },
   },
   created(){
-    
+
     this.getDistributionTableData()
   }
 }

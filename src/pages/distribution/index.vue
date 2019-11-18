@@ -7,7 +7,7 @@
       stripe
       v-loading="distributionTableDataloading"
       class="distributionTable"
-      
+
       >
       <el-table-column
         type='index'
@@ -20,46 +20,55 @@
         prop="sign"
         align="center"
         label="支付类型"
+        width="120"
         >
       </el-table-column>
       <el-table-column
         prop="index01"
         align="center"
+        width="120"
         label="描述">
       </el-table-column>
       <el-table-column
         prop="index02"
         align="center"
+        width="150"
         label="时间">
       </el-table-column>
       <el-table-column
         prop="index03"
         align="center"
+        width="200"
         label="微信订单号">
       </el-table-column>
       <el-table-column
         prop="index04"
         align="center"
+        width="200"
         label="商户订单号">
       </el-table-column>
       <el-table-column
         prop="index06"
         align="center"
+        width="100"
         label="付款人">
       </el-table-column>
       <el-table-column
         prop="index07"
         align="center"
+        width="100"
         label="金额">
       </el-table-column>
       <el-table-column
         prop="index08"
+        width="100"
         align="center"
         label="推介人">
       </el-table-column>
       <el-table-column
         prop="index09"
         align="center"
+        width="100"
         label="支付信息">
       </el-table-column>
     </el-table>
@@ -98,7 +107,7 @@ export default {
         this.getDistributionTableData()
       },
       //一页数据量改变
-      handleSizeChange(num){ 
+      handleSizeChange(num){
         this.pageSize=num
         this.getDistributionTableData()
       },
@@ -113,7 +122,7 @@ export default {
         // D = date.getDate() + ' ';
         // h = date.getHours() + ':';
         // m = date.getMinutes() + ':';
-        // s = date.getSeconds(); 
+        // s = date.getSeconds();
         //console.log(Y+M+D+h+m+s);
         //new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
         that.pageTotalnum=response.data.data.total
@@ -130,7 +139,7 @@ export default {
           return item
         })
 
-        
+
         console.log(that.distributionTableData)
         let websiteTableDataLength=that.distributionTableData.length
         let flagNum=0
@@ -150,5 +159,5 @@ export default {
 }
 </script>
 <style lang="scss">
-  
+
 </style>
