@@ -2,32 +2,36 @@
 <div>
   <!-- 头部按钮 -->
   <div class="headerBtn">
-         <div style="display:flex;flex-direction: row;">
-           <el-form label-width="50px" class="updateCardForm">
-              <el-form-item label="状态">
-                  <el-select @change="billstatusChange" v-model="billstatusValue" placeholder="请选择">
-                      <el-option
-                      v-for="item in billstatus"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                      </el-option>
-                  </el-select>
-              </el-form-item>
-            </el-form>
-            <el-form label-width="50px" class="updateCardForm">
-              <el-form-item label="类型">
-                  <el-select @change="billstatusChange" v-model="productTypeValue" placeholder="请选择">
-                      <el-option
-                      v-for="item in productType"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                      </el-option>
-                  </el-select>
-              </el-form-item>
-            </el-form>
-        </div>
+    <div style="display:flex;flex-direction: row;">
+      <el-form label-width="50px" class="updateCardForm">
+        <el-form-item label="状态">
+            <el-select @change="billstatusChange" v-model="billstatusValue" placeholder="请选择">
+                <el-option
+                v-for="item in billstatus"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+                </el-option>
+            </el-select>
+        </el-form-item>
+      </el-form>
+      <el-form label-width="50px" class="updateCardForm">
+        <el-form-item label="类型">
+            <el-select @change="billstatusChange" v-model="productTypeValue" placeholder="请选择">
+                <el-option
+                v-for="item in productType"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+                </el-option>
+            </el-select>
+        </el-form-item>
+      </el-form>
+      <div class="headerBtnRight">
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+          <el-button type="success" icon="el-icon-search" @click="mallBillSearch">搜索</el-button>
+      </div>
+    </div>
   </div>
   <!-- 表格 -->
   <el-table
@@ -71,13 +75,13 @@
     <el-table-column
       prop="quantity"
       align="center"
-      label="购买数量"
+      label="数量"
       width="50"
       >
     </el-table-column>
     <el-table-column
       prop="shopVo.receivename"
-      label="购买人姓名"
+      label="姓名"
       align="center"
       width="90">
     </el-table-column>
@@ -255,6 +259,7 @@
   export default {
     data() {
       return {
+        input:"",
         websiteTableData: [],//表格数据
         buycarData:[],
         pageTotalnum:0,//数据总数
@@ -378,9 +383,9 @@
         },
       //获取表格数据
       getWebsiteTable(){
-        var that=this
+        let that=this
         that.websiteTableDataloading=true
-        let url=this.baseUrl + "/manager/order/get_order_list.do"+"?status="+this.billstatusValue+"&productType="+this.productTypeValue+"&pageNum="+this.pageNum+"&pageSize="+this.pageSize
+        let url=that.baseUrl + "/manager/order/get_order_list.do"+"?status="+this.billstatusValue+"&productType="+this.productTypeValue+"&pageNum="+this.pageNum+"&pageSize="+this.pageSize + "&searchKey=" + this.input
         this.$axios.get(url).then(function(response){
             console.log(response)
             that.pageTotalnum=response.data.data.total
@@ -419,6 +424,10 @@
           let m = date.getMinutes() + ':';
           let s = date.getSeconds();
           return Y+M+D+h+m+s
+      },
+      //搜索
+      mallBillSearch(){
+        this.getWebsiteTable();
       },
       //页码改变
       handleCurrentChange(num){
