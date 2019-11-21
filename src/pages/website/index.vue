@@ -9,7 +9,7 @@
       <el-input v-model="keyword" placeholder="请输入关键字搜索"></el-input>
       <el-button type="success" class="selectBtn" @click="getWebsiteTable"><i class="el-icon-search"></i><span>查询</span></el-button>
     </div>
-    
+
   </div>
   <!-- 表格 -->
   <el-table
@@ -39,7 +39,7 @@
       align="center"
       width="120">
     </el-table-column>
-    
+
     <el-table-column
       prop="updateTime"
       align="center"
@@ -82,7 +82,7 @@
     :total="pageTotalnum">
   </el-pagination>
 </div>
-  
+
 </template>
 
 <script>
@@ -113,7 +113,7 @@
           let websiteTableDataLength=that.websiteTableData.length
           let flagNum=0
           function RefreshStatistics(){
-              
+
               let url=that.baseUrl + "/manager/article/RefreshStatistics.do"+"?articleId="+that.websiteTableData[flagNum].id
               that.$axios.get(url).then(function(response){
                 that.websiteTableData[flagNum].articleReader=response.data.msg
@@ -132,7 +132,7 @@
           if(that.websiteTableData.length>0){
             RefreshStatistics()
           }
-          
+
           that.websiteTableDataloading=false
         }).catch(function (response){
           that.websiteTableDataloading=false
@@ -148,7 +148,7 @@
         this.getWebsiteTable()
       },
       //一页数据量改变
-      handleSizeChange(num){ 
+      handleSizeChange(num){
         this.pageSize=num
         this.getWebsiteTable()
       },
@@ -182,7 +182,7 @@
           that.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       },
       //复制链接成功
@@ -217,5 +217,8 @@
 <style>
   .warnClass{
     color:#F00;
+  }
+  .el-table{
+    width:99.9%;
   }
 </style>

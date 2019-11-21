@@ -14,16 +14,15 @@
     v-loading="websiteTableDataloading"
     class="websiteTable">
     <el-table-column
-      type='index'
-      :index="typeIndex"
+      prop="id"
       align="center"
-      label="编号"
+      label="ID"
       width="100">
     </el-table-column>
      <el-table-column
       prop="fileName"
       align="center"
-      
+      width="250"
       label="名称">
     </el-table-column>
     <el-table-column
@@ -51,6 +50,7 @@
       prop="fileUrl"
       label="下载地址"
       align="center"
+      width="450"
       >
     </el-table-column>
     <el-table-column
@@ -69,17 +69,17 @@
       :modal-append-to-body="false"
       :visible.sync="puchaDrag"
       width="50%">
-      <el-form :model="flagwebsiteTableData" label-width="140px" class="updateCardForm">
-        <el-form-item label="名称">
+      <el-form :model="flagwebsiteTableData" :rules="rules" ref="flagwebsiteTableData" label-width="140px" class="updateCardForm">
+        <el-form-item label="名称" prop="fileName">
           <el-input v-model="flagwebsiteTableData.fileName" type="text"></el-input>
-        </el-form-item> 
-        <el-form-item label="类型">
+        </el-form-item>
+        <el-form-item label="类型" prop="type">
           <el-input v-model="flagwebsiteTableData.type" type="text"></el-input>
-        </el-form-item> 
-        <el-form-item label="年代">
+        </el-form-item>
+        <el-form-item label="年代" prop="year">
           <el-input v-model="flagwebsiteTableData.year" type="text"></el-input>
-        </el-form-item> 
-        <el-form-item label="封面图片地址">
+        </el-form-item>
+        <el-form-item label="封面图片地址" prop="imageUrl">
           <el-input style="display:inline-block;float:left;" v-model="flagwebsiteTableData.imageUrl"  type="text"></el-input>
           <el-upload
             class="uploadBanner"
@@ -91,10 +91,10 @@
             :before-upload="beforeUpload"
             :on-error="uploadError"
             :file-list="fileList">
-            <el-button size="small" type="primary">上传图片</el-button><span style="color:#999;font-size:12px;padding-left:12px;">图片大小:878*340像素</span>
+            <el-button size="small" type="primary">上传图片</el-button><span style="color:#999;font-size:12px;padding-left:12px;">图片大小:262*345像素</span>
           </el-upload>
         </el-form-item>
-        <el-form-item label="下载地址">
+        <el-form-item label="下载地址" prop="fileUrl">
           <el-input style="display:inline-block;float:left;" v-model="flagwebsiteTableData.fileUrl" type="text"></el-input>
           <el-upload
             class="uploadBanner"
@@ -106,11 +106,11 @@
             :file-list="fileList">
             <el-button size="small" type="primary">上传附件</el-button><span style="color:#999;font-size:12px;padding-left:12px;">附件大小:1M</span>
           </el-upload>
-        </el-form-item> 
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
           <el-button @click="puchaDrag=false">取 消</el-button>
-          <el-button type="primary" @click="updateTabledata()">{{updateOrAddHtml}}</el-button>
+          <el-button type="primary" @click="updateTabledata('flagwebsiteTableData')">{{updateOrAddHtml}}</el-button>
       </div>
     </el-dialog>
   <!-- 分页 -->
@@ -125,15 +125,17 @@
     :total="pageTotalnum">
   </el-pagination>
 </div>
-  
+
 </template>
 
 <script>
+  import axios from 'axios';
+  import Qs from 'qs';
   export default {
     data() {
       return {
         websiteTableData: [],//表格数据
-        flagwebsiteTableData:'',
+        flagwebsiteTableData:{},
         pageTotalnum:0,//数据总数
         pageNum:1,//页码
         pageSize:10,//默认每页数据量
@@ -148,6 +150,23 @@
         fileData:{
           type:'nsi-official/magazine/img/'//上传图片参数
         },
+        rules:{
+          fileName:[
+              { required: true, message: '请输入名称', trigger: 'blur' },
+          ],
+          type:[
+              { required: true, message: '请输入类型', trigger: 'blur' },
+          ],
+          year:[
+              { required: true, message: '请输入年代', trigger: 'blur' },
+          ],
+          imageUrl:[
+              { required: true, message: '请上传图片', trigger: 'blur' },
+          ],
+          fileUrl:[
+              { required: true, message: '请上传文件', trigger: 'blur' },
+          ]
+        }
       }
     },
     methods:{
@@ -160,46 +179,96 @@
               imageUrl:'',
               fileName:'',
               fileUrl:'',
-              year:''
+              year:'',
         }
       },
       //跟新和添加操作
       updateTabledata(){
-        var that=this
-        let flagStr='?'
-        for(let key in this.flagwebsiteTableData){
-          if(key=='createTime'){
-
-          }else{
-            flagStr+=key+'='+this.flagwebsiteTableData[key]+'&'
-          }
-          
-        }
-        flagStr=flagStr.slice(0,flagStr.length-1)
-        let url=that.baseUrl + "/manager/resource/add.do"+flagStr
-        let Vuemessage='添加失败'
-        if(that.updatOrAdd==='add'){
-            url=that.baseUrl + "/manager/resource/add.do"+flagStr
-            Vuemessage='添加失败'
+        console.log(this.updatOrAdd)
+        var that = this;
+        var url;
+        if(this.updatOrAdd == "add"){
+          url=that.baseUrl + "/manager/resource/add.do";
         }else{
-            url=that.baseUrl + "/manager/resource/update.do"+flagStr
-            Vuemessage='更新失败'
+          url=that.baseUrl + "/manager/resource/update.do";
+          delete this.flagwebsiteTableData.createTime
+          console.log(this.flagwebsiteTableData);
         }
-        that.$axios.get(url).then(function(response){
-          that.$message({
-            message: response.data.msg,
-            type: 'success'
-          });
+        console.log(url);
+        // console.log(this.flagwebsiteTableData);
+        axios.post(url,Qs.stringify(this.flagwebsiteTableData))
+        .then((response) => {
+          if(response.data.code == "1"){
+            that.$message({
+              message: response.data.msg,
+              type: 'error'
+            });
+          }else{
+            that.$message({
+              message: response.data.msg,
+              type: 'success'
+            });
+          }
           that.getWebsiteTable()
           that.puchaDrag=false
+          console.log(response)
         }).catch(function (response){
           that.$message({
             message: Vuemessage,
             type: 'error'
           });
-        });
-       //文件上传成功
+        })
       },
+      // updateTabledata(){
+      //   var that=this
+      //   let flagStr='?'
+      //   for(let key in this.flagwebsiteTableData){
+      //     if(key=='createTime'){
+
+      //     }else{
+      //       flagStr+=key+'='+this.flagwebsiteTableData[key]+'&'
+      //       console.log(flagStr)
+      //     }
+
+      //   }
+      //   flagStr=flagStr.slice(0,flagStr.length-1)
+      //   let url=that.baseUrl + "/manager/resource/add.do"+flagStr
+      //   let Vuemessage='添加失败'
+      //   if(that.updatOrAdd==='add'){
+      //       url=that.baseUrl + "/manager/resource/add.do"+flagStr
+      //       Vuemessage='添加失败'
+      //   }else{
+      //       url=that.baseUrl + "/manager/resource/update.do"+flagStr
+      //       Vuemessage='更新失败'
+      //   }
+      //   that.$axios.post(url).then(function (response) {
+      //     console.log(response)
+      //     console.log(url)
+      //     if(response.data.code == "1"){
+      //         that.$message({
+      //           message: response.data.msg,
+      //           type: 'error'
+      //         });
+      //     }else{
+      //       that.$message({
+      //         message: response.data.msg,
+      //         type: 'success'
+      //       });
+      //     }
+      //     that.getWebsiteTable()
+      //     that.puchaDrag=false
+      //   }).catch(function (response){
+      //     that.$message({
+      //       message: Vuemessage,
+      //       type: 'error'
+      //     });
+      //   });
+      //     //文件上传成功
+      // },
+
+
+
+
       uploadSucess(response, file, fileList){
         this.uploadLoading=false
         this.$message({
@@ -263,7 +332,6 @@
         var that=this
         let url=this.baseUrl + "/manager/resource/list.do"+"?pageNum="+this.pageNum+"&pageSize="+this.pageSize+""
         this.$axios.get(url).then(function(response){
-          console.log(response)
           that.pageTotalnum=response.data.data.total
           that.websiteTableData=response.data.data.list
           that.websiteTableDataloading=false
@@ -281,14 +349,14 @@
         this.getWebsiteTable()
       },
       //一页数据量改变
-      handleSizeChange(num){ 
+      handleSizeChange(num){
         this.pageSize=num
         this.getWebsiteTable()
       },
       //编辑资讯
       edit(newsId){
         var that=this
-        this.puchaDrag=true
+        this.puchaDrag=true;
         this.websiteTableData.forEach(item=>{
           if(newsId==item.id){that.flagwebsiteTableData=item}
         })
@@ -320,7 +388,7 @@
           that.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       }
 
