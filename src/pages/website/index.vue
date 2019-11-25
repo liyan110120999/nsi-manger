@@ -28,6 +28,7 @@
       prop="title"
       align="center"
       label="标题"
+      width="400"
       >
       <template slot-scope="scope">
           <p :class="scope.row.visible==0?warnClass:commonCalss">{{ scope.row.visible==0?scope.row.title+'(草稿)':scope.row.title }}</p>
@@ -43,6 +44,7 @@
     <el-table-column
       prop="updateTime"
       align="center"
+      width="200"
       label="最后更新日期">
     </el-table-column>
     <el-table-column
@@ -217,8 +219,5 @@
 <style>
   .warnClass{
     color:#F00;
-  }
-  .el-table{
-    width:99.9%;
   }
 </style>

@@ -11,18 +11,20 @@
     <el-table-column
       prop="goodsName2"
       align="center"
+      width="150"
       label="类型">
     </el-table-column>
     <el-table-column
-      prop="goodsIndex"
+      prop="id"
       align="center"
       label="编号"
       width="100">
     </el-table-column>
-    
+
      <el-table-column
       prop="goodsName"
       align="center"
+      width="250"
       label="商品名称">
     </el-table-column>
     <el-table-column
@@ -35,11 +37,13 @@
      <el-table-column
       prop="goodsAuthor"
       align="center"
+      width="150"
       label="作者">
     </el-table-column>
      <el-table-column
       prop="goodsDescribe"
       align="center"
+      width="300"
       label="商品描述">
     </el-table-column>
     <el-table-column
@@ -76,7 +80,7 @@
       </div>
     </el-dialog>
 </div>
-  
+
 </template>
 
 <script>
@@ -139,6 +143,7 @@
       },
       //编辑资讯
       edit(newsId,content01,type){
+        console.log(newsId,content01,type)
         let that=this
         this.goodsIndex=newsId
         this.goodsId=content01
@@ -150,13 +155,14 @@
     created(){
       let that=this
       Promise.all([that.getWebsiteTable('ShopHomeTop'),that.getWebsiteTable('ShopHomeSale'),that.getWebsiteTable('ShopHomeRecommend')]).then(function(arr){
-        
+
         let flagArr=[]
         let flagArr2=[]
         arr.forEach(function(item){
           console.log(item)
           flagArr2=flagArr2.concat(item.data.data.goodList)
           flagArr=flagArr.concat(item.data.data.configureList)
+          console.log(flagArr2)
         })
         that.websiteTableData=flagArr2
         for (let index = 0; index < flagArr.length; index++) {

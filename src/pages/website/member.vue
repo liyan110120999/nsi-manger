@@ -6,7 +6,7 @@
       <el-input v-model="keyword" placeholder="请输入关键字搜索"></el-input>
       <el-button type="success" class="selectBtn" ><i class="el-icon-search"></i><span>查询</span></el-button>
     </div>
-    
+
   </div>
   <!-- 表格 -->
   <el-table
@@ -19,35 +19,41 @@
       prop="id"
       align="center"
       label="编号"
+      width="100"
       >
     </el-table-column>
     <el-table-column
       prop="createTime"
       align="center"
       label="创建时间"
+      width="250"
       >
     </el-table-column>
     <el-table-column
       prop="name"
       align="center"
       label="联系人"
+      width="150"
       >
     </el-table-column>
     <el-table-column
       prop="institution"
       label="单位"
       align="center"
+      width="150"
       >
     </el-table-column>
-    
+
     <el-table-column
       prop="duty"
       align="center"
+      width="150"
       label="职位">
     </el-table-column>
     <el-table-column
       prop="phone"
       label="联系电话"
+      width="200"
       align="center"
       >
     </el-table-column>
@@ -55,6 +61,7 @@
       prop="mail"
       label="邮箱"
       align="center"
+      width="250"
       >
     </el-table-column>
     <el-table-column
@@ -86,7 +93,7 @@
     :total="pageTotalnum">
   </el-pagination>
 </div>
-  
+
 </template>
 
 <script>
@@ -144,7 +151,7 @@
         this.getWebsiteTable()
       },
       //一页数据量改变
-      handleSizeChange(num){ 
+      handleSizeChange(num){
         this.pageSize=num
         this.getWebsiteTable()
       },
@@ -156,14 +163,14 @@
           confirmButtonText: '确定',
           type: 'warning'
         }).then(() => {
-          
+
           let url=that.baseUrl + "/members/set_members_states.do"
           var formData =new URLSearchParams();
           formData.append('states', 1)
           formData.append('id', newsId)
-          
+
           that.$axios.post(url,formData).then(function(response){
-            
+
             that.$message({
               message: response.data.msg,
               type: 'sucess'
@@ -179,7 +186,7 @@
           that.$message({
             type: 'info',
             message: '已取消修改'
-          });          
+          });
         });
         // this.$store.state.websiteNewsId=newsId
         // this.$router.push({path:'/website/createnews'});
@@ -209,7 +216,7 @@
           that.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       },
       //复制链接成功
