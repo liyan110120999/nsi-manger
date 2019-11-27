@@ -28,7 +28,7 @@
         </el-form-item>
       </el-form>
       <div class="headerBtnRight">
-          <el-input v-model="input" placeholder="请输入内容"></el-input>
+          <el-input v-model="input" placeholder="可搜索订单号,姓名,手机号"></el-input>
           <el-button type="success" icon="el-icon-search" @click="mallBillSearch">搜索</el-button>
       </div>
     </div>

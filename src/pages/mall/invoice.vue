@@ -32,17 +32,24 @@
     height="640"
     class="websiteTable">
     <el-table-column
+      prop="userordernum"
+      label="用户订单号"
+      align="center"
+      width="130">
+    </el-table-column>
+    <el-table-column
       prop="id"
       align="center"
       fixed="left"
       label="编号"
+      width="50"
       >
     </el-table-column>
     <el-table-column
       prop="managename"
       align="center"
       label="来源"
-      width="160"
+      width="100"
       >
     </el-table-column>
     <el-table-column
@@ -61,9 +68,9 @@
     </el-table-column>
     <el-table-column
       prop="managemoney"
-      label="发票金额"
+      label="金额"
       align="center"
-      width="120">
+      width="60">
     </el-table-column>
     <el-table-column
       prop="userbillingtype"
@@ -73,16 +80,16 @@
     </el-table-column>
      <el-table-column
       prop="usermail"
-      label="用户邮箱"
+      label="邮箱"
       width="160"
       align="center"
       >
     </el-table-column>
     <el-table-column
       prop="username"
-      label="用户姓名"
+      label="姓名"
       align="center"
-      width="120">
+      width="70">
     </el-table-column>
 
     <el-table-column
@@ -110,12 +117,7 @@
       align="center"
       width="120">
     </el-table-column>
-    <el-table-column
-      prop="userordernum"
-      label="用户订单号"
-      align="center"
-      width="120">
-    </el-table-column>
+
     <el-table-column
       prop="managename"
       label="审核姓名"
@@ -189,9 +191,9 @@ import XLSX from 'xlsx'
     methods:{
       //切换状态
       billstatusChange(data1){
-          this.pageNum=1
-          this.getWebsiteTable()
-        },
+        this.pageNum=1
+        this.getWebsiteTable()
+      },
       //获取表格数据
       getWebsiteTable(){
         var that=this
