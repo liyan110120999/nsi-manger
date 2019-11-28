@@ -25,7 +25,7 @@ import billBanner from '@/pages/mall/banner.vue'
 import sikuschool from '@/pages/siku/school.vue'
 import schoolAdd from '@/pages/siku/schoolAdd.vue'
 import lianxi from '@/pages/siku/lianxi.vue'
-import lianxitwo from '@/pages/siku/lianxitwo.vue'
+import sikuElite from '@/pages/siku/sikuElite.vue'
 import visList from '@/pages/vis/visList.vue'
 import schoolAlter from '@/pages/siku/schoolAlter.vue'
 import ApplySchool from '@/pages/siku/ApplySchool.vue'
@@ -123,9 +123,9 @@ export default new Router({
 		      component: lianxi,
 		      //   name:"lianxi"
 		    }, {
-		      path: '/siku/lianxitwo',
-		      component: lianxitwo,
-		      //   name:"lianxitwo"
+		      path: '/siku/sikuElite',
+		      component: sikuElite,
+		      //   name:"sikuElite"
 		    }, {
 		      path: '/siku/schoolAlter',
 		      component: schoolAlter,

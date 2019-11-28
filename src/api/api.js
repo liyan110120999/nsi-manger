@@ -28,6 +28,14 @@ export const getSchoolDelete = p => get('/manager/new/school/delete.do', p)
 export const getApplySchool = p => get('/visit/manager/school/list.do', p)
 //学校库  图片logo上传
 export const getupolad = p => post('/new/school/upload_logo.do', p)
+//人才审核列表
+export const getNewTalentList = p => get('/manager/newTalent/list.do', p)
+//人才审核操作 0审核中 1审核通过 2拒绝
+export const postNewTalentUdpate = p => post('/manager/newTalent/udpate.do', p)
+
+
+
+
 
 
 //活动管理 活动列表 活动类型
