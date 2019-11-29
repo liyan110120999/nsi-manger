@@ -3,8 +3,9 @@
     <div class="">
       <!-- 头部导航 -->
       <div class="EilteTab">
+
         <template>
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
             <el-tab-pane label="审核中" name="0"></el-tab-pane>
             <el-tab-pane label="审核通过" name="1"></el-tab-pane>
             <el-tab-pane label="审核拒绝" name="2"></el-tab-pane>
@@ -142,6 +143,7 @@ export default {
       EliteShow:true,
       EliteDisagreeShow:true,
       EliteAgreeHtml:"通过",
+      WhetherState:true,
       form: {
         region:""
       },
@@ -187,12 +189,15 @@ export default {
       console.log(event);
       this.isCheck = tab.index;
       if(tab.index == 0){
+        this.EliteAgreeHtml="通过"
         this.EliteDisagreeShow = true;
         this.EliteShow = true;
+        this.WhetherState = true;
       }else if(tab.index == 1){
         this.EliteShow = true;
         this.EliteDisagreeShow = false;
-        this.EliteAgreeHtml = "编辑"
+        this.EliteAgreeHtml = "编辑";
+        this.WhetherState = false;
       }else{
         this.EliteShow = false;
       }
@@ -214,29 +219,33 @@ export default {
       this.pageNum = val;
       this.getData()
     },
-    //通过按钮
+    //通过 编辑按钮
     EliteAgree(row) {
-      this.$confirm('此操作将通过审核, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        postNewTalentUdpate({
-          id:row,
-          isCheck:1
-        }).then(res => {
+      if(this.WhetherState){
+        this.$confirm('此操作将通过审核, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          postNewTalentUdpate({
+            id:row,
+            isCheck:1
+          }).then(res => {
+            this.$message({
+              message: '该信息以通过审核',
+              type: 'success'
+            });
+            this.getData()
+          })
+        }).catch(() => {
           this.$message({
-            message: '该信息以通过审核',
-            type: 'success'
+            type: 'info',
+            message: '已取消删除'
           });
-          this.getData()
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
         });
-      });
+      }else{
+        console.log("编辑")
+      }
     },
     //拒绝操作
     EliteDisagree(row){
@@ -291,12 +300,21 @@ export default {
   .EilteTab{
     .el-tabs__nav{
       .el-tabs__item{
-        &:nth-of-type(3){
-          color:green !important;
+        &:nth-of-type(1){
+          color: #409eff !important;
+        }
+        &:nth-of-type(2){
+          color: #67c23a !important;
         }
         &:last-of-type{
-          color:red !important;
+          color:#f56c6c !important;
         }
+      }
+      .is-active {
+        background: #dedbdb !important;
+        box-shadow: #ceced0 0px 0px 2px 2px inset;
+        border-top-left-radius:4px;
+        border-top-right-radius:4px;
       }
     }
   }
