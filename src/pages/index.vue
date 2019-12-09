@@ -107,7 +107,7 @@
               <el-menu-item-group>
                 <el-menu-item index="/siku/school" @click="SikuSchool">学校库</el-menu-item>
                 <el-menu-item index="/siku/lianxi">机构库</el-menu-item>
-                <el-menu-item index="/siku/sikuElite">人才审核库</el-menu-item>
+                <el-menu-item index="/siku/sikuEliteList">人才审核库</el-menu-item>
                 <el-menu-item index="/siku/sikuElite">项目库</el-menu-item>
                 <el-menu-item index="/siku/ApplySchool">申请访校表</el-menu-item>
               </el-menu-item-group>

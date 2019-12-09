@@ -103,7 +103,7 @@
         v-if="EliteShow">
         <template slot-scope="scope">
           <el-button @click="EliteAgree(scope.row.id)" type="text" size="small" style="color:#67C23A">{{EliteAgreeHtml}}</el-button>
-          <el-button v-if="EliteDisagreeShow" @click="EliteDisagree(scope.row.id)" type="text" size="small" style="color:red">拒绝</el-button>
+          <el-button @click="EliteDisagree(scope.row.id)" type="text" size="small" style="color:red">{{EliteRefuseHtml}}</el-button>
         </template>
       </el-table-column>
 
@@ -127,7 +127,7 @@
 
 <script>
 import axios from "axios";
-import {getNewTalentList,postNewTalentUdpate} from "@/api/api";
+import {getNewTalentList,postNewTalentUdpate,postNewTalentDelete} from "@/api/api";
 import utils from "@/api/utils.js";
 export default {
   data() {
@@ -141,8 +141,8 @@ export default {
       isCheck:0,
       activeName: '0',
       EliteShow:true,
-      EliteDisagreeShow:true,
       EliteAgreeHtml:"通过",
+      EliteRefuseHtml:"拒绝",
       WhetherState:true,
       form: {
         region:""
@@ -190,13 +190,12 @@ export default {
       this.isCheck = tab.index;
       if(tab.index == 0){
         this.EliteAgreeHtml="通过"
-        this.EliteDisagreeShow = true;
         this.EliteShow = true;
         this.WhetherState = true;
       }else if(tab.index == 1){
         this.EliteShow = true;
-        this.EliteDisagreeShow = false;
         this.EliteAgreeHtml = "编辑";
+        this.EliteRefuseHtml = "删除"
         this.WhetherState = false;
       }else{
         this.EliteShow = false;
@@ -244,33 +243,57 @@ export default {
           });
         });
       }else{
+        this.$router.push({path:'/siku/sikuEliteDetail',query:{talentId:row}});
         console.log("编辑")
       }
     },
-    //拒绝操作
+    //拒绝 删除操作
     EliteDisagree(row){
       console.log(row)
-      this.$confirm('此操作将拒绝通过, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        postNewTalentUdpate({
-          id:row,
-          isCheck:2
-        }).then(res => {
+      if(this.WhetherState){
+        this.$confirm('此操作将拒绝通过, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          postNewTalentUdpate({
+            id:row,
+            isCheck:2
+          }).then(res => {
+            this.$message({
+              message: '该信息以拒绝通过',
+              type: 'success'
+            });
+            this.getData()
+          })
+        }).catch(() => {
           this.$message({
-            message: '该信息以拒绝通过',
-            type: 'success'
+            type: 'info',
+            message: '已取消'
           });
-          this.getData()
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
         });
-      });
+      }else{
+        this.$confirm('此操作将删除信息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          postNewTalentDelete({
+            talentId:row
+          }).then(res => {
+            this.$message({
+              message: '该信息已删除',
+              type: 'success'
+            });
+            this.getData()
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      }
     },
     //搜索
     schoolSearch(){

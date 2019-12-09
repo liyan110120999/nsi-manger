@@ -32,8 +32,10 @@ export const getupolad = p => post('/new/school/upload_logo.do', p)
 export const getNewTalentList = p => get('/manager/newTalent/list.do', p)
 //人才审核操作 0审核中 1审核通过 2拒绝
 export const postNewTalentUdpate = p => post('/manager/newTalent/udpate.do', p)
-
-
+//人才审核详情
+export const postNewTalentDetail = p => get('/manager/newTalent/detail.do', p)
+//人才审核 删除数据
+export const postNewTalentDelete = p => get('/manager/newTalent/delete.do', p)
 
 
 

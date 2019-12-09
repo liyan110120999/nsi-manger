@@ -4,7 +4,7 @@
 import axios from 'axios';
 import QS from 'qs';
 //生产环境和测试环境的开关（true为生产环境）
-var isProduce = true;
+var isProduce = false;
 //失败回调
 var consoleError = function(data, api, res) {
   //获取浏览器信息
