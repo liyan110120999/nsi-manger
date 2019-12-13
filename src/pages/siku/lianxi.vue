@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-     正在开发中
+     正在开发中...
 
   </div>
 </template>
@@ -27,10 +27,10 @@
       this.$nextTick(function () {
           // setInterval(this.timer, 1000);
       })
-      
+
     },
     created() {
-      
+
     },
 
 
