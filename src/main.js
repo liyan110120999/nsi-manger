@@ -33,13 +33,13 @@ var flagNum=Math.random()
   // axios.defaults.baseURL = 'http://192.168.0.13:8080/nsi-1.0'
   // Vue.prototype.baseUrl = 'http://192.168.0.25:8080/nsi-1.0'
 // 振哥 本地测试环境
-axios.defaults.baseURL = 'http://192.168.0.102:8080/nsi-1.0'
+// axios.defaults.baseURL = 'http://192.168.0.102:8080/nsi-1.0'
     // Vue.prototype.baseUrl = 'http://192.168.0.22:8080/nsi-1.0'
 //旧的请求接口  生产环境
-  //  Vue.prototype.baseUrl = 'https://data.xinxueshuo.cn/nsi-1.0'
+   Vue.prototype.baseUrl = 'https://data.xinxueshuo.cn/nsi-1.0'
 
 //新的请求接口  生产环境
-  // axios.defaults.baseURL = "https://data.xinxueshuo.cn/nsi-1.0"
+  axios.defaults.baseURL = "https://data.xinxueshuo.cn/nsi-1.0"
 
 
 Vue.config.productionTip = false
