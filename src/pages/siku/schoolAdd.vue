@@ -838,15 +838,22 @@ export default {
         if (valid) {
             //添加接口
             console.log(this.form)
-            getSchoolUpdate(
+            getSchoolAdd(
               this.form
             ).then(res =>{
               console.log(res);
-              this.$message({
-                message: '数据插入成功',
-                type: 'success'
-              });
-              this.$router.push({path:"/siku/school"})
+              if(res.code == 0){
+                this.$message({
+                  message: '数据插入成功',
+                  type: 'success'
+                });
+                this.$router.push({path:"/siku/school"})
+              }else{
+                this.$message({
+                  message: '数据插入失败',
+                  type: 'error'
+                });
+              }
             }).catch(error=>{
               this.$message({
                 message: '数据插入失败',
