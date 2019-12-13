@@ -18,9 +18,6 @@
         <el-form-item label="邮箱" prop="nationalityOfStudents">
           <el-input v-model="form.submitter" ></el-input>
         </el-form-item>
-
-
-
         <el-form-item class="addBtn">
           <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
           <el-button>取消</el-button>
@@ -33,7 +30,7 @@
 
 <script>
 // import qs from 'qs';
-import {postNewTalentDetail} from '@/api/api';
+import {postNewTalentDetail,postNewTalentUdpate} from '@/api/api';
 import utils from '@/api/utils.js'
 import bus from "@/api/bus";
 import axios from "axios";
@@ -66,14 +63,14 @@ export default {
 
     //立即创建按钮   插入  编辑   学校接口
     submitForm:utils.debounce(function(formName) {
-
       //立即创建按钮的执行操作
       this.$refs[formName].validate((valid) => {
         if (valid) {
           delete this.form.createTime;
-          this.form.textDesc =this.articleContent;
+          delete this.form.updateTime;
+          // this.form.textDesc =this.articleContent;
           console.log(this.form)
-          getExhibitorUpdate(
+          postNewTalentUdpate(
             this.form
           ).then(res => {
             console.log(res)
@@ -87,7 +84,7 @@ export default {
                 message: '数据编辑成功',
                 type: 'success'
               });
-              this.$router.push({path:"/vis/ExhibitionList"})
+              this.$router.push({path:"/siku/sikuEliteManage"})
             }
 
           }).catch(error => {

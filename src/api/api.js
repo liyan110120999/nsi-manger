@@ -10,10 +10,6 @@ export const postHandInvoiceCreate = p => post('/Invoice/HandInvoiceCreate.do', 
 
 //学校库  学校列表
 export const getSchoolLibrary = p => get('/new/school/list.do', p)
-// //学校库  添加列表
-// export const getSchoolAdd = p => post('/new/school/insert.do', p)
-
-
 //学校库 添加学校
 export const getSchoolAdd = p => post('/manager/new/school/insert.do', p)
 //学校库  详情
@@ -28,9 +24,9 @@ export const getSchoolDelete = p => get('/manager/new/school/delete.do', p)
 export const getApplySchool = p => get('/visit/manager/school/list.do', p)
 //学校库  图片logo上传
 export const getupolad = p => post('/new/school/upload_logo.do', p)
-//人才审核列表
+//人才审核列表列表 0审核中 1审核通过 2拒绝
 export const getNewTalentList = p => get('/manager/newTalent/list.do', p)
-//人才审核操作 0审核中 1审核通过 2拒绝
+//人才审核 更新
 export const postNewTalentUdpate = p => post('/manager/newTalent/udpate.do', p)
 //人才审核详情
 export const postNewTalentDetail = p => get('/manager/newTalent/detail.do', p)

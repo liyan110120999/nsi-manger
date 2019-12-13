@@ -26,7 +26,9 @@ import sikuschool from '@/pages/siku/school.vue'
 import schoolAdd from '@/pages/siku/schoolAdd.vue'
 import lianxi from '@/pages/siku/lianxi.vue'
 import sikuEliteList from '@/pages/siku/sikuEliteExamine/sikuEliteList.vue'
+import sikuEliteManage from '@/pages/siku/sikuEliteExamine/sikuEliteManage.vue'
 import sikuEliteDetail from '@/pages/siku/sikuEliteExamine/sikuEliteDetail.vue'
+import sikuCompanyList from '@/pages/siku/sikuCompanyExamine/sikuCompanyList.vue'
 import visList from '@/pages/vis/visList.vue'
 import schoolAlter from '@/pages/siku/schoolAlter.vue'
 import ApplySchool from '@/pages/siku/ApplySchool.vue'
@@ -128,8 +130,15 @@ export default new Router({
 		      component: sikuEliteList,
 		      //   name:"sikuEliteList"
 		    }, {
+		      path: '/siku/sikuEliteManage',
+		      component: sikuEliteManage,
+		      //   name:"sikuEliteList"
+		    }, {
 		      path: '/siku/sikuEliteDetail',
 		      component: sikuEliteDetail,
+		    }, {
+		      path: '/siku/sikuCompanyList',
+		      component: sikuCompanyList,
 		    }, {
 		      path: '/siku/schoolAlter',
 		      component: schoolAlter,
