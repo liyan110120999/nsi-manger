@@ -11,6 +11,7 @@
             <el-option label="vis2019-赠票" value="赠票"></el-option>
             <el-option label="vis2019-友情票" value="友情票"></el-option>
             <el-option label="fit2020" value="fit2020"></el-option>
+            <el-option label="drama2020" value="drama2020"></el-option>
           </el-select>
         </el-form-item>
       </el-form>

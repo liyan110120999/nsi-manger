@@ -8,7 +8,7 @@ export const getInvoiceDel = p => get('/Invoice/del.do', p)
 //商城 发票管理 添加发票
 export const postHandInvoiceCreate = p => post('/Invoice/HandInvoiceCreate.do', p)
 
-//学校库  学校列表
+//学校库  学校列表 0审核中 1审核通过 2拒绝
 export const getSchoolLibrary = p => get('/new/school/list.do', p)
 //学校库 添加学校
 export const getSchoolAdd = p => post('/manager/new/school/insert.do', p)
@@ -70,7 +70,8 @@ export const getTugOfWar_Insert = p => get('/activity/TugOfWar_Insert.do', p)
 //活动管理  vis直播抽奖 删除接口
 export const getTugOfWar_Delete = p => get('/activity/TugOfWar_Delete.do', p)
 
-
+//教育社区 列表
+export const postCommunityUserList = p => post('/communityUser/list', p)
 
 //其他  错误上报 删除接口
 export const getSysExceptionLogDelete = p => get('/SysExceptionLog/delete.do', p)

@@ -30,7 +30,7 @@ var flagNum=Math.random()
 //}
 
 //新的请求接口 岩哥 本地测试环境
-  // axios.defaults.baseURL = 'http://192.168.0.13:8080/nsi-1.0'
+  // axios.defaults.baseURL = 'http://192.168.0.103:8080/nsi-1.0'
   // Vue.prototype.baseUrl = 'http://192.168.0.25:8080/nsi-1.0'
 // 振哥 本地测试环境
 axios.defaults.baseURL = 'http://192.168.0.102:8080/nsi-1.0'

@@ -105,7 +105,8 @@
                 <span>新四库全书</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/siku/school" @click="SikuSchool">学校库</el-menu-item>
+                <el-menu-item index="/siku/schoolList">学校审核库</el-menu-item>
+                <el-menu-item index="/siku/schoolManage" @click="SikuSchool">学校管理库</el-menu-item>
                 <el-menu-item index="/siku/sikuEliteList">人才审核库</el-menu-item>
                 <el-menu-item index="/siku/sikuEliteManage">人才管理库</el-menu-item>
                 <el-menu-item index="/siku/sikuCompanyList">机构审核库</el-menu-item>
@@ -113,7 +114,6 @@
                 <el-menu-item index="/siku/ApplySchool">申请访校表</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-
             <el-submenu style="text-align:left;" index="/vis">
               <template slot="title">
                <i class="el-icon-document"></i>
@@ -126,6 +126,17 @@
                 <el-menu-item index="/vis/GiveTicketList">赠票审核</el-menu-item>
                 <el-menu-item index="/vis/OfflinePayment">线下支付-生成门票</el-menu-item>
                 <el-menu-item index="/vis/prizeDrawList">vis直播抽奖</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+
+            <el-submenu style="text-align:left;" index="/education">
+              <template slot="title">
+               <i class="el-icon-document"></i>
+                <span>教育社区</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/education/educationUserList">用户</el-menu-item>
+                <el-menu-item index="">帖子审核</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 

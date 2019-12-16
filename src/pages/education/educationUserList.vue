@@ -1,5 +1,25 @@
 <template>
   <div class="school">
+    <div class="">
+      <!-- 头部导航 -->
+      <div class="headerBtn" style="">
+        <el-form ref="form" :model="form" label-width="70px">
+          <el-form-item label="活动区域">
+            <el-select v-model="form.region" placeholder="最新注册"  @change="changeExhibition">
+              <el-option label="最新注册" value="最新注册"></el-option>
+              <el-option label="最近活跃" value="最近活跃"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div class="headerBtn">
+          <div>
+            <el-input v-model="input" placeholder="请输入内容"></el-input>
+            <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
+
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- 表格 -->
     <el-table
       :data="EliteData"
@@ -14,59 +34,23 @@
         width="120">
       </el-table-column>
       <el-table-column
-        prop="username"
+        prop="nickname"
         align="center"
         label="姓名"
         width="200">
       </el-table-column>
       <el-table-column
-        prop="sex"
+        prop="openId"
         align="center"
-        label="性别"
+        label="openId"
         width="200">
       </el-table-column>
-      <el-table-column
-        prop="telphone"
-        align="center"
-        label="电话"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        prop="userMail"
-        align="center"
-        label="邮箱"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        prop="isCheck"
-        align="center"
-        label="审核状态"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        prop="isPublic"
-        align="center"
-        label="是否公开"
-        width="200">
-      </el-table-column>
+     
       <el-table-column
         prop="createTime"
         align="center"
         label="创建时间"
         width="200">
-      </el-table-column>
-
-
-      <el-table-column
-        fixed="right"
-        label="操作"
-        align="center"
-        width="100"
-        v-if="EliteShow">
-        <template slot-scope="scope">
-          <el-button @click="EliteAgree(scope.row.id)" type="text" size="small" style="color:#67C23A">{{EliteAgreeHtml}}</el-button>
-          <el-button @click="EliteDisagree(scope.row.id)" type="text" size="small" style="color:red">{{EliteRefuseHtml}}</el-button>
-        </template>
       </el-table-column>
 
 
@@ -89,7 +73,7 @@
 
 <script>
 import axios from "axios";
-import {getNewTalentList,postNewTalentUdpate,postNewTalentDelete} from "@/api/api";
+import {postCommunityUserList} from "@/api/api";
 import utils from "@/api/utils.js";
 export default {
   data() {
@@ -100,11 +84,9 @@ export default {
       pageNum:1,
       pageSize:50,
       EliteData:[],
-      isCheck:1,
-      activeName: '0',
-      EliteShow:true,
-      EliteAgreeHtml:"编辑",
-      EliteRefuseHtml:"删除",
+      WhetherState:true,
+      orderBy:"最新注册",
+      searchKey:"",
       form: {
         region:""
       },
@@ -114,14 +96,13 @@ export default {
     // 请求审核数据
     getData(){
       let that = this;
-      getNewTalentList({
-        pageNum:that.pageNum,
-        pageSize:that.pageSize,
-        isCheck:that.isCheck
+      postCommunityUserList({
+        orderBy:this.orderBy,
+        searchKey:this.searchKey
       }).then(res=>{
-        that.EliteData= res.data.list;
+          console.log(res);
+        that.EliteData= res.data;
         console.log(that.EliteData);
-
          //时间戳 转换时间
         function formatDate(now) {
           var year=now.getFullYear();
@@ -133,8 +114,9 @@ export default {
           return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
         }
         //如果记得时间戳是毫秒级的就需要*1000 不然就错了记得转换成整型
-        for(var i=0; i<res.data.list.length; i++){
-          var d=new Date(res.data.list[i].createTime);
+        for(var i=0; i<res.data.length; i++){
+          var d=new Date(res.data[i].createTime);
+          console.log(d)
           this.EliteData[i].createTime = formatDate(d);
         }
 
@@ -160,49 +142,25 @@ export default {
       this.pageNum = val;
       this.getData()
     },
-    //编辑按钮
-    EliteAgree(row) {
-        this.$router.push({path:'/siku/sikuEliteDetail',query:{talentId:row}});
-        console.log("编辑")
-    },
-    //删除操作
-    EliteDisagree(row){
-      this.$confirm('此操作将删除信息, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        postNewTalentDelete({
-          talentId:row
-        }).then(res => {
-          this.$message({
-            message: '该信息已删除',
-            type: 'success'
-          });
-          this.getData()
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-    },
     //搜索
     schoolSearch(){
+      this.searchKey = this.input;
       this.getData()
     },
     //审核类型
     changeExhibition(){
-      console.log()
-      if(this.form.region !=  1){
-        this.EliteShow = false;
-      }else{
-        this.EliteShow = true;
-      }
-      this.isCheck = this.form.region;
+      this.orderBy = this.form.region;
+    //   if(this.form.region !=  0){
+    //     this.EliteShow = false;
+    //   }else{
+    //     this.EliteShow = true;
+    //   }
       this.getData();
+      console.log(this.form.region)
+
     },
+
+
   },
   created() {
     this.getData()
@@ -212,5 +170,28 @@ export default {
 </script>
 
 <style lang="scss" >
-
+  .block{
+    margin-top: 30px;
+  }
+  .EilteTab{
+    .el-tabs__nav{
+      .el-tabs__item{
+        &:nth-of-type(1){
+          color: #409eff !important;
+        }
+        &:nth-of-type(2){
+          color: #67c23a !important;
+        }
+        &:last-of-type{
+          color:#f56c6c !important;
+        }
+      }
+      .is-active {
+        background: #dedbdb !important;
+        box-shadow: #ceced0 0px 0px 2px 2px inset;
+        border-top-left-radius:4px;
+        border-top-right-radius:4px;
+      }
+    }
+  }
 </style>

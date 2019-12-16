@@ -22,16 +22,21 @@ import invoice from '@/pages/mall/invoice.vue'
 import invoiceAdd from '@/pages/mall/invoiceAdd.vue'
 import caiwu from '@/pages/distribution/caiwu.vue'
 import billBanner from '@/pages/mall/banner.vue'
-import sikuschool from '@/pages/siku/school.vue'
-import schoolAdd from '@/pages/siku/schoolAdd.vue'
+
+import sikuschoolList from '@/pages/siku/schoolExamine/schoolList.vue'
+import schoolAdd from '@/pages/siku/schoolExamine/schoolAdd.vue'
+import schoolAlter from '@/pages/siku/schoolExamine/schoolAlter.vue'
+import schoolManage from '@/pages/siku/schoolExamine/schoolManage.vue'
 import lianxi from '@/pages/siku/lianxi.vue'
 import sikuEliteList from '@/pages/siku/sikuEliteExamine/sikuEliteList.vue'
 import sikuEliteManage from '@/pages/siku/sikuEliteExamine/sikuEliteManage.vue'
 import sikuEliteDetail from '@/pages/siku/sikuEliteExamine/sikuEliteDetail.vue'
 import sikuCompanyList from '@/pages/siku/sikuCompanyExamine/sikuCompanyList.vue'
-import visList from '@/pages/vis/visList.vue'
-import schoolAlter from '@/pages/siku/schoolAlter.vue'
 import ApplySchool from '@/pages/siku/ApplySchool.vue'
+
+import educationUserList from '@/pages/education/educationUserList.vue'
+
+import visList from '@/pages/vis/visList.vue'
 import visPaid from '@/pages/vis/visPaid.vue'
 import ExhibitionList from '@/pages/vis/ExhibitionList.vue'
 import ExhibitionDetails from '@/pages/vis/ExhibitionDetails.vue'
@@ -115,8 +120,11 @@ export default new Router({
 		   	  path: '/distribution/caiwu',
 	 　　　 component: caiwu,
 		    }, {
-		      path: '/siku/school',
-		      component: sikuschool,
+		      path: '/siku/schoolList',
+		      component: sikuschoolList,
+		    }, {
+		      path: '/siku/schoolManage',
+		      component: schoolManage,
 		    }, {
 		      path: '/siku/schooAdd',
 			  component: schoolAdd,
@@ -176,6 +184,9 @@ export default new Router({
         }, {
           path: '/vis/prizeDrawList',
           component: prizeDrawList
+        }, {
+          path: '/education/educationUserList',
+          component: educationUserList
         }, {
           path: '/Other/TestInterface',
           component: TestInterface

@@ -2,41 +2,23 @@
   <div class="school">
     <div class="">
       <!-- 头部导航 -->
-      <div class="EilteTab">
-
-        <template>
-          <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-            <el-tab-pane label="审核中" name="0"></el-tab-pane>
-            <el-tab-pane label="审核通过" name="1"></el-tab-pane>
-            <el-tab-pane label="审核拒绝" name="2"></el-tab-pane>
-          </el-tabs>
-        </template>
-      </div>
-      <div class="headerBtn">
-        <div>
-          <el-input v-model="input" placeholder="请输入内容"></el-input>
-          <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
-
-        </div>
-      </div>
-      <!-- <div class="headerBtn" style="">
+      <div class="headerBtn" style="">
         <el-form ref="form" :model="form" label-width="70px">
           <el-form-item label="活动区域">
-            <el-select v-model="form.region" placeholder="待审核"  @change="changeExhibition">
-              <el-option label="待审核" value="0"></el-option>
-              <el-option label="通过" value="1"></el-option>
+            <el-select v-model="form.region" placeholder="审核中"  @change="changeExhibition">
+              <el-option label="审核中" value="0"></el-option>
               <el-option label="拒绝" value="2"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
-        <div style="margin: 0px 0">
-          <el-button @click="changeEliteBtn(0)" plain>审核中</el-button>
-          <el-button @click="changeEliteBtn(1)" type="success" plain>通过</el-button>
-          <el-button @click="changeEliteBtn(2)" type="danger" plain>拒绝</el-button>
+        <div class="headerBtn">
+          <div>
+            <el-input v-model="input" placeholder="请输入内容"></el-input>
+            <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
+
+          </div>
         </div>
-
-      </div> -->
-
+      </div>
     </div>
     <!-- 表格 -->
     <el-table
@@ -160,7 +142,6 @@ export default {
       }).then(res=>{
         that.EliteData= res.data.list;
         console.log(that.EliteData);
-
          //时间戳 转换时间
         function formatDate(now) {
           var year=now.getFullYear();
@@ -183,25 +164,6 @@ export default {
           type: 'error'
         });
       })
-    },
-    //teb切换
-    handleClick(tab, event) {
-      console.log(event);
-      this.isCheck = tab.index;
-      if(tab.index == 0){
-        this.EliteAgreeHtml="通过"
-        this.EliteShow = true;
-        this.WhetherState = true;
-      }else if(tab.index == 1){
-        this.EliteShow = true;
-        this.EliteAgreeHtml = "编辑";
-        this.EliteRefuseHtml = "删除"
-        this.WhetherState = false;
-      }else{
-        this.EliteShow = false;
-      }
-      this.getData()
-
     },
 
     // 添加学校 跳转详情页面
@@ -231,7 +193,7 @@ export default {
             isCheck:1
           }).then(res => {
             this.$message({
-              message: '该信息以通过审核',
+              message: '该信息已通过审核',
               type: 'success'
             });
             this.getData()
@@ -261,7 +223,7 @@ export default {
             isCheck:2
           }).then(res => {
             this.$message({
-              message: '该信息以拒绝通过',
+              message: '该信息已拒绝通过',
               type: 'success'
             });
             this.getData()
@@ -302,9 +264,13 @@ export default {
     //审核类型
     changeExhibition(){
       this.isCheck = this.form.region;
+      if(this.form.region !=  0){
+        this.EliteShow = false;
+      }else{
+        this.EliteShow = true;
+      }
       this.getData();
       console.log(this.form.region)
-
     },
 
 
