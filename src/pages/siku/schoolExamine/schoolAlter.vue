@@ -36,7 +36,7 @@
             <el-input v-model="form.schoolLogo" class="el_inputOne"></el-input>
             <el-upload
                 class="upload-demo deme_upload"
-                :action="tutscOne"
+                :action="imageUpdataOne"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
                 :limit="1"
@@ -48,7 +48,7 @@
           </div>
           <el-upload
             class="avatar-uploader"
-            :action="tutsc"
+            :action="imageUpdata"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
@@ -240,7 +240,7 @@
             <el-input v-model="form.schoolShowOne" class="el_inputOne"></el-input>
             <el-upload
                 class="upload-demo deme_upload"
-                :action="tutscOne"
+                :action="imageUpdataOne"
                 :on-success="handleAvatarSuccessOne"
                 :before-upload="beforeAvatarUpload"
                 :limit="1"
@@ -259,7 +259,7 @@
             <el-input v-model="form.schoolShowTwo"  class="el_inputOne"></el-input>
             <el-upload
               class="upload-demo deme_upload"
-              :action="tutscOne"
+              :action="imageUpdataOne"
               :on-success="handleAvatarSuccessTwo"
               :before-upload="beforeAvatarUpload"
               :on-preview="handlePreview"
@@ -281,7 +281,7 @@
             <el-input v-model="form.schoolShowThird"  class="el_inputOne"></el-input>
             <el-upload
               class="upload-demo deme_upload"
-              :action="tutscOne"
+              :action="imageUpdataOne"
               :on-success="handleAvatarSuccessThird"
               :before-upload="beforeAvatarUpload"
               :on-preview="handlePreview"
@@ -302,7 +302,7 @@
             <el-input v-model="form.schoolShowFour"  class="el_inputOne"></el-input>
             <el-upload
               class="upload-demo deme_upload"
-              :action="tutscOne"
+              :action="imageUpdataOne"
               :on-success="handleAvatarSuccessFour"
               :before-upload="beforeAvatarUpload"
               :on-preview="handlePreview"
@@ -324,7 +324,7 @@
             <el-input v-model="form.schoolShowFive"  class="el_inputOne"></el-input>
             <el-upload
               class="upload-demo deme_upload"
-              :action="tutscOne"
+              :action="imageUpdataOne"
               :on-success="handleAvatarSuccessFive"
               :before-upload="beforeAvatarUpload"
               :on-preview="handlePreview"
@@ -576,10 +576,10 @@ export default {
       }
     };
     return {
-      tutsc:axios.defaults.baseURL+"/new/school/upload_logo.do?" + "schoolId=" + this.$route.query.id,
-      tutscOne:axios.defaults.baseURL+"/new/school/upload_img.do?" + "schoolId=" + this.$route.query.id,
+      imageUpdata:axios.defaults.baseURL+"/new/school/upload_logo.do?" + "schoolId=" + this.$route.query.id,
+      imageUpdataOne:axios.defaults.baseURL+"/new/school/upload_img.do?" + "schoolId=" + this.$route.query.id,
       fileList2: [],
-      logoShowOne:false,
+      logoShowOne:false,  
       logoShowTwo:false,
       logoShowThird:false,
       logoShowFour:false,

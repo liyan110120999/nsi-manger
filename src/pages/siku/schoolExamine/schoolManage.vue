@@ -2,14 +2,14 @@
   <div class="school">
     <!-- 头部导航 -->
     <div class="headerBtn" style="">
-      <el-form ref="form" :model="form" label-width="70px">
+      <!-- <el-form ref="form" :model="form" label-width="70px">
         <el-form-item label="活动区域">
           <el-select v-model="form.region" placeholder="请选择学校类型">
             <el-option label="民办" value="shanghai"></el-option>
             <el-option label="公办" value="beijing"></el-option>
           </el-select>
         </el-form-item>
-      </el-form>
+      </el-form> -->
       <div class="headerBtnRight">
           <el-input v-model="input" placeholder="请输入内容"></el-input>
           <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
@@ -242,7 +242,8 @@ export default {
       getSchoolLibrary({
         pageNum : that.pageNum,
         pageSize : that.pageSize,
-        searchKey : that.input
+        searchKey : that.input,
+        verifySign:1
       }).then(res=>{
         that.schoolData=res.data.list;
         this.schoolPageSize = res.data.total;

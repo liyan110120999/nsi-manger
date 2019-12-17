@@ -1,8 +1,8 @@
 <template>
   <div class="school">
-    <div class="">
+    <div class="headerBtn">
       <!-- 头部导航 -->
-      <div class="headerBtn" style="">
+      <div class="headerBox" style="">
         <el-form ref="form" :model="form" label-width="70px">
           <el-form-item label="活动区域">
             <el-select v-model="form.region" placeholder="审核中"  @change="changeExhibition">
@@ -11,13 +11,19 @@
             </el-select>
           </el-form-item>
         </el-form>
-        <div class="headerBtn">
-          <div>
-            <el-input v-model="input" placeholder="请输入内容"></el-input>
-            <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
-
-          </div>
-        </div>
+      </div>
+      <div class="headerBox headerBox_two">
+          <el-form ref="form" :model="form" label-width="70px">
+            <el-form-item label="搜索内容">
+              <el-select v-model="form.searchKey" placeholder="请选择"  @change="changeSearch">
+                <el-option label="姓名" value="username"></el-option>
+                <el-option label="电话" value="telphone"></el-option>
+                <el-option label="邮箱" value="userMail"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <el-input class="headerBox_three" v-model="input" placeholder="请输入内容"></el-input>
+          <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
       </div>
     </div>
     <!-- 表格 -->
@@ -126,8 +132,13 @@ export default {
       EliteAgreeHtml:"通过",
       EliteRefuseHtml:"拒绝",
       WhetherState:true,
+      searchState:"",
       form: {
-        region:""
+        username:"",
+        telphone:"",
+        region:"",
+        searchKey:"",
+        userMail:""
       },
     }
   },
@@ -138,7 +149,10 @@ export default {
       getNewTalentList({
         pageNum:that.pageNum,
         pageSize:that.pageSize,
-        isCheck:that.isCheck
+        isCheck:that.isCheck,
+        username:this.form.username,
+        telphone:this.form.telphone,
+        userMail:this.form.userMail
       }).then(res=>{
         that.EliteData= res.data.list;
         console.log(that.EliteData);
@@ -201,7 +215,7 @@ export default {
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: '已取消审核'
           });
         });
       }else{
@@ -257,8 +271,27 @@ export default {
         });
       }
     },
+    //搜索选择类型
+    changeSearch(){
+      if(this.form.searchKey == "username"){
+        this.searchState = "one"
+      }else if(this.form.searchKey == "telphone"){
+        this.searchState = "two"
+      }else(
+        this.searchState = "three"
+      ) 
+      console.log(this.form.searchKey == "username")
+    },
     //搜索
     schoolSearch(){
+      if(this.searchState == "one"){
+        this.form.username = this.input
+      }else if(this.searchState == "two"){
+        this.form.telphone = this.input
+      }else{
+        this.form.userMail = this.input
+      }
+      // console.log()
       this.getData()
     },
     //审核类型
@@ -306,5 +339,28 @@ export default {
         border-top-right-radius:4px;
       }
     }
+  }
+  .headerBox_three{
+      width: 200px;
+  }
+  .headerBtn{
+    // width: 1400px;
+    
+  }
+  .headerBox_two{
+    // width: 630px;
+    .headerBox_three{
+      width: 200px;
+    }
+    form{
+      input{
+        width: 120px;
+      }
+    }
+    form,.headerBox_three,button{
+      float: left;
+      margin-left: 10px;
+    }
+
   }
 </style>

@@ -1,5 +1,18 @@
 <template>
   <div class="school">
+    <div class="headerBox headerBox_two">
+      <el-form ref="form" :model="form" label-width="70px">
+        <el-form-item label="搜索内容">
+          <el-select v-model="form.searchKey" placeholder="请选择"  @change="changeSearch">
+            <el-option label="姓名" value="username"></el-option>
+            <el-option label="电话" value="telphone"></el-option>
+            <el-option label="邮箱" value="userMail"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <el-input class="headerBox_three" v-model="input" placeholder="请输入内容"></el-input>
+      <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
+    </div>
     <!-- 表格 -->
     <el-table
       :data="EliteData"
@@ -105,8 +118,14 @@ export default {
       EliteShow:true,
       EliteAgreeHtml:"编辑",
       EliteRefuseHtml:"删除",
+      searchState:"",
       form: {
-        region:""
+        searchKey:"",
+        username:"",
+        telphone:"",
+        region:"",
+        userMail:""
+        
       },
     }
   },
@@ -117,7 +136,10 @@ export default {
       getNewTalentList({
         pageNum:that.pageNum,
         pageSize:that.pageSize,
-        isCheck:that.isCheck
+        isCheck:that.isCheck,
+        username:this.form.username,
+        telphone:this.form.telphone,
+        userMail:this.form.userMail
       }).then(res=>{
         that.EliteData= res.data.list;
         console.log(that.EliteData);
@@ -188,8 +210,29 @@ export default {
         });
       });
     },
+    //搜索选择类型
+    changeSearch(){
+      if(this.form.searchKey == "username"){
+        this.searchState = "one"
+      }else if(this.form.searchKey == "telphone"){
+        this.searchState = "two"
+      }else if(this.form.searchKey == "userMail"){
+        this.searchState = "three"
+      }
+      console.log(this.form.searchKey);
+      console.log(this.searchState)
+    },
     //搜索
     schoolSearch(){
+      console.log(this.searchState)
+      if(this.searchState == "one"){
+        this.form.username = this.input
+      }else if(this.searchState == "two"){
+        this.form.telphone = this.input
+      }else if(this.searchState == "three"){
+        console.log("111111")
+        this.form.userMail = this.input
+      }
       this.getData()
     },
     //审核类型
@@ -212,5 +255,20 @@ export default {
 </script>
 
 <style lang="scss" >
+  .headerBox_two{
+    // width: 630px;
+    .headerBox_three{
+      width: 200px;
+    }
+    form{
+      input{
+        width: 120px;
+      }
+    }
+    form,.headerBox_three,button{
+      float: left;
+      margin-left: 10px;
+    }
 
+  }
 </style>

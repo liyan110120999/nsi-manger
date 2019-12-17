@@ -39,7 +39,7 @@
             <el-upload
               class="upload-demo deme_upload"
               :disabled = true
-              :action="tutscOne"
+              :action="imageUpdataOne"
               :limit="1"
               >
               <el-button size="small" type="primary" class="btnUpata" disabled>点击上传</el-button>
@@ -48,7 +48,7 @@
           </div>
           <el-upload
             class="avatar-uploader"
-            :action="tutsc"
+            :action="imageUpdata"
             :disabled = true
             :show-file-list="false"
             >
@@ -239,7 +239,7 @@
             <el-input v-model="form.schoolShowOne" class="el_inputOne"></el-input>
             <el-upload
                 class="upload-demo deme_upload"
-                :action="tutscOne"
+                :action="imageUpdataOne"
                 :disabled = true
                 :limit="1"
                 >
@@ -255,7 +255,7 @@
             <el-input v-model="form.schoolShowTwo"  class="el_inputOne"></el-input>
             <el-upload
               class="upload-demo deme_upload"
-              :action="tutscOne"
+              :action="imageUpdataOne"
               :disabled = true
               :limit="1"
               :file-list="fileList">
@@ -271,7 +271,7 @@
             <el-input v-model="form.schoolShowThird"  class="el_inputOne"></el-input>
             <el-upload
               class="upload-demo deme_upload"
-              :action="tutscOne"
+              :action="imageUpdataOne"
               :disabled = true
               :limit="1"
               :file-list="fileList">
@@ -286,7 +286,7 @@
             <el-input v-model="form.schoolShowFour"  class="el_inputOne"></el-input>
             <el-upload
               class="upload-demo deme_upload"
-              :action="tutscOne"
+              :action="imageUpdataOne"
               :disabled = true
               :limit="1"
               :file-list="fileList">
@@ -303,7 +303,7 @@
             <el-upload
               class="upload-demo deme_upload"
               :disabled = true
-              :action="tutscOne"
+              :action="imageUpdataOne"
               :limit="1"
               :file-list="fileList">
               <el-button size="small" type="primary"  class="btnUpata" disabled>点击上传</el-button>
@@ -566,8 +566,8 @@ export default {
       }
     };
     return {
-      tutsc:axios.defaults.baseURL+"/new/school/upload_logo.do?" + "schoolId=" + this.$route.query.id,
-      tutscOne:axios.defaults.baseURL+"/new/school/upload_img.do?" + "schoolId=" + this.$route.query.id,
+      imageUpdata:axios.defaults.baseURL+"/new/school/upload_logo.do?" + "schoolId=" + this.$route.query.id,
+      imageUpdataOne:axios.defaults.baseURL+"/new/school/upload_img.do?" + "schoolId=" + this.$route.query.id,
       schoolLogo:"",
       provice:provice, //城市
       fileList: [],
@@ -761,6 +761,7 @@ export default {
         this.form
       ).then(res =>{
         this.form.id = res.data;
+        console.log("res")
         if(res.code == 0){
           this.$message({
             message: '数据插入成功',

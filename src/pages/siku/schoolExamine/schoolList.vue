@@ -4,9 +4,9 @@
     <div class="headerBtn" style="">
       <el-form ref="form" :model="form" label-width="70px">
         <el-form-item label="活动区域">
-          <el-select v-model="form.region" placeholder="请选择学校类型" @change="changeExhibition">
-            <el-option label="民办" value="0"></el-option>
-            <el-option label="公办" value="2"></el-option>
+          <el-select v-model="form.region" placeholder="审核中" @change="changeExhibition">
+            <el-option label="审核中" value="0"></el-option>
+            <el-option label="拒绝" value="2"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -15,7 +15,7 @@
           <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
       </div>
       <div class="headerBtnLeft">
-          <el-button type="primary" @click="schoolAddPage">添加学校</el-button>
+          <!-- <el-button type="primary" @click="schoolAddPage">添加学校</el-button> -->
       </div>
     </div>
     <!-- 表格 -->
@@ -185,8 +185,8 @@
         width="100"
         v-if="EliteShow">
         <template slot-scope="scope">
-          <el-button @click="schoolDetail(scope.row.id)" type="text" size="small" style="color:#67C23A">编辑</el-button>
-          <el-button @click="SchoolDelete(scope.row.id)" type="text" size="small" style="color:red">删除</el-button>
+          <el-button @click="EliteAgree(scope.row.id)" type="text" size="small" style="color:#67C23A">{{EliteAgreeHtml}}</el-button>
+          <el-button @click="EliteDisagree(scope.row.id)" type="text" size="small" style="color:red">{{EliteRefuseHtml}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -209,8 +209,7 @@
 <script>
 import axios from "axios";
 import QS from 'qs';
-import { getSchoolLibrary } from "@/api/api";
-import {getSchoolDelete} from '@/api/api';
+import { getSchoolLibrary,postSchoolVerify_status } from "@/api/api";
 import utils from "@/api/utils.js";
 import bus from "@/api/bus";
 import store from '@/vuex/store.js';
@@ -224,6 +223,9 @@ export default {
       pageNum:1,
       pageSize:20,
       EliteShow:true,
+      EliteAgreeHtml:"通过",
+      EliteRefuseHtml:"拒绝",
+      verifySign:0,
       form: {
         name: '',
         region: '',
@@ -243,7 +245,8 @@ export default {
       getSchoolLibrary({
         pageNum : that.pageNum,
         pageSize : that.pageSize,
-        searchKey : that.input
+        searchKey : that.input,
+        verifySign:this.verifySign
       }).then(res=>{
         that.schoolData=res.data.list;
         this.schoolPageSize = res.data.total;
@@ -269,39 +272,55 @@ export default {
       this.pageNum = val;
       this.getSchoolData()
     },
-    //编辑按钮
-    schoolDetail(row) {
-      store.commit("changeis",1)
-
-      // this.$nextTick(function () {
-      //    bus.$emit("isEdit",1)
-      // }),
-      this.$router.push({path:"/siku/schoolAlter",query:{id:row}})
-    },
     //搜索
     schoolSearch(){
       this.getSchoolData()
     },
-    //删除
-    SchoolDelete:utils.debounce(function(row){
-      this.$confirm('此操作将永久删除该学校信息, 是否继续?', '提示', {
+    //通过
+    EliteAgree(row){
+      this.$confirm('此操作将通过审核该学校信息, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        getSchoolDelete({
-          schoolId:row
+        postSchoolVerify_status({
+          schoolId:row,
+          status:1
         }).then(res =>{
           this.$message({
             type: 'success',
-            message: '删除成功!'
+            message: '审核通过'
           });
           this.getSchoolData()
         })
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: '已取消审核'
+        });
+      });
+    },
+    //拒绝
+    EliteDisagree:utils.debounce(function(row){
+      this.$confirm('此操作将拒绝该学校信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        postSchoolVerify_status({
+          schoolId:row,
+          status:2
+        }).then(res =>{
+          this.$message({
+            type: 'success',
+            message: '拒绝成功'
+          });
+          this.getSchoolData()
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消拒绝'
         });
       });
     }),
@@ -310,8 +329,10 @@ export default {
       this.isCheck = this.form.region;
       if(this.form.region !=  0){
         this.EliteShow = false;
+        this.verifySign = 2;
       }else{
         this.EliteShow = true;
+        this.verifySign = 0;
       }
       this.getSchoolData();
       console.log(this.form.region)
