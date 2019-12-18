@@ -14,7 +14,7 @@
         <div class="headerBtn">
           <div>
             <el-input v-model="input" placeholder="请输入内容"></el-input>
-            <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
+            <el-button type="success" icon="el-icon-search" @click="educationSearch">搜索</el-button>
 
           </div>
         </div>
@@ -101,7 +101,8 @@ export default {
         searchKey:this.searchKey
       }).then(res=>{
           console.log(res);
-        that.EliteData= res.data;
+        that.EliteData= res.data.list;
+        this.ExhibitionPageSize = res.data.total;
         console.log(that.EliteData);
          //时间戳 转换时间
         function formatDate(now) {
@@ -143,18 +144,18 @@ export default {
       this.getData()
     },
     //搜索
-    schoolSearch(){
+    educationSearch(){
       this.searchKey = this.input;
       this.getData()
     },
     //审核类型
     changeExhibition(){
       this.orderBy = this.form.region;
-    //   if(this.form.region !=  0){
-    //     this.EliteShow = false;
-    //   }else{
-    //     this.EliteShow = true;
-    //   }
+      //   if(this.form.region !=  0){
+      //     this.EliteShow = false;
+      //   }else{
+      //     this.EliteShow = true;
+      //   }
       this.getData();
       console.log(this.form.region)
 

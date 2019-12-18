@@ -4,9 +4,10 @@
     <div class="headerBtn" style="">
       <el-form ref="form" :model="form" label-width="70px">
         <el-form-item label="活动类型" >
-          <el-select v-model="form.region" placeholder="请选择活动类型" @change="changeVisType">
+          <el-select v-model="form.region" placeholder="drama2020" @change="changeVisType">
             <el-option label="FIT" value="FIT"></el-option>
             <el-option label="vis2019" value="vis2019"></el-option>
+            <el-option label="drama2020" value="drama2020"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -26,7 +27,7 @@
       border
       style="width: 100%"
       height="640">
-      <el-table-column
+      <!-- <el-table-column
         prop="buyerMessage"
         align="center"
         fixed="left"
@@ -38,7 +39,7 @@
           <font v-else-if="scope.row.buyerMessage === '贵宾票'" color="#e6a23c">贵宾票</font>
           <font v-else>FIT</font>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         fixed="left"
         prop="id"
@@ -194,7 +195,7 @@ export default {
       QRcodeName:"xxx",//二维码显示姓名
       QRcodeURL:"", //二维码图片地址
       QRcodeType:"",//票务类型
-      type:"vis2019",
+      type:"drama2020",
       form: {
         name: '',
         region: '',
@@ -237,8 +238,9 @@ export default {
 
         //票的分类
         for(var i=0;i<res.data.list.length;i++){
-          let ticket = res.data.list[i].buyerMessage.split("-");
-          res.data.list[i].buyerMessage = ticket[ticket.length-1]
+          console.log(res.data.list[i].buyerMessage)
+          // let ticket = res.data.list[i].buyerMessage.split("-");
+          // res.data.list[i].buyerMessage = ticket[ticket.length-1]
         }
       }).catch(error=>{
         this.$message({

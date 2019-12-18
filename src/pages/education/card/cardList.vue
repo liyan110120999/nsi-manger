@@ -6,22 +6,13 @@
         <el-form ref="form" :model="form" label-width="70px">
           <el-form-item label="活动区域">
             <el-select v-model="form.region" placeholder="审核中"  @change="changeExhibition">
-              <el-option label="审核中" value="0"></el-option>
-              <el-option label="拒绝" value="2"></el-option>
+              <el-option label="审核中" value="待审核"></el-option>
+              <el-option label="拒绝" value="已拒绝"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
       </div>
       <div class="headerBox headerBox_two">
-          <el-form ref="form" :model="form" label-width="70px">
-            <el-form-item label="搜索内容">
-              <el-select v-model="form.searchKey" placeholder="请选择"  @change="changeSearch">
-                <el-option label="姓名" value="username"></el-option>
-                <el-option label="电话" value="telphone"></el-option>
-                <el-option label="邮箱" value="userMail"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-form>
           <el-input class="headerBox_three" v-model="input" placeholder="请输入内容"></el-input>
           <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
       </div>
@@ -40,39 +31,21 @@
         width="120">
       </el-table-column>
       <el-table-column
-        prop="username"
+        prop="nickname"
         align="center"
-        label="姓名"
+        label="昵称"
         width="200">
       </el-table-column>
       <el-table-column
-        prop="sex"
+        prop="content"
         align="center"
-        label="性别"
+        label="评论"
         width="200">
       </el-table-column>
       <el-table-column
-        prop="telphone"
+        prop="portrait"
         align="center"
-        label="电话"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        prop="userMail"
-        align="center"
-        label="邮箱"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        prop="isCheck"
-        align="center"
-        label="审核状态"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        prop="isPublic"
-        align="center"
-        label="是否公开"
+        label="肖像"
         width="200">
       </el-table-column>
       <el-table-column
@@ -86,7 +59,7 @@
       <el-table-column
         fixed="right"
         label="操作"
-        align="center"
+        align="center"  
         width="100"
         v-if="EliteShow">
         <template slot-scope="scope">
@@ -115,7 +88,7 @@
 
 <script>
 import axios from "axios";
-import {getNewTalentList,postNewTalentUdpate,postNewTalentDelete} from "@/api/api";
+import {postCommunityCommentList,postCommunityCommentReject,postCommunityCommentPass} from "@/api/api";
 import utils from "@/api/utils.js";
 export default {
   data() {
@@ -134,11 +107,8 @@ export default {
       WhetherState:true,
       searchState:"",
       form: {
-        username:"",
-        telphone:"",
-        region:"",
+        region:"待审核",
         searchKey:"",
-        userMail:""
       },
     }
   },
@@ -146,13 +116,9 @@ export default {
     // 请求审核数据
     getData(){
       let that = this;
-      getNewTalentList({
-        pageNum:that.pageNum,
-        pageSize:that.pageSize,
-        isCheck:that.isCheck,
-        username:this.form.username,
-        telphone:this.form.telphone,
-        userMail:this.form.userMail
+      postCommunityCommentList({
+        type:this.form.region,
+        searchKey:this.form.searchKey
       }).then(res=>{
         that.EliteData= res.data.list;
         console.log(that.EliteData);
@@ -196,114 +162,69 @@ export default {
     },
     //通过 编辑按钮
     EliteAgree(row) {
-      if(this.WhetherState){
-        this.$confirm('此操作将通过审核, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          postNewTalentUdpate({
-            id:row,
-            isCheck:1
-          }).then(res => {
-            this.$message({
-              message: '该信息已通过审核',
-              type: 'success'
-            });
-            this.getData()
-          })
-        }).catch(() => {
+      this.$confirm('此操作将通过审核, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        postCommunityCommentPass({
+          id:row
+        }).then(res => {
           this.$message({
-            type: 'info',
-            message: '已取消审核'
+            message: '该信息已通过审核',
+            type: 'success'
           });
+          this.getData()
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消审核'
         });
-      }else{
-        this.$router.push({path:'/siku/sikuEliteDetail',query:{talentId:row}});
-        console.log("编辑")
-      }
+      });
+     
     },
     //拒绝 删除操作
     EliteDisagree(row){
-      console.log(row)
-      if(this.WhetherState){
-        this.$confirm('此操作将拒绝通过, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          postNewTalentUdpate({
-            id:row,
-            isCheck:2
-          }).then(res => {
-            this.$message({
-              message: '该信息已拒绝通过',
-              type: 'success'
-            });
-            this.getData()
-          })
-        }).catch(() => {
+      this.$confirm('此操作将拒绝通过, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        postCommunityCommentReject({
+          id:row
+        }).then(res => {
           this.$message({
-            type: 'info',
-            message: '已取消'
+            message: '该信息已拒绝通过',
+            type: 'success'
           });
+          this.getData()
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
         });
-      }else{
-        this.$confirm('此操作将删除信息, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          postNewTalentDelete({
-            talentId:row
-          }).then(res => {
-            this.$message({
-              message: '该信息已删除',
-              type: 'success'
-            });
-            this.getData()
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
-      }
-    },
-    //搜索选择类型
-    changeSearch(){
-      if(this.form.searchKey == "username"){
-        this.searchState = "one"
-      }else if(this.form.searchKey == "telphone"){
-        this.searchState = "two"
-      }else(
-        this.searchState = "three"
-      ) 
-      console.log(this.form.searchKey == "username")
+      });
+      
     },
     //搜索
     schoolSearch(){
-      if(this.searchState == "one"){
-        this.form.username = this.input
-      }else if(this.searchState == "two"){
-        this.form.telphone = this.input
-      }else{
+      
         this.form.userMail = this.input
-      }
       // console.log()
       this.getData()
     },
     //审核类型
     changeExhibition(){
       this.isCheck = this.form.region;
-      if(this.form.region !=  0){
+      console.log(this.form.region)
+      if(this.form.region !=  "待审核"){
         this.EliteShow = false;
       }else{
         this.EliteShow = true;
       }
       this.getData();
-      console.log(this.form.region)
     },
 
 

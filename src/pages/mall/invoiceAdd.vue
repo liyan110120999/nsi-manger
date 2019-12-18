@@ -9,7 +9,7 @@
         <el-form-item label="发票抬头" prop="userinvoicename" class="addFlex">
           <el-input v-model.trim="form.userinvoicename"></el-input>
         </el-form-item>
-        <el-form-item label="税号" prop="userinvoicenum">
+        <el-form-item label="税号">
           <el-input v-model.number="form.userinvoicenum" ></el-input>
         </el-form-item>
 
@@ -117,10 +117,6 @@ export default {
       rules: {
         userinvoicename:[
           { required: true, message: '请输入发票抬头', trigger: 'blur' },
-        ],
-        userinvoicenum:[
-          { required: true, message: '请输入税号', trigger: 'blur' },
-          { type: 'number', message: '必须为数字值'}
         ],
         userbillingtype:[
           { required: true, message: '请输入开票类型', trigger: 'blur' },

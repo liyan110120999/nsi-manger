@@ -74,7 +74,13 @@ export const getTugOfWar_Insert = p => get('/activity/TugOfWar_Insert.do', p)
 export const getTugOfWar_Delete = p => get('/activity/TugOfWar_Delete.do', p)
 
 //教育社区 列表
-export const postCommunityUserList = p => post('/communityUser/list', p)
+export const postCommunityUserList = p => post('/manager/communityUser/list', p)
+//教育社区 帖子列表
+export const postCommunityCommentList = p => post('/manager/communityComment/verify_list', p)
+//教育社区 审核拒绝
+export const postCommunityCommentReject = p => post('/manager/communityComment/verify_reject', p)
+//教育社区 审核通过
+export const postCommunityCommentPass = p => post('manager/communityComment/verify_pass', p)
 
 //其他  错误上报 删除接口
 export const getSysExceptionLogDelete = p => get('/SysExceptionLog/delete.do', p)
