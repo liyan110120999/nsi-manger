@@ -80,7 +80,9 @@ export const postCommunityCommentList = p => post('/manager/communityComment/ver
 //教育社区 审核拒绝
 export const postCommunityCommentReject = p => post('/manager/communityComment/verify_reject', p)
 //教育社区 审核通过
-export const postCommunityCommentPass = p => post('manager/communityComment/verify_pass', p)
+export const postCommunityCommentPass = p => post('/manager/communityComment/verify_pass', p)
+//教育社区 审核拒绝
+export const postCommunityCommentDelete = p => post('/manager/communityComment/delete', p)
 
 //其他  错误上报 删除接口
 export const getSysExceptionLogDelete = p => get('/SysExceptionLog/delete.do', p)

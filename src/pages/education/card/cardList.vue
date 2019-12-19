@@ -47,6 +47,9 @@
         align="center"
         label="肖像"
         width="200">
+        <template slot-scope="scope">
+            <img :src="scope.row.portrait" />
+        </template>
       </el-table-column>
       <el-table-column
         prop="createTime"
@@ -211,7 +214,7 @@ export default {
     //搜索
     schoolSearch(){
       
-        this.form.userMail = this.input
+        this.form.searchKey = this.input
       // console.log()
       this.getData()
     },

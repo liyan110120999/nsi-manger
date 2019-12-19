@@ -27,6 +27,15 @@
         width="120">
       </el-table-column>
       <el-table-column
+        prop="portrait"
+        align="center"
+        label="肖像"
+        width="200">
+        <template slot-scope="scope">
+            <img :src="scope.row.portrait" />
+        </template>
+      </el-table-column> 
+      <el-table-column
         prop="nickname"
         align="center"
         label="昵称"
@@ -36,17 +45,9 @@
         prop="content"
         align="center"
         label="评论"
-        width="200">
+        width="600">
       </el-table-column>
-      <el-table-column
-        prop="portrait"
-        align="center"
-        label="肖像"
-        width="200">
-        <template slot-scope="scope">
-            <img :src="scope.row.portrait" />
-        </template>
-      </el-table-column> 
+      
       <el-table-column
         prop="createTime"
         align="center"
@@ -61,7 +62,7 @@
         width="100"
         v-if="EliteShow">
         <template slot-scope="scope">
-          <el-button @click="EliteAgree(scope.row.id)" type="text" size="small" style="color:#67C23A">{{EliteAgreeHtml}}</el-button>
+          <!-- <el-button @click="EliteAgree(scope.row.id)" type="text" size="small" style="color:#67C23A">{{EliteAgreeHtml}}</el-button> -->
           <el-button @click="EliteDisagree(scope.row.id)" type="text" size="small" style="color:red">{{EliteRefuseHtml}}</el-button>
         </template>
       </el-table-column>
@@ -86,7 +87,7 @@
 
 <script>
 import axios from "axios";
-import {postCommunityCommentList} from "@/api/api";
+import {postCommunityCommentList,postCommunityCommentDelete} from "@/api/api";
 import utils from "@/api/utils.js";
 export default {
   data() {
@@ -164,7 +165,7 @@ export default {
     },
     //编辑按钮
     EliteAgree(row) {
-        this.$router.push({path:'/siku/sikuEliteDetail',query:{talentId:row}});
+        // this.$router.push({path:'/siku/sikuEliteDetail',query:{talentId:row}});
         console.log("编辑")
     },
     //删除操作
@@ -174,8 +175,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        postNewTalentDelete({
-          talentId:row
+        postCommunityCommentDelete({
+          id:row
         }).then(res => {
           this.$message({
             message: '该信息已删除',
@@ -206,8 +207,9 @@ export default {
 
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
   .headerBox_two{
+    height: 60px;
     // width: 630px;
     .headerBox_three{
       width: 200px;
