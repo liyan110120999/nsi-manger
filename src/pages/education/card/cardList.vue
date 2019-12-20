@@ -31,6 +31,15 @@
         width="120">
       </el-table-column>
       <el-table-column
+        prop="portrait"
+        align="center"
+        label="肖像"
+        width="200">
+        <template slot-scope="scope">
+            <img :src="scope.row.portrait" />
+        </template>
+      </el-table-column>
+      <el-table-column
         prop="nickname"
         align="center"
         label="昵称"
@@ -40,16 +49,7 @@
         prop="content"
         align="center"
         label="评论"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        prop="portrait"
-        align="center"
-        label="肖像"
-        width="200">
-        <template slot-scope="scope">
-            <img :src="scope.row.portrait" />
-        </template>
+        width="600">
       </el-table-column>
       <el-table-column
         prop="createTime"

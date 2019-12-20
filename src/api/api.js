@@ -7,6 +7,12 @@ import {
 export const getInvoiceDel = p => get('/Invoice/del.do', p)
 //商城 发票管理 添加发票
 export const postHandInvoiceCreate = p => post('/Invoice/HandInvoiceCreate.do', p)
+//商城 书籍发票管理 列表
+export const postInvoiceOrderList = p => post('/Invoice/InvoiceOrderList.do', p)
+//商城 书籍发票管理 购物车详情
+export const postShopCartcartDetail = p => post('/ShopCart/cartDetail.do', p)
+//商城 书籍发票管理 书籍详情
+export const postGoodsDetail = p => post('/goods/goods_detail.do', p)
 
 //学校库  学校列表 0审核中 1审核通过 2拒绝
 export const getSchoolLibrary = p => get('/new/school/list.do', p)

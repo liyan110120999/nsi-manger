@@ -19,6 +19,7 @@ import createGoods from '@/pages/mall/createGoods.vue'
 import bill from '@/pages/mall/bill.vue'
 import mallAdvert from '@/pages/mall/goodsIndex.vue'
 import invoice from '@/pages/mall/invoice.vue'
+import invoiceBoock from '@/pages/mall/invoiceBoock.vue'
 import invoiceAdd from '@/pages/mall/invoiceAdd.vue'
 import caiwu from '@/pages/distribution/caiwu.vue'
 import billBanner from '@/pages/mall/banner.vue'
@@ -113,6 +114,9 @@ export default new Router({
 		    },{
 		    	path: '/mall/invoice',
 	 　　　 component: invoice,
+        },{
+		    	path: '/mall/invoiceBoock',
+	 　　　 component: invoiceBoock,
         }, {
           path: '/mall/invoiceAdd',
           component: invoiceAdd,

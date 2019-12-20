@@ -83,6 +83,7 @@
                 <el-menu-item index="/mall/goods">商品管理</el-menu-item>
                 <el-menu-item index="/mall/bill">订单管理</el-menu-item>
                 <el-menu-item index="/mall/invoice">发票管理</el-menu-item>
+                <el-menu-item index="/mall/invoiceBoock">书籍发票管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
