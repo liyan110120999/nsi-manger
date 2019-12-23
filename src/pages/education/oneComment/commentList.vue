@@ -6,8 +6,8 @@
         <el-form ref="form" :model="form" label-width="70px">
           <el-form-item label="活动区域">
             <el-select v-model="form.region" placeholder="审核中"  @change="changeExhibition">
-              <el-option label="审核中" value="0"></el-option>
-              <el-option label="拒绝" value="2"></el-option>
+              <el-option label="审核中" value="待审核"></el-option>
+              <el-option label="拒绝" value="已拒绝"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -24,25 +24,32 @@
       style="width: 100%"
       height="640">
       <el-table-column
-        prop="itemId"
+        prop="id"
         align="center"
         fixed="left"
         label="id"
         width="120">
       </el-table-column>
       <el-table-column
-        prop="nickName"
+        prop="portrait"
+        align="center"
+        label="肖像"
+        width="200">
+        <template slot-scope="scope">
+            <img :src="scope.row.portrait" />
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="nickname"
         align="center"
         label="昵称"
         width="200">
       </el-table-column>
       <el-table-column
+        prop="content"
         align="center"
         label="评论"
         width="600">
-        <template slot-scope="scope">
-          <p @click="contentBtn(scope.row.content)">{{scope.row.content}}</p>
-        </template>
       </el-table-column>
       <el-table-column
         prop="createTime"
@@ -77,16 +84,15 @@
         :total="ExhibitionPageSize">
       </el-pagination>
     </div>
+
+    <!-- {{prizeDrawData}}111 -->
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import {postItemList,postItemUpdate} from "@/api/api";
+import {postCommunityCommentList,postCommunityCommentReject,postCommunityCommentPass} from "@/api/api";
 import utils from "@/api/utils.js";
-//引入编辑器
-import E from 'wangeditor'
-import Cropper from "cropperjs"
 export default {
   data() {
     return {
@@ -103,10 +109,8 @@ export default {
       EliteRefuseHtml:"拒绝",
       WhetherState:true,
       searchState:"",
-      dialogVisible:false,//dialog
-      articleContent:"", //编辑器的值
       form: {
-        region:"0",
+        region:"待审核",
         searchKey:"",
       },
     }
@@ -114,15 +118,10 @@ export default {
   methods: {
     // 请求审核数据
     getData(){
-      
-  
-
-      
       let that = this;
-      postItemList({
-        pageNum:1,
-        pageSize:10,
-        isCheck:this.form.region
+      postCommunityCommentList({
+        type:this.form.region,
+        searchKey:this.form.searchKey
       }).then(res=>{
         that.EliteData= res.data.list;
         console.log(that.EliteData);
@@ -152,7 +151,7 @@ export default {
 
     // 添加学校 跳转详情页面
     schoolAddPage(){
-      
+      this.$router.push({path:"/vis/prizeDrawAdd",query:{type:"add"}})
     },
     // 每页多少条
     handleSizeChange(val) {
@@ -171,9 +170,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        postItemUpdate({
-          itemId:row,
-          isCheck:1
+        postCommunityCommentPass({
+          id:row
         }).then(res => {
           this.$message({
             message: '该信息已通过审核',
@@ -196,9 +194,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        postItemUpdate({
-          itemId:row,
-          isCheck:2
+        postCommunityCommentReject({
+          id:row
         }).then(res => {
           this.$message({
             message: '该信息已拒绝通过',
@@ -225,23 +222,19 @@ export default {
     changeExhibition(){
       this.isCheck = this.form.region;
       console.log(this.form.region)
-      if(this.form.region !=  "0"){
+      if(this.form.region !=  "待审核"){
         this.EliteShow = false;
       }else{
         this.EliteShow = true;
       }
       this.getData();
     },
-    contentBtn(row){
-      this.$router.push({path:"/card/cardDetail",query:{code:row}})
-    }
+
 
   },
-  mounted(){
-    this.getData();
-  },
   created() {
-  },
+    this.getData()
+  }
 }
 
 </script>

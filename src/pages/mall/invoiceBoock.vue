@@ -256,8 +256,14 @@
         warnClass:'warnClass',
         commonCalss:'',
         puchaDrag:false,
-        billstatus:[],
-        billstatusValue:2,
+        billstatus:[{
+          value: '未开票',
+          label: '未开票'
+        }, {
+          value: '已开票',
+          label: '已开票'
+        }],
+        billstatusValue:"未开票",
         billstatusValue2:false,
         updatebillstatusValue:'',
         buy_message:'',
@@ -317,7 +323,8 @@
       getWebsiteTable(){
         let that = this;
         postInvoiceOrderList({
-          status:this.billstatusValue,
+          financeState:this.billstatusValue,
+          manageState:"确认通过",
           productType:this.productTypeValue,
           pageNum:this.pageNum,
           pageSize:this.pageSize,

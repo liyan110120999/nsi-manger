@@ -137,8 +137,12 @@
               </template>
               <el-menu-item-group>
                 <el-menu-item index="/education/educationUserList">用户</el-menu-item>
-                <el-menu-item index="/catd/cardList">评论审核</el-menu-item>
-                <el-menu-item index="/catd/cardManage">评论管理</el-menu-item>
+                <el-menu-item index="/card/cardList">帖子审核</el-menu-item>
+                <el-menu-item index="/card/cardManage">帖子管理</el-menu-item>
+                <el-menu-item index="/oneComment/commentList">评论审核</el-menu-item>
+                <el-menu-item index="/oneComment/commentManage">评论管理</el-menu-item>
+                <el-menu-item index="/twoComment/commentList">二级评论审核</el-menu-item>
+                <el-menu-item index="/twoComment/commentManage">二级评论管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 

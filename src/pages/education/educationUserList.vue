@@ -34,6 +34,14 @@
         width="120">
       </el-table-column>
       <el-table-column
+        align="center"
+        label="肖像"
+        width="200">
+        <template slot-scope="scope">
+            <img :src="scope.row.wechatPortrait" style="width:50%"/>
+        </template>
+      </el-table-column> 
+      <el-table-column
         prop="nickname"
         align="center"
         label="姓名"
@@ -45,7 +53,12 @@
         label="openId"
         width="200">
       </el-table-column>
-     
+     <el-table-column
+        prop="updateTime"
+        align="center"
+        label="更新时间"
+        width="200">
+      </el-table-column>
       <el-table-column
         prop="createTime"
         align="center"
@@ -115,10 +128,15 @@ export default {
           return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
         }
         //如果记得时间戳是毫秒级的就需要*1000 不然就错了记得转换成整型
-        for(var i=0; i<res.data.length; i++){
-          var d=new Date(res.data[i].createTime);
+        for(var i=0; i<res.data.list.length; i++){
+          var d=new Date(res.data.list[i].createTime);
           console.log(d)
           this.EliteData[i].createTime = formatDate(d);
+        }
+        for(var i=0; i<res.data.list.length; i++){
+          var d=new Date(res.data.list[i].updateTime);
+          console.log(d)
+          this.EliteData[i].updateTime = formatDate(d);
         }
 
       }).catch(error=>{

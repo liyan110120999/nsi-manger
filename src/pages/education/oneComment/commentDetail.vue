@@ -1,31 +1,43 @@
 <template>
   <div class="schoolAdd">
+    <!-- <div class="addTitle">添加学校信息<i class="el-icon-close" @click="addCancel"></i></div> -->
     <div class="addBasic">
-      <div class="addBaH">帖子信息</div>
-      <div ref="editor" style="text-align:left;"></div>
+      <div class="addBaH">修改帖子信息</div>
+      <div class="addTips">注意：带※标记的为必填项</div>
+      <el-form ref="form" :model="form" class="createNews" label-width="160px">
 
+        <el-form-item label="姓名" prop="schoolName" class="addFlex">
+          <el-input v-model="form.username"></el-input>
+        </el-form-item>
+        <el-form-item label="性别" prop="courseSystem">
+          <el-input v-model="form.sex" ></el-input>
+        </el-form-item>
+        <el-form-item label="电话" prop="nationalityOfStudents">
+          <el-input v-model="form.telphone" ></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="nationalityOfStudents">
+          <el-input v-model="form.submitter" ></el-input>
+        </el-form-item>
+        <el-form-item class="addBtn">
+          <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
+          <el-button>取消</el-button>
+        </el-form-item>
+      </el-form>
     </div>
-   
-        <!-- <div class="addBaH">修改帖子信息</div> -->
-         <!-- 编辑器 -->
-
-       
-  
 
   </div>
 </template>
 
 <script>
 // import qs from 'qs';
-import {getExhibitorDetail,getExhibitorUpdate} from '@/api/api';
+import {postNewTalentDetail,postNewTalentUdpate} from '@/api/api';
+import utils from '@/api/utils.js'
+import bus from "@/api/bus";
 import axios from "axios";
-//引入编辑器
-import E from 'wangeditor'
-import Cropper from "cropperjs"
+
 export default {
   data() {
     return {
-      articleContent:"", //编辑器的值
       //表单属性
       form: {
       }
@@ -35,41 +47,80 @@ export default {
   },
   methods:{
     getData(){
-      //加载编辑器组件
-      var editor = new E(this.$refs.editor)
-      editor.customConfig.onchange = (html) => {
-        this.articleContent = html
-      }
-  
-      editor.create()
-
-
+      console.log( this.$route.query.talentId)
       //请求数据
-      // getExhibitorDetail({
-      //   exhibitorId : this.$route.query.id
-      // }).then(res=>{
-      //   this.form = res.data;
-      //   this.articleContent = res.data.textDesc;
-      //    console.log(this.form)
-      //   //调用编辑器方法，默认数据
-       this.articleContent = this.$route.query.code;
-        editor.cmd.do('insertHTML', this.articleContent)
+      postNewTalentDetail({
+        talentId : this.$route.query.talentId
+      }).then(res=>{
+        this.form = res.data
 
-      // }).catch(error=>{
 
-      // })
+      }).catch(error=>{
+
+      })
     },
 
 
-    
+    //立即创建按钮   插入  编辑   学校接口
+    submitForm:utils.debounce(function(formName) {
+      //立即创建按钮的执行操作
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          delete this.form.createTime;
+          delete this.form.updateTime;
+          // this.form.textDesc =this.articleContent;
+          console.log(this.form)
+          postNewTalentUdpate(
+            this.form
+          ).then(res => {
+            console.log(res)
+            if(res.code == 500){
+              this.$message({
+                message: '数据编辑失败',
+                type: 'error'
+              });
+            }else{
+              this.$message({
+                message: '数据编辑成功',
+                type: 'success'
+              });
+              this.$router.push({path:"/siku/sikuEliteManage"})
+            }
+
+          }).catch(error => {
+            console.log(error)
+            this.$message({
+              message: '数据编辑失败',
+              type: 'error'
+            });
+          })
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+
+    }),
+
+    // 取消页面按钮
+    addCancel(){
+      console.log(localStorage["userName"]) //登录人邮箱
+      // this.$router.push({path:"/siku/school"})
+      // console.log(mycityTown[indexTwo].text)
+      // this.isEdit = store.state.isEd;
+
+      // console.log(this.isEdit);
+      console.log( this.articleContent)
+    },
+
 
   },
   mounted(){
+    var that=this;
 
     this.getData();
   },
   created() {
-   
 
   },
 
@@ -102,7 +153,6 @@ export default {
       text-align: center;
       margin-top: 30px;
       font-size: 45px;
-      margin-bottom: 30px;
     }
 
   }

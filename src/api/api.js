@@ -79,16 +79,31 @@ export const getTugOfWar_Insert = p => get('/activity/TugOfWar_Insert.do', p)
 //活动管理  vis直播抽奖 删除接口
 export const getTugOfWar_Delete = p => get('/activity/TugOfWar_Delete.do', p)
 
-//教育社区 列表
+//教育社区 用户列表
 export const postCommunityUserList = p => post('/manager/communityUser/list', p)
-//教育社区 帖子列表
+//教育社区 帖子评论列表0-审核中 1-审核通过 2-审核不通过
+export const postItemList = p => get('/manager/postItem/list.do', p)
+//教育社区 帖子评论通过 拒绝 审核中 0-审核中 1-审核通过 2-审核不通过
+export const postItemUpdate = p => get('/manager/postItem/update.do', p)
+//教育社区 帖子评论删除
+export const postItemDatail = p => get('manager/postItem/detail.do', p)
+//教育社区 1级评论列表
 export const postCommunityCommentList = p => post('/manager/communityComment/verify_list', p)
-//教育社区 审核拒绝
+//教育社区 1级审核拒绝
 export const postCommunityCommentReject = p => post('/manager/communityComment/verify_reject', p)
-//教育社区 审核通过
+//教育社区 1级审核通过
 export const postCommunityCommentPass = p => post('/manager/communityComment/verify_pass', p)
-//教育社区 审核拒绝
+//教育社区 1级评论删除
 export const postCommunityCommentDelete = p => post('/manager/communityComment/delete', p)
+//教育社区 2级评论列表
+export const postCommunitysonCommentList = p => post('/manager/communityCommentSon/verify_list', p)
+//教育社区 2级审核通过
+export const postCommunitysonCommentPass = p => post('/manager/communityCommentSon/verify_pass', p)
+//教育社区 2级审核拒绝
+export const postCommunitysonCommentReject = p => post('/manager/communityCommentSon/verify_reject', p)
+//教育社区 2级审核删除
+export const postCommunitysonCommentDelete = p => post('/manager/communityCommentSon/delete', p)
+
 
 //其他  错误上报 删除接口
 export const getSysExceptionLogDelete = p => get('/SysExceptionLog/delete.do', p)

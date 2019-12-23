@@ -39,6 +39,11 @@ import educationUserList from '@/pages/education/educationUserList.vue'
 import cardList from '@/pages/education/card/cardList.vue'
 import cardManage from '@/pages/education/card/cardManage.vue'
 import cardDetail from '@/pages/education/card/cardDetail.vue'
+import commentList from '@/pages/education/oneComment/commentList.vue'
+import commentManage from '@/pages/education/oneComment/commentManage.vue'
+import commentDetail from '@/pages/education/oneComment/commentDetail.vue'
+import twoCommentManage from '@/pages/education/twoComment/commentManage.vue'
+import twoCommentList from '@/pages/education/twoComment/commentList.vue'
 
 import visList from '@/pages/vis/visList.vue'
 import visPaid from '@/pages/vis/visPaid.vue'
@@ -195,14 +200,29 @@ export default new Router({
           path: '/education/educationUserList',
           component: educationUserList
         }, {
-          path: '/catd/cardList',
-          component: cardList
+          path: '/oneComment/commentList',
+          component:commentList
         }, {
-          path: '/catd/cardManage',
+          path: '/oneComment/commentManage',
+          component: commentManage
+        }, {
+          path: '/card/cardList',
+          component:cardList
+        }, {
+          path: '/card/cardManage',
           component: cardManage
         }, {
-          path: '/catd/cardDetail',
+          path: '/card/cardDetail',
           component: cardDetail
+        }, {
+          path: '/oneComment/commentDetail',
+          component: commentDetail
+        }, {
+          path: '/twoComment/commentManage',
+          component: twoCommentManage
+        }, {
+          path: '/twoComment/commentList',
+          component: twoCommentList
         }, {
           path: '/Other/TestInterface',
           component: TestInterface

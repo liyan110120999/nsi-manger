@@ -20,34 +20,26 @@
       style="width: 100%"
       height="640">
       <el-table-column
-        prop="id"
+        prop="itemId"
         align="center"
         fixed="left"
         label="id"
         width="120">
       </el-table-column>
       <el-table-column
-        prop="portrait"
-        align="center"
-        label="肖像"
-        width="200">
-        <template slot-scope="scope">
-            <img :src="scope.row.portrait" />
-        </template>
-      </el-table-column> 
-      <el-table-column
-        prop="nickname"
+        prop="nickName"
         align="center"
         label="昵称"
         width="200">
       </el-table-column>
       <el-table-column
-        prop="content"
         align="center"
         label="评论"
         width="600">
+        <template slot-scope="scope">
+          <p @click="contentBtn(scope.row.content)">{{scope.row.content}}</p>
+        </template>
       </el-table-column>
-      
       <el-table-column
         prop="createTime"
         align="center"
@@ -55,10 +47,11 @@
         width="200">
       </el-table-column>
 
+
       <el-table-column
         fixed="right"
         label="操作"
-        align="center"
+        align="center"  
         width="100"
         v-if="EliteShow">
         <template slot-scope="scope">
@@ -87,7 +80,7 @@
 
 <script>
 import axios from "axios";
-import {postCommunityCommentList,postCommunityCommentDelete} from "@/api/api";
+import {postItemList,postItemDatail} from "@/api/api";
 import utils from "@/api/utils.js";
 export default {
   data() {
@@ -118,9 +111,10 @@ export default {
     // 请求审核数据
     getData(){
       let that = this;
-      postCommunityCommentList({
-        type:"已通过",
-        searchKey:this.form.searchKey
+      postItemList({
+        pageNum:1,
+        pageSize:10,
+        isCheck:2
       }).then(res=>{
         that.EliteData= res.data.list;
         console.log(that.EliteData);
@@ -175,8 +169,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        postCommunityCommentDelete({
-          id:row
+        postItemDatail({
+          itemId:row
         }).then(res => {
           this.$message({
             message: '该信息已删除',

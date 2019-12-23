@@ -1,21 +1,17 @@
 <template>
   <div class="school">
-    <div class="">
-      <!-- 头部导航 -->
-      <div class="headerBox" style="">
-        <el-form ref="form" :model="form" label-width="70px">
-          <el-form-item label="活动区域">
-            <el-select v-model="form.region" placeholder="审核中"  @change="changeExhibition">
-              <el-option label="审核中" value="0"></el-option>
-              <el-option label="拒绝" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </div>
-      <div class="headerBox headerBox_two">
-          <el-input class="headerBox_three" v-model="input" placeholder="请输入内容"></el-input>
-          <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
-      </div>
+    <div class="headerBox headerBox_two">
+      <!-- <el-form ref="form" :model="form" label-width="70px">
+        <el-form-item label="搜索内容">
+          <el-select v-model="form.searchKey" placeholder="请选择"  @change="changeSearch">
+            <el-option label="姓名" value="username"></el-option>
+            <el-option label="电话" value="telphone"></el-option>
+            <el-option label="邮箱" value="userMail"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form> -->
+      <el-input class="headerBox_three" v-model="input" placeholder="请输入内容"></el-input>
+      <el-button type="success" icon="el-icon-search" @click="schoolSearch">搜索</el-button>
     </div>
     <!-- 表格 -->
     <el-table
@@ -24,26 +20,34 @@
       style="width: 100%"
       height="640">
       <el-table-column
-        prop="itemId"
+        prop="id"
         align="center"
         fixed="left"
         label="id"
         width="120">
       </el-table-column>
       <el-table-column
-        prop="nickName"
+        prop="portrait"
+        align="center"
+        label="肖像"
+        width="200">
+        <template slot-scope="scope">
+            <img :src="scope.row.portrait" style="width:50%"/>
+        </template>
+      </el-table-column> 
+      <el-table-column
+        prop="nickname"
         align="center"
         label="昵称"
         width="200">
       </el-table-column>
       <el-table-column
+        prop="content"
         align="center"
         label="评论"
         width="600">
-        <template slot-scope="scope">
-          <p @click="contentBtn(scope.row.content)">{{scope.row.content}}</p>
-        </template>
       </el-table-column>
+      
       <el-table-column
         prop="createTime"
         align="center"
@@ -51,15 +55,14 @@
         width="200">
       </el-table-column>
 
-
       <el-table-column
         fixed="right"
         label="操作"
-        align="center"  
+        align="center"
         width="100"
         v-if="EliteShow">
         <template slot-scope="scope">
-          <el-button @click="EliteAgree(scope.row.id)" type="text" size="small" style="color:#67C23A">{{EliteAgreeHtml}}</el-button>
+          <!-- <el-button @click="EliteAgree(scope.row.id)" type="text" size="small" style="color:#67C23A">{{EliteAgreeHtml}}</el-button> -->
           <el-button @click="EliteDisagree(scope.row.id)" type="text" size="small" style="color:red">{{EliteRefuseHtml}}</el-button>
         </template>
       </el-table-column>
@@ -77,16 +80,15 @@
         :total="ExhibitionPageSize">
       </el-pagination>
     </div>
+
+    <!-- {{prizeDrawData}}111 -->
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import {postItemList,postItemUpdate} from "@/api/api";
+import {postCommunitysonCommentList,postCommunitysonCommentDelete} from "@/api/api";
 import utils from "@/api/utils.js";
-//引入编辑器
-import E from 'wangeditor'
-import Cropper from "cropperjs"
 export default {
   data() {
     return {
@@ -96,36 +98,33 @@ export default {
       pageNum:1,
       pageSize:50,
       EliteData:[],
-      isCheck:0,
+      isCheck:1,
       activeName: '0',
       EliteShow:true,
-      EliteAgreeHtml:"通过",
-      EliteRefuseHtml:"拒绝",
-      WhetherState:true,
+      EliteAgreeHtml:"编辑",
+      EliteRefuseHtml:"删除",
       searchState:"",
-      dialogVisible:false,//dialog
-      articleContent:"", //编辑器的值
       form: {
-        region:"0",
         searchKey:"",
+        username:"",
+        telphone:"",
+        region:"",
+        userMail:""
+        
       },
     }
   },
   methods: {
     // 请求审核数据
     getData(){
-      
-  
-
-      
       let that = this;
-      postItemList({
-        pageNum:1,
-        pageSize:10,
-        isCheck:this.form.region
+      postCommunitysonCommentList({
+        type:"已通过",
+        searchKey:this.form.searchKey
       }).then(res=>{
         that.EliteData= res.data.list;
         console.log(that.EliteData);
+        this.ExhibitionPageSize = res.data.total;
          //时间戳 转换时间
         function formatDate(now) {
           var year=now.getFullYear();
@@ -152,7 +151,7 @@ export default {
 
     // 添加学校 跳转详情页面
     schoolAddPage(){
-      
+      this.$router.push({path:"/vis/prizeDrawAdd",query:{type:"add"}})
     },
     // 每页多少条
     handleSizeChange(val) {
@@ -164,123 +163,57 @@ export default {
       this.pageNum = val;
       this.getData()
     },
-    //通过 编辑按钮
+    //编辑按钮
     EliteAgree(row) {
-      this.$confirm('此操作将通过审核, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        postItemUpdate({
-          itemId:row,
-          isCheck:1
-        }).then(res => {
-          this.$message({
-            message: '该信息已通过审核',
-            type: 'success'
-          });
-          this.getData()
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消审核'
-        });
-      });
-     
+        // this.$router.push({path:'/siku/sikuEliteDetail',query:{talentId:row}});
+        console.log("编辑")
     },
-    //拒绝 删除操作
+    //删除操作
     EliteDisagree(row){
-      this.$confirm('此操作将拒绝通过, 是否继续?', '提示', {
+      this.$confirm('此操作将删除信息, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        postItemUpdate({
-          itemId:row,
-          isCheck:2
+        postCommunitysonCommentDelete({
+          id:row
         }).then(res => {
           this.$message({
-            message: '该信息已拒绝通过',
+            message: '该信息已删除',
             type: 'success'
           });
-          this.getData()
+          this.getData()    
         })
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消'
+          message: '已取消删除'
         });
       });
-      
     },
     //搜索
     schoolSearch(){
-      
-        this.form.searchKey = this.input
-      // console.log()
+      console.log()
+      this.form.searchKey = this.input
+   
       this.getData()
+    
     },
-    //审核类型
-    changeExhibition(){
-      this.isCheck = this.form.region;
-      console.log(this.form.region)
-      if(this.form.region !=  "0"){
-        this.EliteShow = false;
-      }else{
-        this.EliteShow = true;
-      }
-      this.getData();
-    },
-    contentBtn(row){
-      this.$router.push({path:"/card/cardDetail",query:{code:row}})
-    }
-
-  },
-  mounted(){
-    this.getData();
   },
   created() {
-  },
+    this.getData()
+  }
 }
 
 </script>
 
 <style lang="scss" scoped>
-  .block{
-    margin-top: 30px;
-  }
-  .EilteTab{
-    .el-tabs__nav{
-      .el-tabs__item{
-        &:nth-of-type(1){
-          color: #409eff !important;
-        }
-        &:nth-of-type(2){
-          color: #67c23a !important;
-        }
-        &:last-of-type{
-          color:#f56c6c !important;
-        }
-      }
-      .is-active {
-        background: #dedbdb !important;
-        box-shadow: #ceced0 0px 0px 2px 2px inset;
-        border-top-left-radius:4px;
-        border-top-right-radius:4px;
-      }
-    }
-  }
-  .headerBox{
-    float: left;
-  }
-  .headerBox_three{
-      width: 200px;
-  }
   .headerBox_two{
+    height: 60px;
     // width: 630px;
-    margin-left: 200px;
-   
+    .headerBox_three{
+      width: 200px;
+    }
     form{
       input{
         width: 120px;
@@ -290,5 +223,6 @@ export default {
       float: left;
       margin-left: 10px;
     }
+
   }
 </style>
