@@ -84,9 +84,9 @@ export const postCommunityUserList = p => post('/manager/communityUser/list', p)
 //教育社区 帖子评论列表0-审核中 1-审核通过 2-审核不通过
 export const postItemList = p => get('/manager/postItem/list.do', p)
 //教育社区 帖子评论通过 拒绝 审核中 0-审核中 1-审核通过 2-审核不通过
-export const postItemUpdate = p => get('/manager/postItem/update.do', p)
+export const postItemUpdate = p => post('/manager/postItem/update.do', p)
 //教育社区 帖子评论删除
-export const postItemDatail = p => get('manager/postItem/detail.do', p)
+export const postItemDelete = p => get('/manager/postItem/delete.do', p)
 //教育社区 1级评论列表
 export const postCommunityCommentList = p => post('/manager/communityComment/verify_list', p)
 //教育社区 1级审核拒绝

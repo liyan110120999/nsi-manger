@@ -33,12 +33,24 @@
         width="200">
       </el-table-column>
       <el-table-column
+        prop="title"
+        align="center"
+        label="标题"
+        width="200">
+      </el-table-column>
+      <el-table-column
         align="center"
         label="评论"
         width="600">
         <template slot-scope="scope">
-          <p @click="contentBtn(scope.row.content)">{{scope.row.content}}</p>
+          <p @click="contentBtn(scope.row.content)" class="hoveColor">{{scope.row.content}}</p>
         </template>
+      </el-table-column>
+      <el-table-column
+        prop="updateTime"
+        align="center"
+        label="更新时间"
+        width="200">
       </el-table-column>
       <el-table-column
         prop="createTime"
@@ -56,7 +68,7 @@
         v-if="EliteShow">
         <template slot-scope="scope">
           <!-- <el-button @click="EliteAgree(scope.row.id)" type="text" size="small" style="color:#67C23A">{{EliteAgreeHtml}}</el-button> -->
-          <el-button @click="EliteDisagree(scope.row.id)" type="text" size="small" style="color:red">{{EliteRefuseHtml}}</el-button>
+          <el-button @click="EliteDisagree(scope.row.itemId)" type="text" size="small" style="color:red">{{EliteRefuseHtml}}</el-button>
         </template>
       </el-table-column>
 
@@ -80,7 +92,7 @@
 
 <script>
 import axios from "axios";
-import {postItemList,postItemDatail} from "@/api/api";
+import {postItemList,postItemDelete} from "@/api/api";
 import utils from "@/api/utils.js";
 export default {
   data() {
@@ -96,15 +108,7 @@ export default {
       EliteShow:true,
       EliteAgreeHtml:"编辑",
       EliteRefuseHtml:"删除",
-      searchState:"",
-      form: {
-        searchKey:"",
-        username:"",
-        telphone:"",
-        region:"",
-        userMail:""
-        
-      },
+      searchState:""
     }
   },
   methods: {
@@ -114,11 +118,11 @@ export default {
       postItemList({
         pageNum:1,
         pageSize:10,
-        isCheck:2
+        isCheck:1,
+        title:this.input
       }).then(res=>{
+        this.ExhibitionPageSize = res.data.total;
         that.EliteData= res.data.list;
-        console.log(that.EliteData);
-
          //时间戳 转换时间
         function formatDate(now) {
           var year=now.getFullYear();
@@ -134,6 +138,10 @@ export default {
           var d=new Date(res.data.list[i].createTime);
           this.EliteData[i].createTime = formatDate(d);
         }
+        for(var i=0; i<res.data.list.length; i++){
+          var d=new Date(res.data.list[i].updateTime);
+          this.EliteData[i].updateTime = formatDate(d);
+        }
 
       }).catch(error=>{
         this.$message({
@@ -141,11 +149,6 @@ export default {
           type: 'error'
         });
       })
-    },
-
-    // 添加学校 跳转详情页面
-    schoolAddPage(){
-      this.$router.push({path:"/vis/prizeDrawAdd",query:{type:"add"}})
     },
     // 每页多少条
     handleSizeChange(val) {
@@ -169,9 +172,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        postItemDatail({
+        console.log(row)
+        postItemDelete({
           itemId:row
         }).then(res => {
+          
           this.$message({
             message: '该信息已删除',
             type: 'success'
@@ -187,12 +192,13 @@ export default {
     },
     //搜索
     schoolSearch(){
-      console.log()
-      this.form.searchKey = this.input
-   
       this.getData()
-    
     },
+    //查看评论 富文本编辑器
+    contentBtn(row){
+      localStorage.setItem("code",row)
+      this.$router.push({path:"/card/cardDetail",query:{isState:"1"}})
+    }
   },
   created() {
     this.getData()
@@ -218,5 +224,9 @@ export default {
       margin-left: 10px;
     }
 
+  }
+  .hoveColor:hover{
+    color: #ff0000;
+    cursor:pointer;
   }
 </style>

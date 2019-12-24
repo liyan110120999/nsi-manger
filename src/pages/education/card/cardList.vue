@@ -37,12 +37,24 @@
         width="200">
       </el-table-column>
       <el-table-column
+        prop="title"
+        align="center"
+        label="标题"
+        width="200">
+      </el-table-column>
+      <el-table-column
         align="center"
         label="评论"
         width="600">
         <template slot-scope="scope">
-          <p @click="contentBtn(scope.row.content)">{{scope.row.content}}</p>
+          <p @click="contentBtn(scope.row.content)" class="hoveColor">{{scope.row.content}}</p>
         </template>
+      </el-table-column>
+      <el-table-column
+        prop="updateTime"
+        align="center"
+        label="更新时间"
+        width="200">
       </el-table-column>
       <el-table-column
         prop="createTime"
@@ -59,8 +71,8 @@
         width="100"
         v-if="EliteShow">
         <template slot-scope="scope">
-          <el-button @click="EliteAgree(scope.row.id)" type="text" size="small" style="color:#67C23A">{{EliteAgreeHtml}}</el-button>
-          <el-button @click="EliteDisagree(scope.row.id)" type="text" size="small" style="color:red">{{EliteRefuseHtml}}</el-button>
+          <el-button @click="EliteAgree(scope.row.itemId)" type="text" size="small" style="color:#67C23A">{{EliteAgreeHtml}}</el-button>
+          <el-button @click="EliteDisagree(scope.row.itemId)" type="text" size="small" style="color:red">{{EliteRefuseHtml}}</el-button>
         </template>
       </el-table-column>
 
@@ -114,16 +126,14 @@ export default {
   methods: {
     // 请求审核数据
     getData(){
-      
-  
-
-      
       let that = this;
       postItemList({
         pageNum:1,
         pageSize:10,
-        isCheck:this.form.region
+        isCheck:this.form.region,
+        title:this.input
       }).then(res=>{
+        this.ExhibitionPageSize = res.data.total;
         that.EliteData= res.data.list;
         console.log(that.EliteData);
          //时间戳 转换时间
@@ -140,6 +150,10 @@ export default {
         for(var i=0; i<res.data.list.length; i++){
           var d=new Date(res.data.list[i].createTime);
           this.EliteData[i].createTime = formatDate(d);
+        }
+        for(var i=0; i<res.data.list.length; i++){
+          var d=new Date(res.data.list[i].updateTime);
+          this.EliteData[i].updateTime = formatDate(d);
         }
 
       }).catch(error=>{
@@ -171,14 +185,22 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        console.log(row)
         postItemUpdate({
           itemId:row,
           isCheck:1
         }).then(res => {
-          this.$message({
-            message: '该信息已通过审核',
-            type: 'success'
-          });
+          if(res.code == 0){
+            this.$message({
+              message: '该信息已通过审核',
+              type: 'success'
+            });
+          }else{
+            this.$message({
+              message: '该信息审核失败',
+              type: 'error'
+            });
+          }
           this.getData()
         })
       }).catch(() => {
@@ -189,7 +211,7 @@ export default {
       });
      
     },
-    //拒绝 删除操作
+    // 删除操作
     EliteDisagree(row){
       this.$confirm('此操作将拒绝通过, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -216,8 +238,6 @@ export default {
     },
     //搜索
     schoolSearch(){
-      
-        this.form.searchKey = this.input
       // console.log()
       this.getData()
     },
@@ -232,8 +252,10 @@ export default {
       }
       this.getData();
     },
+    //查看评论 富文本编辑器
     contentBtn(row){
-      this.$router.push({path:"/card/cardDetail",query:{code:row}})
+      localStorage.setItem("code",row);
+      this.$router.push({path:"/card/cardDetail",query:{}})
     }
 
   },
@@ -241,6 +263,7 @@ export default {
     this.getData();
   },
   created() {
+    
   },
 }
 
@@ -290,5 +313,9 @@ export default {
       float: left;
       margin-left: 10px;
     }
+  }
+  .hoveColor:hover{
+    color: #ff0000;
+    cursor:pointer;
   }
 </style>

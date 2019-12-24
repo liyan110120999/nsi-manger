@@ -183,7 +183,7 @@
         :max-height="windowHeight"
         class="websiteTable">
         <el-table-column
-          prop="goodsNum"
+          prop="goodsName"
           align="center"
           label="商品名称"
           width="300">
@@ -210,14 +210,14 @@
         :max-height="windowHeight"
         class="websiteTable">
         <el-table-column
-          prop="goodsAuthor"
+          prop="goodsName"
           align="center"
-          label="公司"
+          label="商品名称"
           width="300">
         </el-table-column>
         <el-table-column
-          prop="goodsLabel"
-          label="类别"
+          prop="goodsStock"
+          label="数量"
           align="center"
           width="120">
         </el-table-column>
