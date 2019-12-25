@@ -8,8 +8,11 @@
 	margin: 0;
 	padding: 0;
 }
+.el-menu-item{
+	background: red;
+}
 .el-submenu__title{
-	background: #434A50!important;
+	background: #fff !important;
 }
 .headerBtn{
 	display: -webkit-flex; /* Safari */
@@ -54,12 +57,12 @@
 }
 .headerLeft span{
 	padding:0 25px;
-	color:#57a3f3;
+	color:#fff;
 }
 .headerRight{
 	justify-content:flex-end;
 	align-items:center;
-	color:#57a3f3;
+	color:#fff;
 	img{
 		width: 30px;
 		height: 30px;
@@ -72,19 +75,19 @@
 	}
 }
 .el-header {
-	background-color: #143f6d;
+	background-color: #1e88e5;
 	color: #333;
 	text-align: center;
 	line-height: 60px;
 }
 
 .el-aside {
-  	background-color: #0d5477;
+  	background-color: #eef5f9;
   	color: #333;
   	text-align: center;
 }
 .el-main {
-  	background-color: #E9EEF3;
+  	background-color: #e5eaef;
   	color: #333;
   	text-align: center;
 }
@@ -212,4 +215,5 @@ h1{
 }
 .asideWidth{
 	height: 100%;
+	border-right: 2px solid rgba(0, 0, 0, 0.1);
 }

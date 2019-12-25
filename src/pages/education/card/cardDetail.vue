@@ -2,7 +2,16 @@
   <div class="schoolAdd">
     <div class="addBasic">
       <div class="addBaH addTitle">帖子信息<i class="el-icon-close" @click="addCancel"></i></div>
-      <div ref="editor" style="text-align:left;height:100px;" ></div>
+      <div class="edBox">
+        <div class="edLeft"><div ref="editor" style="text-align:left;height:100px;" ></div></div>
+        <div class="edRight">
+          <ul class="edRightBtn">
+            <li><el-button type="primary" v-if="showBtn">通过</el-button></li>
+            <li> <el-button type="success" v-if="showBtn">拒绝</el-button></li>
+            <li><el-button type="danger" v-if="!showBtn">删除</el-button></li>
+          </ul>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -19,14 +28,15 @@ export default {
   data() {
     return {
       articleContent:"", //编辑器的值
-      isState:"" //判断哪个页面跳转
-
+      isState:"", //判断哪个页面跳转
+      showBtn:false,
     }
 
   },
   methods:{
     getData(){
       //判断哪个页面跳转
+      console.log(this.$route.query)
       this.isState = this.$route.query.isState;
       //加载编辑器组件
       var editor = new E(this.$refs.editor)
@@ -36,7 +46,12 @@ export default {
       editor.create()
       //调用编辑器方法，默认数据
       this.articleContent = localStorage.getItem("code");
-      editor.cmd.do('insertHTML', this.articleContent)
+      editor.cmd.do('insertHTML', this.articleContent);
+      if(this.isState == "1"){
+        this.showBtn = false
+      }else{
+        this.showBtn = true
+      }
     },
     addCancel(){
       if(this.isState == "1"){
@@ -83,11 +98,28 @@ export default {
       font-size: 45px;
     }
   }
-
- 
-  .w-e-text-container{
-    height: 300px !important;
+  .edBox{
+    .edLeft{
+      float: left;
+      width: 380px;
+      margin-left: 24%;
+      overflow: hidden; 
+      height: 600px;
+    }
+    .edRight{
+      float: left;
+      height: 600px;
+    }
+    .edRightBtn{
+      margin-top: 500px;
+      margin-left: 60px;
+      li{
+        margin-top: 30px;
+      }
+    }
   }
+ 
+
 
  
 </style>

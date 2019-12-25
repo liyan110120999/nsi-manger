@@ -1,5 +1,6 @@
 <template>
   <div class="loginContainer">
+    <!-- <img src="../assets/images/timg.jpg"> -->
     <el-form class="loginFrom" :model="form" :rules="rules" ref="form" label-width="0">
         <div class="NSItitle">新学说官网</div>
         <div class="outIconfont">

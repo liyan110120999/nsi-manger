@@ -47,7 +47,7 @@
         label="评论"
         width="600">
         <template slot-scope="scope">
-          <p @click="contentBtn(scope.row.content)" class="hoveColor">{{scope.row.content}}</p>
+          <p @click="contentBtn(scope.row.content,scope.row.itemId)" class="hoveColor">{{scope.row.content}}</p>
         </template>
       </el-table-column>
       <el-table-column
@@ -253,9 +253,9 @@ export default {
       this.getData();
     },
     //查看评论 富文本编辑器
-    contentBtn(row){
+    contentBtn(row,id){
       localStorage.setItem("code",row);
-      this.$router.push({path:"/card/cardDetail",query:{}})
+      this.$router.push({path:"/card/cardDetail",query:{itemId:id}})
     }
 
   },
@@ -315,7 +315,7 @@ export default {
     }
   }
   .hoveColor:hover{
-    color: #ff0000;
+    color: #1e88e5;
     cursor:pointer;
   }
 </style>
