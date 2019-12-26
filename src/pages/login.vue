@@ -1,8 +1,8 @@
 <template>
   <div class="loginContainer">
-    <!-- <img src="../assets/images/timg.jpg"> -->
+    <img src="../assets/images/timg.jpg">
     <el-form class="loginFrom" :model="form" :rules="rules" ref="form" label-width="0">
-        <div class="NSItitle">新学说官网</div>
+        <div class="NSItitle">新学说后台</div>
         <div class="outIconfont">
             <span class="iconfont icon-xingmingyonghumingnicheng"></span>
             <el-form-item label="" prop="userName">
@@ -20,7 +20,7 @@
               <verify @getVerity="getVerityStatus"></verify>
             </el-form-item>
           </div>
-        <el-button class="loginBtn" @click="userLogin" type="primary">登录</el-button>
+        <el-button class="loginBtn" @click="userLogin" type="info">登录</el-button>
         <span size="mini" style="margin:10px 0 0 20px;font-size:14px;float:left;color:#999;cursor:pointer;" @click="forgetPas">忘记密码</span>
     </el-form>
   </div>
@@ -87,7 +87,7 @@ export default {
               if(resp.data.msg=='登录成功'){
                 that.$message({
                   message: resp.data.msg,
-                  type: 'sucess'
+                  type: 'success'
                 });
                 localStorage["userName"] = that.form.userName
                 setTimeout(function(){
@@ -144,39 +144,45 @@ export default {
       }
   }
   .loginContainer{
+    img{
+      width: 100%;
+      height: 100%;
+    }
     height: 100%;
-    background-color: rgb(20, 26, 72);
     .loginFrom{
+        background-color: rgba(188,188,188,0.6);
         position: absolute;
-        left: 0;
-        right: 0;
+        border-radius: 20px;
+        left: 50%;
+        top: 1px;
+        transform: translateX(-50%);
+        // transform: translateY(-80%);
         width: 330px;
-        padding: 35px 35px 15px;
-        margin: 120px auto;
+        padding: 30px 85px 25px;
+        margin: 150px auto;
         .outIconfont{
           position:relative;
         }
         .NSItitle{
-          color:#fff;
+          color:#222;
           margin:0 0 20px 0;
           font-size:30px;
         }
         input{
           height: 47px;
           border:none;
-          background:#495060;
-          color:#fff;
+          // background:#fff !important;
+          color:#777;
           text-indent:20px;
-          -webkit-box-shadow: 0 0 0px 1000px #495060 inset !important;
-          -webkit-text-fill-color: #eee !important;
+          // -webkit-box-shadow: 0 0 0px 1000px #495060 inset !important;
+          -webkit-text-fill-color: #777 !important;
         }
         .icon-xingmingyonghumingnicheng,.icon-07{
           position:absolute;
-          color:#fff;
+          color:#777;
           top:10px;
           left:0;
           z-index:2;
-          lineheight:47px;
           margin:5px 5px 0 7px;
         }
         .loginBtn{
@@ -185,7 +191,6 @@ export default {
             width: 100%;
             text-align: center;
             vertical-align: middle;
-
             touch-action: manipulation;
             cursor: pointer;
             background-image: none;
@@ -196,7 +201,7 @@ export default {
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            padding: 6px 15px;
+            padding: 10px 15px;
             font-size: 12px;
             border-radius: 4px;
         }

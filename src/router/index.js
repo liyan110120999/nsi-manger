@@ -36,6 +36,7 @@ import sikuCompanyList from '@/pages/siku/sikuCompanyExamine/sikuCompanyList.vue
 import ApplySchool from '@/pages/siku/ApplySchool.vue'
 
 import educationUserList from '@/pages/education/educationUserList.vue'
+import dataModule from '@/pages/education/dataModule.vue'
 import cardList from '@/pages/education/card/cardList.vue'
 import cardManage from '@/pages/education/card/cardManage.vue'
 import cardDetail from '@/pages/education/card/cardDetail.vue'
@@ -199,6 +200,9 @@ export default new Router({
         }, {
           path: '/education/educationUserList',
           component: educationUserList
+        }, {
+          path: '/education/dataModule',
+          component: dataModule
         }, {
           path: '/oneComment/commentList',
           component:commentList

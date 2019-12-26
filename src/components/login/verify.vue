@@ -37,6 +37,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .count{
+  text-align: center;
   position:absolute;
   right:0;
   width: 140px;
@@ -51,7 +52,7 @@
 .myEdit{
   position: absolute;
   left:7px;
-  color:#fff;
+  color:#777;
   z-index: 999;
   line-height: 47px;
 }

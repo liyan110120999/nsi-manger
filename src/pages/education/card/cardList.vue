@@ -315,7 +315,7 @@ export default {
     }
   }
   .hoveColor:hover{
-    color: #1e88e5;
+    color: #24d2b5;
     cursor:pointer;
   }
 </style>

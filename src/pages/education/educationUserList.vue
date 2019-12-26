@@ -130,12 +130,10 @@ export default {
         //如果记得时间戳是毫秒级的就需要*1000 不然就错了记得转换成整型
         for(var i=0; i<res.data.list.length; i++){
           var d=new Date(res.data.list[i].createTime);
-          console.log(d)
           this.EliteData[i].createTime = formatDate(d);
         }
         for(var i=0; i<res.data.list.length; i++){
           var d=new Date(res.data.list[i].updateTime);
-          console.log(d)
           this.EliteData[i].updateTime = formatDate(d);
         }
 

@@ -34,7 +34,7 @@
             background-color="#EEF5F9"
             text-color="#607d8b"
             :collapse-transition="false"
-            active-text-color="#007bff">
+            active-text-color="#20aee3">
             <el-menu-item style="text-align:left;" index="/home">
               <i class="el-icon-location"></i>
               <span slot="title">首页</span>
@@ -136,7 +136,7 @@
                 <span>教育社区</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="">数据模板</el-menu-item>
+                <el-menu-item index="/education/dataModule">数据模板</el-menu-item>
                 <el-menu-item index="/education/educationUserList">用户</el-menu-item>
                 <el-menu-item index="/card/cardList">帖子审核</el-menu-item>
                 <el-menu-item index="/card/cardManage">帖子管理</el-menu-item>

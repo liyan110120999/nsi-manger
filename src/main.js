@@ -13,6 +13,9 @@ import VueClipboard from 'vue-clipboard2'
 import './assets/icons/index.js'
 import Vuex from 'vuex'
 import store from './vuex/store'
+// 引入echarts
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 //bus
 Vue.prototype.bus = new Vue();
 //路由
