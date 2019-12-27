@@ -81,10 +81,18 @@ export const getTugOfWar_Delete = p => get('/activity/TugOfWar_Delete.do', p)
 
 //教育社区 用户列表
 export const postCommunityUserList = p => post('/manager/communityUser/list', p)
+//教育社区 数据模板 最新 最热帖子 
+export const postItemIndexList = p => get('/manager/postItem/index_list.do', p)
+//教育社区 数据模板 最新 最近活跃 用户
+export const postItemPanelList = p => post('/manager/communityUser/panel_list', p)
 //教育社区 帖子评论列表0-审核中 1-审核通过 2-审核不通过
 export const postItemList = p => get('/manager/postItem/list.do', p)
-//教育社区 帖子评论通过 拒绝 审核中 0-审核中 1-审核通过 2-审核不通过
+//教育社区 帖子评论管理 0-审核中 1-审核通过 2-审核不通过
 export const postItemUpdate = p => post('/manager/postItem/update.do', p)
+//教育社区 帖子评论通过
+export const postItemVerifySuccess = p => post('/manager/postItem/verify_success.do', p)
+//教育社区 帖子评论拒绝
+export const postItemVerifyFailed = p => post('/manager/postItem/verify_failed.do', p)
 //教育社区 帖子评论删除
 export const postItemDelete = p => get('/manager/postItem/delete.do', p)
 //教育社区 1级评论列表

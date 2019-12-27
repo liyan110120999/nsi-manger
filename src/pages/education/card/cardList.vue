@@ -94,7 +94,7 @@
 
 <script>
 import axios from "axios";
-import {postItemList,postItemUpdate} from "@/api/api";
+import {postItemList,postItemUpdate,postItemVerifySuccess,postItemVerifyFailed} from "@/api/api";
 import utils from "@/api/utils.js";
 //引入编辑器
 import E from 'wangeditor'
@@ -186,7 +186,7 @@ export default {
         type: 'warning'
       }).then(() => {
         console.log(row)
-        postItemUpdate({
+        postItemVerifySuccess({
           itemId:row,
           isCheck:1
         }).then(res => {
@@ -218,7 +218,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        postItemUpdate({
+        postItemVerifyFailed({
           itemId:row,
           isCheck:2
         }).then(res => {

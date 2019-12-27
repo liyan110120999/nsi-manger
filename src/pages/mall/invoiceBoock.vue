@@ -390,27 +390,6 @@
         this.pageSize=num
         this.getWebsiteTable()
       },
-      //编辑资讯
-      edit(billRow,data2){
-        this.puchaDrag=true
-        console.log(billRow)
-        this.updatebillstatusValue=billRow.status
-        this.buy_message=billRow.buyerMessage
-        this.product_type=billRow.productType
-        this.shipping_code=billRow.shippingCode
-        this.billId=billRow.orderNo
-        if(this.shipping_code.indexOf('_')>0){
-          let flagarr=this.shipping_code.split('_')
-          this.shipping_code=flagarr[1]
-        }
-        if(data2=='fahuo'){
-          this.fahuoOrbianji=false
-          this.updatebillstatusValue=4
-        }else{
-          this.fahuoOrbianji=true
-        }
-
-      },
       //获取购物车订单信息
       getorderNoData(orderNo,shopId){
         let that=this;
@@ -450,16 +429,21 @@
         //   });
         // });
       },
-      //删除资讯
-      deleteWebsiteTableData(articleId){
+      //编辑资讯
+      edit(newsId){
         var that=this
-        that.$confirm('此操作将删除该订单,且无法恢复, 是否继续?', '提示', {
+        that.$confirm('确定已开票?', '提示', {
           cancelButtonText: '取消',
           confirmButtonText: '确定',
           type: 'warning'
         }).then(() => {
-          let url=that.baseUrl + "/manager/order/del.do"+"?orderNo="+articleId
-          that.$axios.get(url).then(function(response){
+
+          let url=that.baseUrl + "/Invoice/PassShopInvoice.do"
+          var formData =new URLSearchParams();
+          formData.append('Id', newsId)
+
+          that.$axios.post(url,formData).then(function(response){
+            console.log(response)
             that.$message({
               message: response.data.msg,
               type: 'sucess'
@@ -474,45 +458,63 @@
         }).catch(() => {
           that.$message({
             type: 'info',
+            message: '已取消修改'
+          });
+        });
+        // this.$store.state.websiteNewsId=newsId
+        // this.$router.push({path:'/website/createnews'});
+      },
+      //删除资讯
+      deleteWebsiteTableData(articleId){
+        var that=this
+        that.$confirm('此操作将删除该条信息,且无法恢复, 是否继续?', '提示', {
+          cancelButtonText: '取消',
+          confirmButtonText: '确定',
+          type: 'warning'
+        }).then(() => {
+          getInvoiceDel({
+            id:articleId
+          }).then(res => {
+            if(res.code == 0){
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            }else{
+              that.$message({
+                message: '数据删除失败',
+                type: 'error'
+              });
+            }
+            this.getWebsiteTable()
+            console.log(res)
+          }).catch(error =>{
+            that.$message({
+              message: '数据请求失败',
+              type: 'error'
+            });
+          })
+          // let url=that.baseUrl + "/manager/article/delete.do"+"?articleId="+articleId
+          // that.$axios.get(url).then(function(response){
+          //   that.$message({
+          //     message: response.data.msg,
+          //     type: 'sucess'
+          //   });
+          //   that.getWebsiteTable()
+          // }).catch(function (response){
+          //   that.$message({
+          //     message: '数据请求失败',
+          //     type: 'error'
+          //   });
+          // });
+        }).catch(() => {
+          that.$message({
+            type: 'info',
             message: '已取消删除'
           });
         });
       },
-      updateNowCardDatas(){
-        var that=this
-        if(this.shipping_code.indexOf('_')>-1){
-          that.$message({
-            message: '物流单号有不规范字符_,请核对物流单号',
-            type: 'error'
-          });
-          return
-        }
-        let url=this.baseUrl + "/manager/order/modify.do"
-        let addNews=new URLSearchParams();
-        addNews.append('orderNo',that.billId);
-        addNews.append('status',that.updatebillstatusValue);
-        addNews.append('buyerMessage',that.buy_message);
-        addNews.append('productType',that.product_type);
-        addNews.append('shippingCode',that.shipping_codeName+that.shipping_code);
-        this.$axios.post(url,addNews).then(function(response){
-          that.puchaDrag=false
-          that.getWebsiteTable()
-         that.$message({
-            message: '修改成功',
-            type: 'sucess'
-          });
-        }).catch(function (response){
-          that.$message({
-            message: '数据请求失败',
-            type: 'error'
-          });
-        });
-      },
-      //创建新资讯
-      createNews(){
-        this.$store.state.websiteNewsId=''
-        this.$router.push({path:'/mall/creategoods/add'});
-      },
+    
 
     },
     created(){

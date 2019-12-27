@@ -8,15 +8,15 @@
           </div>
           <div class="card-panelRight">
             <div class="card-panel-description">
-              <div class="card-panel-text">审核总数</div>
+              <div class="card-panel-text">帖子审核</div>
               <div class="card-panel-text">{{chartData.bookCount}}</div>
             </div>
             <div class="card-panel-description">
-              <div class="card-panel-text">审核通过</div>
+              <div class="card-panel-text">评论审核</div>
               <div class="card-panel-text">{{chartData1.bookCount}}</div>
             </div>
             <div class="card-panel-description">
-              <div class="card-panel-text">审核拒绝</div>
+              <div class="card-panel-text">二级评论审核</div>
               <div class="card-panel-text">{{chartData2.bookCount}}</div>
             </div>
           </div>
@@ -49,44 +49,56 @@
         <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
           <div class="Title">最新帖子</div>
           <el-table
-            :data="tableData"
+            :data="lastList"
             stripe
             style="width: 100%">
             <el-table-column
-              prop="date"
-              label="日期"
-              width="180">
-            </el-table-column>
-            <el-table-column
-              prop="name"
+              prop="nickName"
               label="姓名"
-              width="180">
+              :show-overflow-tooltip="true"
+              width="120"
+              align="center">
             </el-table-column>
             <el-table-column
-              prop="address"
-              label="地址">
+              prop="title"
+              label="标题"
+              :show-overflow-tooltip="true"
+              width="400"
+              align="center">
+            </el-table-column>
+            <el-table-column
+              prop="updateTime"
+              label="时间"
+              :show-overflow-tooltip="true"
+              align="center">
             </el-table-column>
           </el-table>
         </el-col>
         <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
           <div class="Title">最热帖子</div>
           <el-table
-            :data="tableData"
+            :data="hotList"
             stripe
             style="width: 100%">
             <el-table-column
-              prop="date"
-              label="日期"
-              width="180">
-            </el-table-column>
-            <el-table-column
-              prop="name"
+              prop="nickName"
               label="姓名"
-              width="180">
+              :show-overflow-tooltip="true"
+              width="120"
+              align="center">
             </el-table-column>
             <el-table-column
-              prop="address"
-              label="地址">
+              prop="title"
+              label="标题"
+              :show-overflow-tooltip="true"
+              width="400"
+              align="center">
+            </el-table-column>
+            <el-table-column
+              prop="updateTime"
+              label="时间"
+              :show-overflow-tooltip="true"
+              align="center">
             </el-table-column>
           </el-table>
         </el-col>
@@ -95,44 +107,74 @@
         <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
           <div class="Title">最新注册</div>
           <el-table
-            :data="tableData"
+            :data="list_create"
             stripe
             style="width: 100%">
             <el-table-column
-              prop="date"
-              label="日期"
-              width="180">
+              prop="gradeSign"
+              label="等级"
+              :show-overflow-tooltip="true"
+              width="80"
+              align="center">
             </el-table-column>
             <el-table-column
-              prop="name"
+              label="头像"
+              :show-overflow-tooltip="true"
+              width="180"
+              align="center">
+                <template slot-scope="scope">
+                  <img style="width:20%" :src="scope.row.wechatPortrait" />
+                </template>
+            </el-table-column>
+            <el-table-column
+              prop="nickname"
               label="姓名"
-              width="180">
+              :show-overflow-tooltip="true"
+              width="180"
+              align="center">
             </el-table-column>
             <el-table-column
-              prop="address"
-              label="地址">
+              prop="updateTime"
+              label="日期"
+              :show-overflow-tooltip="true"
+              align="center">
             </el-table-column>
           </el-table>
         </el-col>
         <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
           <div class="Title">最近活跃</div>
           <el-table
-            :data="tableData"
+            :data="list_update"
             stripe
             style="width: 100%">
             <el-table-column
-              prop="date"
-              label="日期"
-              width="180">
+              prop="gradeSign"
+              label="等级"
+              :show-overflow-tooltip="true"
+              width="180"
+              align="center">
             </el-table-column>
             <el-table-column
-              prop="name"
+              label="头像"
+              :show-overflow-tooltip="true"
+              width="180"
+              align="center">
+                <template slot-scope="scope">
+                  <img style="width:20%" :src="scope.row.wechatPortrait" />
+                </template>
+            </el-table-column>
+            <el-table-column
+              prop="nickname"
               label="姓名"
-              width="180">
+              :show-overflow-tooltip="true"
+              width="180"
+              align="center">
             </el-table-column>
             <el-table-column
-              prop="address"
-              label="地址">
+              prop="updateTime"
+              label="日期"
+              :show-overflow-tooltip="true"
+              align="center">
             </el-table-column>
           </el-table>
         </el-col>
@@ -143,63 +185,26 @@
 </template>
 
 <script>
-import Myecharts from "../../components/dataModule/echarts"
+import Myecharts from "../../components/dataModule/echarts";
+import {postItemIndexList,postItemPanelList} from "@/api/api"
 export default {
   data(){
     return{
+      hotList:[],//帖子 热
+      lastList:[],//帖子 新
+      list_create:[],//用户 注册
+      list_update:[],//用户 活跃
       chartData:[],
       chartData1:[],
       chartData2:[],
-      yeartotalPrice:{},
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ]
+      yeartotalPrice:{}
     }
   },
   components:{
     "my-echarts":Myecharts
   },
   methods: {
+    //旧数据
     getChartData(nexturl) {
       let that=this
       return new Promise(function(resolve,reject){
@@ -210,6 +215,61 @@ export default {
             reject(response)
           });
       })
+    },
+    //最新数据
+    getData(){
+      //帖子
+      postItemIndexList({
+      }).then(res => {
+        this.hotList = res.data.hotList;
+        this.lastList = res.data.lastList;
+        
+        //时间戳 转换时间
+        function formatDate(now) {
+          var year=now.getFullYear();
+          var month=now.getMonth()+1;
+          var date=now.getDate();
+          var hour=now.getHours();
+          var minute=now.getMinutes();
+          var second=now.getSeconds();
+          return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+        }
+        //如果记得时间戳是毫秒级的就需要*1000 不然就错了记得转换成整型
+        for(var i=0; i<res.data.hotList.length; i++){
+          var d=new Date(res.data.hotList[i].updateTime);
+          this.hotList[i].updateTime = formatDate(d);
+        }
+        for(var i=0; i<res.data.lastList.length; i++){
+          var d=new Date(res.data.lastList[i].updateTime);
+          this.lastList[i].updateTime = formatDate(d);
+        }
+        console.log(res.data.hotList)
+      })
+      //用户
+      postItemPanelList({
+      }).then(res => {
+        this.list_create = res.data.list_create;
+        this.list_update = res.data.list_update;
+        //时间戳 转换时间
+        function formatDate(now) {
+          var year=now.getFullYear();
+          var month=now.getMonth()+1;
+          var date=now.getDate();
+          var hour=now.getHours();
+          var minute=now.getMinutes();
+          var second=now.getSeconds();
+          return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+        }
+        //如果记得时间戳是毫秒级的就需要*1000 不然就错了记得转换成整型
+        for(var i=0; i<res.data.list_create.length; i++){
+          var d=new Date(res.data.list_create[i].updateTime);
+          this.list_create[i].updateTime = formatDate(d);
+        }
+        for(var i=0; i<res.data.list_update.length; i++){
+          var d=new Date(res.data.list_update[i].updateTime);
+          this.list_update[i].updateTime = formatDate(d);
+        }
+      })
     }
   },
   created(){
@@ -218,7 +278,6 @@ export default {
                 that.getChartData('/manager/index/get_week_list.do'),
                 that.getChartData('/manager/index/get_today_list.do'),
                 that.getChartData('/manager/index/get_year_list.do')]).then(function(arr){
-      console.log(arr)
       that.chartData=arr[0]
       that.chartData1=arr[1]
       that.chartData2=arr[2]
@@ -228,6 +287,8 @@ export default {
     },function(){
       console.log('至少有一个失败了')
     })
+    //请求数据
+    this.getData()
   }
 }
 </script>

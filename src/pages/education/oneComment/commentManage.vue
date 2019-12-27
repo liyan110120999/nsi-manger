@@ -27,6 +27,13 @@
         width="120">
       </el-table-column>
       <el-table-column
+        prop="objectId"
+        align="center"
+        fixed="left"
+        label="评论对象id"
+        width="120">
+      </el-table-column>
+      <el-table-column
         prop="portrait"
         align="center"
         label="肖像"
