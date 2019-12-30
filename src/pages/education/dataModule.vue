@@ -25,7 +25,7 @@
       </el-col>
       <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
         <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-message">
+          <div class="card-panel-icon-wrapper icon-message" @click="BtnUpCardList">
             <i style="font-size:50px" class="iconfont icon-shuju"></i>
           </div>
           <div class="card-panelRight">
@@ -270,6 +270,10 @@ export default {
           this.list_update[i].updateTime = formatDate(d);
         }
       })
+    },
+      //跳转
+    BtnUpCardList(){
+      console.log("1----1")
     }
   },
   created(){
