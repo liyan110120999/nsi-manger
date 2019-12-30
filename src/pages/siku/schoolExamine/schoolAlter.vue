@@ -937,7 +937,7 @@ export default {
 
     // 取消页面按钮
     addCancel(){
-      this.$router.push({path:"/siku/school"});
+      this.$router.push({path:"/siku/schoolManage"});
       console.log(typeof this.form.studentEnrollment)
     },
     //上传logo、

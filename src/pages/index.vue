@@ -26,7 +26,7 @@
       <el-aside class="asideWidth" :width="leftSide.asideWidth">
         <div class="inleftSide">
           <el-menu
-            :default-active="routerActive"
+            :default-active="$route.path"
             class="el-menu-vertical-demo"
             v-bind:router="true"
             @select="handleSelect"
@@ -35,7 +35,7 @@
             text-color="#607d8b"
             :collapse-transition="false"
             active-text-color="#20aee3">
-            <el-menu-item style="text-align:left;" index="/home">
+            <el-menu-item style="text-align:left;" index="/">
               <i class="el-icon-location"></i>
               <span slot="title">首页</span>
             </el-menu-item>
@@ -238,7 +238,7 @@ export default {
             this.leftSide.asideWidth='200px'
           }
         })()
-    }
+    };
   }
 }
 </script>

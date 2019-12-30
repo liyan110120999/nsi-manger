@@ -3,11 +3,11 @@
     <el-row :gutter="40" class="panel-group">
       <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
         <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-people">
+          <div class="card-panel-icon-wrapper icon-people" >
             <i style="font-size:50px" class="iconfont icon-shenhe"></i>
           </div>
           <div class="card-panelRight">
-            <div class="card-panel-description">
+            <div class="card-panel-description" @click="BtnUpCardList">
               <div class="card-panel-text">帖子审核</div>
               <div class="card-panel-text">{{chartData.bookCount}}</div>
             </div>
@@ -20,12 +20,11 @@
               <div class="card-panel-text">{{chartData2.bookCount}}</div>
             </div>
           </div>
-          
         </div>
       </el-col>
       <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
         <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-message" @click="BtnUpCardList">
+          <div class="card-panel-icon-wrapper icon-message">
             <i style="font-size:50px" class="iconfont icon-shuju"></i>
           </div>
           <div class="card-panelRight">
@@ -184,7 +183,8 @@
 
 </template>
 
-<script>
+<script> 
+import Bus from "@/api/bus" //bus总线
 import Myecharts from "../../components/dataModule/echarts";
 import {postItemIndexList,postItemPanelList} from "@/api/api"
 export default {
@@ -271,9 +271,10 @@ export default {
         }
       })
     },
-      //跳转
+      //跳转帖子审核
     BtnUpCardList(){
-      console.log("1----1")
+      this.$router.push({path:"/card/cardList",query:{}});
+      Bus.$emit('cardList',"/card/cardList")
     }
   },
   created(){

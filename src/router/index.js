@@ -67,9 +67,6 @@ export default new Router({
 	　　　　  path: '/',
 	 　　　   component: home
 	　　  },{
-	　　　　  path: '/home',
-	 　　　   component: home
-	　　  },{
 	　　　　 path: '/website',
 	 　　　  component: websiteIndex,
 	　　  },{
