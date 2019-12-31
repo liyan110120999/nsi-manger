@@ -81,6 +81,8 @@ export const getTugOfWar_Delete = p => get('/activity/TugOfWar_Delete.do', p)
 
 //教育社区 用户列表
 export const postCommunityUserList = p => post('/manager/communityUser/list', p)
+//教育社区 数据面板 用户列表方法
+export const postCommunityPanelNumber = p => post('/manager/communityUser/panel_number', p)
 //教育社区 数据模板 最新 最热帖子 
 export const postItemIndexList = p => get('/manager/postItem/index_list.do', p)
 //教育社区 数据模板 最新 最近活跃 用户

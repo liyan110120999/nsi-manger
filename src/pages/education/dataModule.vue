@@ -1,49 +1,64 @@
 <template>
   <diV>
-    <el-row :gutter="40" class="panel-group">
-      <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-people" >
-            <i style="font-size:50px" class="iconfont icon-shenhe"></i>
-          </div>
-          <div class="card-panelRight">
-            <div class="card-panel-description" @click="BtnUpCardList">
-              <div class="card-panel-text">帖子审核</div>
-              <div class="card-panel-text">{{chartData.bookCount}}</div>
-            </div>
-            <div class="card-panel-description">
-              <div class="card-panel-text">评论审核</div>
-              <div class="card-panel-text">{{chartData1.bookCount}}</div>
-            </div>
-            <div class="card-panel-description">
-              <div class="card-panel-text">二级评论审核</div>
-              <div class="card-panel-text">{{chartData2.bookCount}}</div>
-            </div>
-          </div>
+    <div class="headerModer">
+      <div class="header_box header_box_hover" @click="BtnUpCardList">
+        <div>
+          <i style="font-size:30px" class="iconfont icon-shenhe"></i>
+          <ul>
+            <li>帖子</li> 
+            <li>(待审核)</li> 
+          </ul>
         </div>
-      </el-col>
-      <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-message">
-            <i style="font-size:50px" class="iconfont icon-shuju"></i>
-          </div>
-          <div class="card-panelRight">
-            <div class="card-panel-description">
-              <div class="card-panel-text">用户</div>
-              <div class="card-panel-text">{{chartData.courseCount}}</div>
-            </div>
-            <div class="card-panel-description">
-              <div class="card-panel-text">帖子</div>
-              <div class="card-panel-text">{{chartData1.courseCount}}</div>
-            </div>
-            <div class="card-panel-description">
-              <div class="card-panel-text">评论</div>
-              <div class="card-panel-text">{{chartData2.courseCount}}</div>
-            </div>
-          </div>
+        <div>{{chartData.post_count}}</div>
+      </div>
+      <div class="header_box header_box_hover" @click="BtnUpOneCommentList">
+        <div>
+          <i style="font-size:30px" class="iconfont icon-shenhe"></i>
+          <ul>
+            <li>评论</li> 
+            <li>(待审核)</li> 
+          </ul>  
         </div>
-      </el-col>
-    </el-row>
+        <div>{{chartData.comment_all_count}}</div>
+      </div>
+      <div class="header_box header_box_hover" @click="BtnUpTwoComment">
+        <div>
+          <i style="font-size:30px" class="iconfont icon-shenhe"></i>
+          <ul>
+            <li>子评论</li> 
+            <li>(待审核)</li> 
+          </ul>
+        </div>
+        <div>{{chartData.commentSon_count}}</div>
+      </div>
+      <div class="header_box">
+        <div><i style="font-size:30px" class="iconfont icon-yonghu"></i>
+          <ul>
+            <li>用户</li> 
+            <li>(全部)</li> 
+          </ul>
+        </div>
+        <div>{{chartData.user_all_count}}</div>
+      </div>
+      <div class="header_box">
+        <div><i style="font-size:30px" class="iconfont icon-tiezi"></i>
+          <ul>
+            <li>帖子</li> 
+            <li>(全部)</li> 
+          </ul>
+        </div>
+        <div>{{chartData.post_all_count}}</div>
+      </div>
+      <div class="header_box">
+        <div><i style="font-size:30px" class="iconfont icon-pinglun"></i>
+          <ul>
+            <li>评论</li> 
+            <li>(全部)</li> 
+          </ul>
+        </div>
+        <div>{{chartData.comment_all_count}}</div>
+      </div>
+    </div>
     <div class="card"> 
         <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
           <div class="Title">最新帖子</div>
@@ -184,9 +199,8 @@
 </template>
 
 <script> 
-import Bus from "@/api/bus" //bus总线
 import Myecharts from "../../components/dataModule/echarts";
-import {postItemIndexList,postItemPanelList} from "@/api/api"
+import {postItemIndexList,postItemPanelList,postCommunityPanelNumber} from "@/api/api"
 export default {
   data(){
     return{
@@ -194,9 +208,7 @@ export default {
       lastList:[],//帖子 新
       list_create:[],//用户 注册
       list_update:[],//用户 活跃
-      chartData:[],
-      chartData1:[],
-      chartData2:[],
+      chartData:"",
       yeartotalPrice:{}
     }
   },
@@ -270,28 +282,43 @@ export default {
           this.list_update[i].updateTime = formatDate(d);
         }
       })
+      //数据面板
+      postCommunityPanelNumber({
+
+      }).then(res => {
+        this.chartData = res.data;
+        console.log(this.chartData)
+      })
     },
-      //跳转帖子审核
+    //跳转帖子审核
     BtnUpCardList(){
       this.$router.push({path:"/card/cardList",query:{}});
-      Bus.$emit('cardList',"/card/cardList")
+    },
+    //跳转评论审核
+    BtnUpOneCommentList(){
+      this.$router.push({path:"/oneComment/commentList",query:{}});
+    },
+    //跳转子评论审核
+    BtnUpTwoComment(){
+      this.$router.push({path:"/twoComment/commentList",query:{}});
     }
+
   },
   created(){
-    let that=this
-    Promise.all([that.getChartData('/manager/index/get_month_list.do'),
-                that.getChartData('/manager/index/get_week_list.do'),
-                that.getChartData('/manager/index/get_today_list.do'),
-                that.getChartData('/manager/index/get_year_list.do')]).then(function(arr){
-      that.chartData=arr[0]
-      that.chartData1=arr[1]
-      that.chartData2=arr[2]
-      that.yeartotalPrice.totalPrice=arr[3]['2019']
-      that.yeartotalPrice.kechengNum=arr[3]['课程']
-      that.yeartotalPrice.shudianNum=arr[3]['书店']
-    },function(){
-      console.log('至少有一个失败了')
-    })
+    // let that=this
+    // Promise.all([that.getChartData('/manager/index/get_month_list.do'),
+    //             that.getChartData('/manager/index/get_week_list.do'),
+    //             that.getChartData('/manager/index/get_today_list.do'),
+    //             that.getChartData('/manager/index/get_year_list.do')]).then(function(arr){
+    //   that.chartData=arr[0]
+    //   that.chartData1=arr[1]
+    //   that.chartData2=arr[2]
+    //   that.yeartotalPrice.totalPrice=arr[3]['2019']
+    //   that.yeartotalPrice.kechengNum=arr[3]['课程']
+    //   that.yeartotalPrice.shudianNum=arr[3]['书店']
+    // },function(){
+    //   console.log('至少有一个失败了')
+    // })
     //请求数据
     this.getData()
   }
@@ -306,7 +333,6 @@ export default {
   }
   .card-panel {
     display:flex;
-    
     flex-direction: row;
     height: 108px;
     cursor: pointer;
@@ -380,6 +406,57 @@ export default {
       }
     }
   }
+}
+.headerModer{
+  height: 200px;
+  background:#fff;
+  display: flex;
+  justify-content:space-around;
+  .header_box{
+    padding: 0 26px;
+    height: 150px;
+    margin-top: 25px;
+    div:nth-child(1){
+      height: 50px;
+      // line-height: 40px;
+      margin-top: 5px;
+      font-size: 25px;
+      color: #555;
+      display: flex;
+      i{
+        margin-right: 10px;
+        padding: 10px ;
+        border-radius: 8px;
+        // color: #36a3f7;
+      }
+      ul{
+        li:last-child{
+          margin-top: 5px; 
+          font-size: 13px;
+          color: #777;
+        }
+
+      }
+    }
+    div:nth-of-type(2){
+      font-weight:inherit;
+      font-size: 45px;
+      margin-top: 30px;
+    }
+  }
+  :last-of-type{
+    border:none;
+  }
+  .header_box_hover:hover{
+    cursor:pointer;
+  }
+  :hover{
+    .icon-shenhe{
+      background: #36a3f7;
+      color: #fff;
+    }
+  }
+  
 }
 .card{
   overflow: hidden;

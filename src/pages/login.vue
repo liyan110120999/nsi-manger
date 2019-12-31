@@ -91,7 +91,7 @@ export default {
                 });
                 localStorage["userName"] = that.form.userName
                 setTimeout(function(){
-                  that.$router.push({path:'/home'});
+                  that.$router.push({path:'/'});
                 },1000)
               }else{
                 that.$message({
