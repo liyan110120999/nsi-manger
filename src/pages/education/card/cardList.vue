@@ -136,6 +136,10 @@ export default {
         this.ExhibitionPageSize = res.data.total;
         that.EliteData= res.data.list;
         console.log(that.EliteData);
+        //评论截取
+        for(var i=0; i<res.data.list.length; i++){
+          that.EliteData[i].content = that.EliteData[i].content.slice(0,30) + "..."
+        }
          //时间戳 转换时间
         function formatDate(now) {
           var year=now.getFullYear();

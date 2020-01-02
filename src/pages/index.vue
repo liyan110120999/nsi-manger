@@ -35,7 +35,7 @@
             text-color="#607d8b"
             :collapse-transition="false"
             active-text-color="#20aee3">
-            <el-menu-item style="text-align:left;" index="/">
+            <el-menu-item style="text-align:left;" index="/home">
               <i class="el-icon-location"></i>
               <span slot="title">首页</span>
             </el-menu-item>

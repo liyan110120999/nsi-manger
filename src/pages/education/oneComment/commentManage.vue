@@ -39,7 +39,7 @@
         label="肖像"
         width="200">
         <template slot-scope="scope">
-            <img :src="scope.row.portrait" />
+            <img :src="scope.row.portrait" style="width:50%"/>
         </template>
       </el-table-column> 
       <el-table-column

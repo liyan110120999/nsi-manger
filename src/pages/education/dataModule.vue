@@ -70,7 +70,7 @@
               prop="nickName"
               label="姓名"
               :show-overflow-tooltip="true"
-              width="120"
+              width="100"
               align="center">
             </el-table-column>
             <el-table-column
@@ -78,6 +78,13 @@
               label="标题"
               :show-overflow-tooltip="true"
               width="400"
+              align="center">
+            </el-table-column>
+            <el-table-column
+              prop="commentNum"
+              label="评论数"
+              :show-overflow-tooltip="true"
+              width="80"
               align="center">
             </el-table-column>
             <el-table-column
@@ -98,7 +105,7 @@
               prop="nickName"
               label="姓名"
               :show-overflow-tooltip="true"
-              width="120"
+              width="100"
               align="center">
             </el-table-column>
             <el-table-column
@@ -106,6 +113,13 @@
               label="标题"
               :show-overflow-tooltip="true"
               width="400"
+              align="center">
+            </el-table-column>
+            <el-table-column
+              prop="commentNum"
+              label="评论数"
+              :show-overflow-tooltip="true"
+              width="80"
               align="center">
             </el-table-column>
             <el-table-column

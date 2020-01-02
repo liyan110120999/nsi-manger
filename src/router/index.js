@@ -63,10 +63,14 @@ export default new Router({
       path: '/',
       name: 'websiteIndex',
       component: index,
-      children: [{
-	　　　　  path: '/',
-	 　　　   component: home
+      children: [
+				{
+	　　　　 path: '/',
+	 　　　  component: home
 	　　  },{
+		　　　 path: '/home',
+		 　　　component: home
+		　　},{
 	　　　　 path: '/website',
 	 　　　  component: websiteIndex,
 	　　  },{

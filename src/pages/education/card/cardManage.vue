@@ -24,23 +24,24 @@
         align="center"
         fixed="left"
         label="id"
-        width="120">
+        width="80">
       </el-table-column>
       <el-table-column
         prop="nickName"
         align="center"
         label="昵称"
-        width="200">
+        width="100">
       </el-table-column>
       <el-table-column
         prop="title"
         align="center"
         label="标题"
-        width="200">
+        width="400">
       </el-table-column>
       <el-table-column
         align="center"
         label="评论"
+        :show-overflow-tooltip="true"
         width="600">
         <template slot-scope="scope">
           <p @click="contentBtn(scope.row.content,scope.row.itemId)" class="hoveColor">{{scope.row.content}}</p>
@@ -58,8 +59,6 @@
         label="创建时间"
         width="200">
       </el-table-column>
-
-
       <el-table-column
         fixed="right"
         label="操作"
@@ -123,6 +122,10 @@ export default {
       }).then(res=>{
         this.ExhibitionPageSize = res.data.total;
         that.EliteData= res.data.list;
+        //评论截取
+        for(var i=0; i<res.data.list.length; i++){
+          that.EliteData[i].content = that.EliteData[i].content.slice(0,30) + "..."
+        }
          //时间戳 转换时间
         function formatDate(now) {
           var year=now.getFullYear();
