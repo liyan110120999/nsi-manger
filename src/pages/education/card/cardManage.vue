@@ -44,7 +44,7 @@
         :show-overflow-tooltip="true"
         width="600">
         <template slot-scope="scope">
-          <p @click="contentBtn(scope.row.content,scope.row.itemId)" class="hoveColor">{{scope.row.content}}</p>
+          <p @click="contentBtn(scope.row.content,scope.row.itemId)" class="hoveColor">{{scope.row.content | formatDate1}}</p>
         </template>
       </el-table-column>
       <el-table-column
@@ -123,9 +123,9 @@ export default {
         this.ExhibitionPageSize = res.data.total;
         that.EliteData= res.data.list;
         //评论截取
-        for(var i=0; i<res.data.list.length; i++){
-          that.EliteData[i].content = that.EliteData[i].content.slice(0,30) + "..."
-        }
+        // for(var i=0; i<res.data.list.length; i++){
+        //   that.EliteData[i].content = that.EliteData[i].content.slice(0,30) + "..."
+        // }
          //时间戳 转换时间
         function formatDate(now) {
           var year=now.getFullYear();
@@ -197,10 +197,20 @@ export default {
     schoolSearch(){
       this.getData()
     },
+    
     //查看评论 富文本编辑器
     contentBtn(row,id){
       localStorage.setItem("code",row)
       this.$router.push({path:"/card/cardDetail",query:{isState:"1",itemId:id}})
+    }
+  },
+  //过滤器
+  filters: {
+    formatDate1(value, arg1, arg2) {
+      return value.slice(0,35) + "..."
+      console.log()
+      console.log(arg1)
+      console.log(arg2)
     }
   },
   created() {
