@@ -19,7 +19,7 @@
             <li>(待审核)</li> 
           </ul>  
         </div>
-        <div>{{chartData.comment_all_count}}</div>
+        <div>{{chartData.comment_count}}</div>
       </div>
       <div class="header_box header_box_hover" @click="BtnUpTwoComment">
         <div>

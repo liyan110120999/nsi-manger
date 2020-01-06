@@ -43,7 +43,7 @@
         label="肖像"
         width="200">
         <template slot-scope="scope">
-            <img :src="scope.row.portrait" style="width:50%"/>
+            <img :src="scope.row.portrait" style="width:30%"/>
         </template>
       </el-table-column>
       <el-table-column
@@ -127,6 +127,8 @@ export default {
     getData(){
       let that = this;
       postCommunitysonCommentList({
+        pageSize:this.pageSize,
+        pageNum:this.pageNum,
         type:this.form.region,
         searchKey:this.form.searchKey
       }).then(res=>{

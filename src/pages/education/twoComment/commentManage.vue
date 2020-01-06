@@ -39,7 +39,7 @@
         label="肖像"
         width="200">
         <template slot-scope="scope">
-            <img :src="scope.row.portrait" style="width:50%"/>
+            <img :src="scope.row.portrait" style="width:30%"/>
         </template>
       </el-table-column> 
       <el-table-column
@@ -103,7 +103,7 @@ export default {
       currentPage1: 5,
       ExhibitionPageSize:0,
       pageNum:1,
-      pageSize:50,
+      pageSize:20,
       EliteData:[],
       isCheck:1,
       activeName: '0',
@@ -127,7 +127,9 @@ export default {
       let that = this;
       postCommunitysonCommentList({
         type:"已通过",
-        searchKey:this.form.searchKey
+        searchKey:this.form.searchKey,
+        pageSize:this.pageSize,
+        pageNum:this.pageNum
       }).then(res=>{
         that.EliteData= res.data.list;
         console.log(that.EliteData);

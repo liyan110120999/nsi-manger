@@ -47,7 +47,7 @@
         label="评论"
         width="600">
         <template slot-scope="scope">
-          <p @click="contentBtn(scope.row.content,scope.row.itemId)" class="hoveColor">{{scope.row.content | formatDate1}}</p>
+          <p @click="contentBtn(scope.row.content,scope.row.itemId)" class="hoveColor">{{scope.row.content}}</p>
         </template>
       </el-table-column>
       <el-table-column
@@ -128,7 +128,7 @@ export default {
     getData(){
       let that = this;
       postItemList({
-        pageNum:1,
+        pageNum:this.pageNum,
         pageSize:10,
         isCheck:this.form.region,
         title:this.input
@@ -260,14 +260,14 @@ export default {
 
   },
   //过滤器
-  filters: {
-    formatDate1(value, arg1, arg2) {
-      return value.slice(0,35) + "..."
-      console.log()
-      console.log(arg1)
-      console.log(arg2)
-    }
-  },
+  // filters: {
+  //   formatDate1(value, arg1, arg2) {
+  //     return value.slice(0,35) + "..."
+  //     console.log()
+  //     console.log(arg1)
+  //     console.log(arg2)
+  //   }
+  // },
   mounted(){
     this.getData();
   },
@@ -323,8 +323,16 @@ export default {
       margin-left: 10px;
     }
   }
+  .hoveColor{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .hoveColor:hover{
     color: #24d2b5;
     cursor:pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>

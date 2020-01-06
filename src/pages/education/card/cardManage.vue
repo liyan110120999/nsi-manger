@@ -40,11 +40,10 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="评论"
-        :show-overflow-tooltip="true"
+        label="内容"
         width="600">
         <template slot-scope="scope">
-          <p @click="contentBtn(scope.row.content,scope.row.itemId)" class="hoveColor">{{scope.row.content | formatDate1}}</p>
+          <p @click="contentBtn(scope.row.content,scope.row.itemId)" class="hoveColor">{{scope.row.content}}</p>
         </template>
       </el-table-column>
       <el-table-column
@@ -99,8 +98,8 @@ export default {
       input:"",
       currentPage1: 5,
       ExhibitionPageSize:0,
-      pageNum:1,
-      pageSize:50,
+      pageNum:2,
+      pageSize:10,
       EliteData:[],
       isCheck:1,
       activeName: '0',
@@ -115,8 +114,8 @@ export default {
     getData(){
       let that = this;
       postItemList({
-        pageNum:1,
-        pageSize:10,
+        pageNum:this.pageNum,
+        pageSize:this.pageSize,
         isCheck:1,
         title:this.input
       }).then(res=>{
@@ -155,12 +154,14 @@ export default {
     },
     // 每页多少条
     handleSizeChange(val) {
+      
         console.log(`每页 ${val} 条`);
       },
     // 当前页: ${val}`;
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      
       this.pageNum = val;
+      console.log(this.pageNum );
       this.getData()
     },
     //编辑按钮
@@ -205,14 +206,12 @@ export default {
     }
   },
   //过滤器
-  filters: {
-    formatDate1(value, arg1, arg2) {
-      return value.slice(0,35) + "..."
-      console.log()
-      console.log(arg1)
-      console.log(arg2)
-    }
-  },
+  // filters: {
+  //(value, arg1, arg2) {
+  //     console.log(value.slice(1,10)+'')
+  //     return value
+  //   }
+  // },
   created() {
     this.getData()
   }
@@ -238,8 +237,16 @@ export default {
     }
 
   }
+  .hoveColor{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .hoveColor:hover{
     color: #24d2b5;
     cursor:pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>

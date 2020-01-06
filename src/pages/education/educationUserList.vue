@@ -38,7 +38,7 @@
         label="肖像"
         width="200">
         <template slot-scope="scope">
-            <img :src="scope.row.wechatPortrait" style="width:50%"/>
+            <img :src="scope.row.wechatPortrait" style="width:30%"/>
         </template>
       </el-table-column> 
       <el-table-column
@@ -95,7 +95,7 @@ export default {
       currentPage1: 5,
       ExhibitionPageSize:0,
       pageNum:1,
-      pageSize:50,
+      pageSize:10,
       EliteData:[],
       WhetherState:true,
       orderBy:"最新注册",
@@ -111,7 +111,9 @@ export default {
       let that = this;
       postCommunityUserList({
         orderBy:this.orderBy,
-        searchKey:this.searchKey
+        searchKey:this.searchKey,
+        pageNum:this.pageNum,
+        pageSize:this.pageSize
       }).then(res=>{
           console.log(res);
         that.EliteData= res.data.list;

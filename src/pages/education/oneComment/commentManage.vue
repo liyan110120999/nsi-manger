@@ -39,7 +39,7 @@
         label="肖像"
         width="200">
         <template slot-scope="scope">
-            <img :src="scope.row.portrait" style="width:50%"/>
+            <img :src="scope.row.portrait" style="width:30%"/>
         </template>
       </el-table-column> 
       <el-table-column
@@ -103,7 +103,7 @@ export default {
       currentPage1: 5,
       ExhibitionPageSize:0,
       pageNum:1,
-      pageSize:50,
+      pageSize:20,
       EliteData:[],
       isCheck:1,
       activeName: '0',
@@ -127,11 +127,13 @@ export default {
       let that = this;
       postCommunityCommentList({
         type:"已通过",
+        pageSize:this.pageSize,
+        pageNum:this.pageNum,
         searchKey:this.form.searchKey
       }).then(res=>{
         that.EliteData= res.data.list;
         console.log(that.EliteData);
-
+        this.ExhibitionPageSize = res.data.total;
          //时间戳 转换时间
         function formatDate(now) {
           var year=now.getFullYear();
