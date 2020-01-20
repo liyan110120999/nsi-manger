@@ -28,8 +28,11 @@ Vue.prototype.$axios = axios
   //  Vue.prototype.baseUrl = 'https://data.xinxueshuo.cn/nsi-1.0'
   // axios.defaults.baseURL = "https://data.xinxueshuo.cn/nsi-1.0"
 
-  Vue.prototype.baseUrl = 'https://localhost/cs'
-  axios.defaults.baseURL = "https://localhost/cs"
+  // Vue.prototype.baseUrl = 'https://localhost/cs'
+  // axios.defaults.baseURL = "https://localhost/cs"
+
+  Vue.prototype.baseUrl = 'http://ice-hockey.html9.top:8099/cs'
+  axios.defaults.baseURL = "http://ice-hockey.html9.top:8099/cs"
 
 
 
