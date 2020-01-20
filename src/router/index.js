@@ -2,6 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/pages/index'
 import websiteIndex from '@/pages/website/index'
+
+
+import orderList from '@/pages/website/orderList'
+
 import createNews from '@/pages/website/createNews'
 import activity from '@/pages/website/activity'
 import banner from '@/pages/website/banner'
@@ -64,19 +68,24 @@ export default new Router({
       name: 'websiteIndex',
       component: index,
       children: [
-				{
+			{
 	　　　　 path: '/',
-	 　　　  component: home
+	 　　　  component: orderList
 	　　  },{
 		　　　 path: '/home',
-		 　　　component: home
+		 　　　component: orderList
 		　　},{
 	　　　　 path: '/website',
-	 　　　  component: websiteIndex,
+	 　　　  component: orderList,
 	　　  },{
+
 	　　　　 path: '/website/index',
-	 　　　  component: websiteIndex
+	 　　　  component: orderList
 	　　  },{
+
+
+
+
 	　　　　 path: '/website/createnews',
 	 　　　  component: createNews
 	　　  },{

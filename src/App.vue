@@ -16,7 +16,7 @@ export default {
     $route(to, from) {
       if(!localStorage["userName"]){
         this.goLogin()
-      }
+    }
     }
   }
 }

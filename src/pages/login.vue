@@ -2,7 +2,7 @@
   <div class="loginContainer">
     <img src="../assets/images/timg.jpg">
     <el-form class="loginFrom" :model="form" :rules="rules" ref="form" label-width="0">
-        <div class="NSItitle">新学说后台</div>
+        <div class="NSItitle">后台登录</div>
         <div class="outIconfont">
             <span class="iconfont icon-xingmingyonghumingnicheng"></span>
             <el-form-item label="" prop="userName">
@@ -21,7 +21,7 @@
             </el-form-item>
           </div>
         <el-button class="loginBtn" @click="userLogin" type="info">登录</el-button>
-        <span size="mini" style="margin:10px 0 0 20px;font-size:14px;float:left;color:#999;cursor:pointer;" @click="forgetPas">忘记密码</span>
+        <!-- <span size="mini" style="margin:10px 0 0 20px;font-size:14px;float:left;color:#999;cursor:pointer;" @click="forgetPas">忘记密码</span> -->
     </el-form>
   </div>
 </template>
@@ -57,55 +57,68 @@ export default {
     },
     userLogin(){
       let that=this
+      console.log("login...")
       this.$refs.form.validate((valid) => {
         if(valid){
-          if((that.form.userName.indexOf('xinxueshuo.cn')<0)||(that.form.userName.length<18)){
+          if(that.form.userName=="admin" && that.form.passWord=="123456"){
+            localStorage["userName"] = that.form.userName
+            setTimeout(function(){
+              that.$router.push({path:'/website/index'});
+            },1000)
+          }else{
             that.$message({
-              message: '权限不足,请联系技术人员',
-              type: 'error'
-            });
-            return
-          }
-          if(!this.verifyStatus){
-            that.$message({
-              message: '计算错误',
-              type: 'error'
-            });
-            return
-          }
-          //生成token
-          let timestamp=(new Date().getTime()).toString()
-          //console.log(timestamp)
-          let randomnum=Math.floor(Math.random()*10)+''+Math.floor(Math.random()*10)+''+Math.floor(Math.random()*10)+''+Math.floor(Math.random()*10)+''+timestamp.slice(4,)
-          //console.log(randomnum)
-          let url=that.baseUrl+'/user/login.do'
-          let loginInfor=new URLSearchParams();
-          loginInfor.append('userName',that.form.userName);
-          loginInfor.append('passWord',that.form.passWord);
-          loginInfor.append('token',randomnum);
-          that.$axios.post(url,loginInfor).then(resp => {
-              if(resp.data.msg=='登录成功'){
-                that.$message({
-                  message: resp.data.msg,
-                  type: 'success'
-                });
-                localStorage["userName"] = that.form.userName
-                setTimeout(function(){
-                  that.$router.push({path:'/home'});
-                },1000)
-              }else{
-                that.$message({
-                  message: resp.data.msg,
-                  type: 'error'
-                });
-              }
-
-          }).catch(err=>{
-              that.$message({
-                message: '登录失败,请联系技术人员',
+                message: '用户名或密码错误',
                 type: 'error'
-              });
-          })
+            });
+          }
+          
+          // if((that.form.userName.indexOf('xinxueshuo.cn')<0)||(that.form.userName.length<18)){
+          //   that.$message({
+          //     message: '权限不足,请联系技术人员',
+          //     type: 'error'
+          //   });
+          //   return
+          // }
+          // if(!this.verifyStatus){
+          //   that.$message({
+          //     message: '计算错误',
+          //     type: 'error'
+          //   });
+          //   return
+          // }
+          // //生成token
+          // let timestamp=(new Date().getTime()).toString()
+          // //console.log(timestamp)
+          // let randomnum=Math.floor(Math.random()*10)+''+Math.floor(Math.random()*10)+''+Math.floor(Math.random()*10)+''+Math.floor(Math.random()*10)+''+timestamp.slice(4,)
+          // //console.log(randomnum)
+          // let url=that.baseUrl+'/user/login.do'
+          // let loginInfor=new URLSearchParams();
+          // loginInfor.append('userName',that.form.userName);
+          // loginInfor.append('passWord',that.form.passWord);
+          // loginInfor.append('token',randomnum);
+          // that.$axios.post(url,loginInfor).then(resp => {
+          //     if(resp.data.msg=='登录成功'){
+          //       that.$message({
+          //         message: resp.data.msg,
+          //         type: 'success'
+          //       });
+          //       localStorage["userName"] = that.form.userName
+          //       setTimeout(function(){
+          //         that.$router.push({path:'/home'});
+          //       },1000)
+          //     }else{
+          //       that.$message({
+          //         message: resp.data.msg,
+          //         type: 'error'
+          //       });
+          //     }
+
+          // }).catch(err=>{
+          //     that.$message({
+          //       message: '登录失败,请联系技术人员',
+          //       type: 'error'
+          //     });
+          // })
         }else{
           that.$message({
                 message: '请输入用户名密码',
@@ -114,9 +127,7 @@ export default {
           }
       })
     },
-    forgetPas(){
-      window.open('http://data.xinxueshuo.cn/nsi/user/password.html','_blank')
-    }
+   
   },
   created(){
 

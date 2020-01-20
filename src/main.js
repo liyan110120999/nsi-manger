@@ -23,24 +23,13 @@ import router from './router'
 //axios
 import axios from 'axios'
 Vue.prototype.$axios = axios
-//负载均衡
-var flagNum=Math.random()
-// if(flagNum>0.5){
-// 	Vue.prototype.baseUrl = 'http://192.168.0.159:8080/nsi-1.0'
-// }else{
-  // Vue.prototype.baseUrl = 'http://192.168.0.34:8080/nsi-1.0'
-  // Vue.prototype.baseUrl = 'https://data.xinxueshuo.cn/nsi-1.0'
-//}
 
-//新的请求接口 岩哥 本地测试环境
-  // axios.defaults.baseURL = 'http://192.168.0.103:8080/nsi-1.0'
-  // Vue.prototype.baseUrl = 'http://192.168.0.103:8080/nsi-1.0'
-// 振哥 本地测试环境
-    // axios.defaults.baseURL = 'http://192.168.0.102:8080/nsi-1.0'
-    // Vue.prototype.baseUrl = 'http://192.168.0.102:8080/nsi-1.0'
 //旧的请求接口  生产环境
-   Vue.prototype.baseUrl = 'https://data.xinxueshuo.cn/nsi-1.0'
-  axios.defaults.baseURL = "https://data.xinxueshuo.cn/nsi-1.0"
+  //  Vue.prototype.baseUrl = 'https://data.xinxueshuo.cn/nsi-1.0'
+  // axios.defaults.baseURL = "https://data.xinxueshuo.cn/nsi-1.0"
+
+  Vue.prototype.baseUrl = 'https://localhost/cs'
+  axios.defaults.baseURL = "https://localhost/cs"
 
 
 
