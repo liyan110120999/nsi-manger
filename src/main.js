@@ -31,8 +31,11 @@ Vue.prototype.$axios = axios
   // Vue.prototype.baseUrl = 'https://localhost/cs'
   // axios.defaults.baseURL = "https://localhost/cs"
 
-  Vue.prototype.baseUrl = 'http://ice-hockey.html9.top:8099/cs'
-  axios.defaults.baseURL = "http://ice-hockey.html9.top:8099/cs"
+  // Vue.prototype.baseUrl = 'http://ice-hockey.html9.top:8099/cs'
+  // axios.defaults.baseURL = "http://ice-hockey.html9.top:8099/cs"
+
+  Vue.prototype.baseUrl = 'http://www.xlbqjlb.com:8099/cs'
+  axios.defaults.baseURL = "http://www.xlbqjlb.com:8099/cs"
 
 
 
